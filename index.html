@@ -1,0 +1,2084 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+  <meta name="apple-mobile-web-app-title" content="喬喬夢幻學園" />
+  <meta name="theme-color" content="#fdf2f8" />
+  <title>喬喬的五上康軒夢幻學園 ✨ 初音×三麗鷗 150關大冒險</title>
+  <meta name="description" content="專為喬喬設計的小學五年級上學期康軒評量線上學習遊戲（英文・社會・自然共150關），初音未來與三麗鷗可愛夥伴陪妳每天闖三關！" />
+  <script src="https://www.gstatic.com/antigravity/web/dev/tailwindcss.min.js"></script>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700;900&family=Fredoka:wght@500;600;700&display=swap');
+
+    * {
+      box-sizing: border-box;
+      -webkit-tap-highlight-color: transparent;
+      user-select: none;
+    }
+
+    body {
+      font-family: 'Fredoka', 'Noto Sans TC', -apple-system, BlinkMacSystemFont, sans-serif;
+      background: linear-gradient(145deg, #f0fdfa 0%, #fdf2f8 48%, #eff6ff 100%);
+      color: #334155;
+      min-height: 100vh;
+      margin: 0;
+      padding: 0;
+      overflow-x: hidden;
+    }
+
+    /* Kawaii Soft Glass & Card Styles */
+    .kawaii-card {
+      background: rgba(255, 255, 255, 0.92);
+      backdrop-filter: blur(12px);
+      border: 2.5px solid #fce7f3;
+      border-radius: 24px;
+      box-shadow: 0 10px 25px -5px rgba(244, 114, 182, 0.12), 0 4px 10px -2px rgba(57, 197, 187, 0.1);
+      transition: all 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
+    }
+
+    .kawaii-card-miku {
+      background: rgba(255, 255, 255, 0.94);
+      border: 2.5px solid #99f6e4;
+      border-radius: 24px;
+      box-shadow: 0 10px 25px -5px rgba(57, 197, 187, 0.16);
+    }
+
+    .kawaii-card-cinna {
+      background: rgba(255, 255, 255, 0.94);
+      border: 2.5px solid #bae6fd;
+      border-radius: 24px;
+      box-shadow: 0 10px 25px -5px rgba(56, 189, 248, 0.16);
+    }
+
+    .kawaii-card-melody {
+      background: rgba(255, 255, 255, 0.94);
+      border: 2.5px solid #fbcfe8;
+      border-radius: 24px;
+      box-shadow: 0 10px 25px -5px rgba(244, 114, 182, 0.16);
+    }
+
+    .btn-bounce {
+      transition: transform 0.18s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.18s ease;
+    }
+    .btn-bounce:hover {
+      transform: translateY(-2px) scale(1.015);
+    }
+    .btn-bounce:active {
+      transform: translateY(2px) scale(0.97);
+    }
+
+    /* Floating animation for mascots */
+    @keyframes floatSlow {
+      0%, 100% { transform: translateY(0px) rotate(0deg); }
+      50% { transform: translateY(-6px) rotate(1.5deg); }
+    }
+    .animate-float {
+      animation: floatSlow 3.4s ease-in-out infinite;
+    }
+
+    @keyframes pulseGlow {
+      0%, 100% { box-shadow: 0 0 0 0 rgba(57, 197, 187, 0.4); }
+      50% { box-shadow: 0 0 0 10px rgba(57, 197, 187, 0); }
+    }
+    .miku-pulse {
+      animation: pulseGlow 2.2s infinite;
+    }
+
+    @keyframes popIn {
+      0% { opacity: 0; transform: scale(0.86) translateY(10px); }
+      100% { opacity: 1; transform: scale(1) translateY(0); }
+    }
+    .animate-pop {
+      animation: popIn 0.28s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+    }
+
+    /* Custom Scrollbar */
+    ::-webkit-scrollbar {
+      width: 8px;
+      height: 8px;
+    }
+    ::-webkit-scrollbar-track {
+      background: #fdf2f8;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: #f9a8d4;
+      border-radius: 9999px;
+    }
+
+    /* Polka dot & star subtle pattern overlay */
+    .bg-dreamy-pattern {
+      background-image: radial-gradient(#39c5bb22 1.5px, transparent 1.5px), radial-gradient(#f472b622 1.5px, #ffffff00 1.5px);
+      background-size: 28px 28px;
+      background-position: 0 0, 14px 14px;
+    }
+
+    .option-btn {
+      transition: all 0.2s cubic-bezier(0.34, 1.56, 0.64, 1);
+    }
+    .option-btn:hover:not(:disabled) {
+      transform: translateX(4px);
+    }
+  </style>
+</head>
+<body class="bg-dreamy-pattern pb-24 md:pb-10">
+
+  <!-- TOP HEADER BAR -->
+  <header class="sticky top-0 z-30 bg-white/85 backdrop-blur-md border-b-2 border-pink-100 shadow-sm">
+    <div class="max-w-5xl mx-auto px-3 sm:px-6 py-2.5 flex items-center justify-between gap-2">
+      <!-- Brand & Mascot Avatar -->
+      <div class="flex items-center gap-2.5 cursor-pointer" onclick="app.switchTab('home')">
+        <div id="header-mascot" class="w-11 h-11 rounded-2xl bg-gradient-to-br from-teal-100 via-pink-100 to-sky-100 p-1 flex items-center justify-center shadow-sm border-2 border-teal-300 animate-float">
+          <!-- Rendered by JS -->
+        </div>
+        <div>
+          <div class="flex items-center gap-1.5">
+            <h1 class="text-base sm:text-lg font-black tracking-tight text-slate-800">
+              喬喬的五上夢幻學園
+            </h1>
+            <span class="hidden sm:inline-block text-xs font-bold px-2 py-0.5 rounded-full bg-teal-50 text-teal-600 border border-teal-200">
+              康軒評量 150關
+            </span>
+          </div>
+          <p class="text-xs text-pink-500 font-semibold">
+            ✨ 初音未來 × 大耳狗 × 美樂蒂 陪妳快樂闖關！
+          </p>
+        </div>
+      </div>
+
+      <!-- Status Pills: Streak, Stars, Gacha Coins, Audio Toggle -->
+      <div class="flex items-center gap-1.5 sm:gap-2.5">
+        <button onclick="app.switchTab('calendar')" title="連續打卡天數" class="btn-bounce flex items-center gap-1 bg-amber-50 border-2 border-amber-200 text-amber-700 px-2.5 py-1 rounded-full text-xs sm:text-sm font-bold">
+          <span>🔥</span>
+          <span id="stat-streak">0</span>
+          <span class="hidden sm:inline">天</span>
+        </button>
+        <button onclick="app.switchTab('map')" title="累積星星數" class="btn-bounce flex items-center gap-1 bg-yellow-50 border-2 border-yellow-200 text-yellow-700 px-2.5 py-1 rounded-full text-xs sm:text-sm font-bold">
+          <span>⭐</span>
+          <span id="stat-stars">0</span>
+          <span class="text-xs text-yellow-600/80 hidden md:inline">/ 450</span>
+        </button>
+        <button onclick="app.switchTab('gacha')" title="偶像音符幣（可抽三麗鷗＆初音貼紙）" class="btn-bounce flex items-center gap-1 bg-pink-50 border-2 border-pink-200 text-pink-600 px-2.5 py-1 rounded-full text-xs sm:text-sm font-bold">
+          <span>🎵</span>
+          <span id="stat-coins">0</span>
+        </button>
+        <button id="btn-sound-toggle" onclick="app.toggleSound()" title="音效開關" class="btn-bounce w-8 h-8 sm:w-9 sm:h-9 rounded-full bg-teal-50 border-2 border-teal-200 flex items-center justify-center text-sm">
+          🔊
+        </button>
+      </div>
+    </div>
+
+    <!-- Desktop / Tablet Sub-Navigation -->
+    <nav class="hidden md:flex max-w-5xl mx-auto px-6 py-1.5 gap-2 border-t border-pink-50 text-sm font-bold">
+      <button onclick="app.switchTab('home')" id="nav-d-home" class="px-4 py-1.5 rounded-full transition-all">🏠 今日三關任務</button>
+      <button onclick="app.switchTab('map')" id="nav-d-map" class="px-4 py-1.5 rounded-full transition-all">🗺️ 150關冒險地圖</button>
+      <button onclick="app.switchTab('mistakes')" id="nav-d-mistakes" class="px-4 py-1.5 rounded-full transition-all">📓 魔法錯題本 <span id="badge-d-mistakes" class="ml-1 px-1.5 py-0.2 text-xs rounded-full bg-rose-100 text-rose-600">0</span></button>
+      <button onclick="app.switchTab('gacha')" id="nav-d-gacha" class="px-4 py-1.5 rounded-full transition-all">🎀 貼紙扭蛋館</button>
+      <button onclick="app.switchTab('calendar')" id="nav-d-calendar" class="px-4 py-1.5 rounded-full transition-all">📅 50天進度與備份</button>
+    </nav>
+  </header>
+
+  <!-- MAIN CONTENT CONTAINER -->
+  <main class="max-w-5xl mx-auto px-3 sm:px-6 pt-4 pb-12">
+
+    <!-- =================================================================== -->
+    <!-- VIEW 1: HOME (今日三關任務 & 角色互動應援台) -->
+    <!-- =================================================================== -->
+    <section id="view-home" class="space-y-5 animate-pop">
+      <!-- Hero Welcome Banner with Miku, Cinnamoroll & My Melody -->
+      <div class="kawaii-card p-4 sm:p-6 bg-gradient-to-r from-teal-50/95 via-pink-50/95 to-sky-50/95 border-2 border-pink-200 relative overflow-hidden">
+        <div class="flex flex-col md:flex-row items-center justify-between gap-4 relative z-10">
+          <div class="flex items-center gap-3.5 sm:gap-5">
+            <!-- Partner Character Switcher Avatar -->
+            <div onclick="app.cyclePartner()" class="cursor-pointer group relative shrink-0">
+              <div id="hero-partner-svg" class="w-20 h-20 sm:w-24 sm:h-24 rounded-3xl bg-white p-2 shadow-md border-2 border-teal-300 flex items-center justify-center animate-float">
+              </div>
+              <span class="absolute -bottom-1.5 left-1/2 -translate-x-1/2 whitespace-nowrap bg-teal-500 text-white text-xs font-bold px-2 py-0.5 rounded-full shadow">
+                點我換夥伴 ✨
+              </span>
+            </div>
+            <div class="space-y-1.5">
+              <div class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-white/90 border border-pink-200 text-xs font-bold text-pink-600">
+                <span id="hero-partner-name">🎤 初音未來 Miku</span>
+                <span>・五年級上學期康軒評量</span>
+              </div>
+              <h2 id="hero-greeting" class="text-lg sm:text-2xl font-black text-slate-800 leading-snug">
+                嗨，喬喬！今天也要開心地過三關喔！🎵
+              </h2>
+              <p id="hero-speech" class="text-xs sm:text-sm text-slate-600 leading-relaxed max-w-xl">
+                每天完成「英文、社會、自然」各 1 關（每科約 10 分鐘），50 天就能把五年級上學期的康軒評量全部學完，還能收集初音與三麗鷗可愛貼紙喔！
+              </p>
+            </div>
+          </div>
+
+          <!-- Overall 150-Stage Progress Ring / Card -->
+          <div class="w-full md:w-56 bg-white/90 rounded-2xl p-3.5 border-2 border-teal-100 shadow-sm shrink-0">
+            <div class="flex items-center justify-between text-xs font-bold text-slate-600 mb-1">
+              <span>🏆 五上總進度 (150關)</span>
+              <span id="home-total-progress-text" class="text-teal-600 font-black">0 / 150 關</span>
+            </div>
+            <div class="w-full h-3 bg-slate-100 rounded-full overflow-hidden p-0.5 border border-slate-200">
+              <div id="home-total-progress-bar" class="h-full bg-gradient-to-r from-teal-400 via-sky-400 to-pink-400 rounded-full transition-all duration-500" style="width: 0%"></div>
+            </div>
+            <div class="mt-2.5 flex items-center justify-between text-xs">
+              <span class="text-slate-500">今日目標進度：</span>
+              <span id="home-today-badge" class="font-bold text-pink-600 bg-pink-50 px-2 py-0.5 rounded-full border border-pink-200">
+                0 / 3 關完成
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- TODAY'S 3 MISSIONS (每日三關核心設計：英文 / 社會 / 自然，每科約10分鐘) -->
+      <div class="space-y-3">
+        <div class="flex flex-wrap items-center justify-between gap-2 px-1">
+          <div class="flex items-center gap-2">
+            <span class="text-xl">🌟</span>
+            <h3 class="text-base sm:text-xl font-black text-slate-800">
+              喬喬的今日闖關任務（每日三關・每科約 10 分鐘）
+            </h3>
+          </div>
+          <span id="today-date-label" class="text-xs font-bold text-teal-700 bg-teal-50 border border-teal-200 px-3 py-1 rounded-full">
+          </span>
+        </div>
+
+        <!-- 3 Subject Mission Cards Grid -->
+        <div id="daily-missions-grid" class="grid grid-cols-1 md:grid-cols-3 gap-4">
+          <!-- Populated dynamically by JS -->
+        </div>
+      </div>
+
+      <!-- SUBJECT PROGRESS OVERVIEW & QUICK ACTIONS -->
+      <div class="grid grid-cols-1 lg:grid-cols-3 gap-4">
+        <!-- 3 Subject Progress Bars -->
+        <div class="lg:col-span-2 kawaii-card p-4 sm:p-5 space-y-3.5">
+          <div class="flex items-center justify-between">
+            <h3 class="font-black text-slate-800 text-sm sm:text-base flex items-center gap-1.5">
+              <span>📊</span> 三科康軒五上學習進度（每科 50 關）
+            </h3>
+            <button onclick="app.switchTab('map')" class="text-xs font-bold text-teal-600 hover:underline">
+              查看全部 150 關地圖 →
+            </button>
+          </div>
+          <div id="subject-progress-list" class="space-y-3">
+            <!-- Rendered by JS -->
+          </div>
+        </div>
+
+        <!-- Cute Character Cheer & Quick Tools -->
+        <div class="kawaii-card p-4 sm:p-5 flex flex-col justify-between space-y-3 bg-gradient-to-b from-white to-pink-50/50">
+          <div class="space-y-2">
+            <h3 class="font-black text-slate-800 text-sm sm:text-base flex items-center gap-1.5">
+              <span>💝</span> 喬喬專屬貼心小工具
+            </h3>
+            <p class="text-xs text-slate-500 leading-relaxed">
+              進度會自動保存在這台手機或平板裡！如果要換裝置玩，也可以隨時匯出學習備份碼喔。
+            </p>
+          </div>
+
+          <div class="grid grid-cols-2 gap-2.5 pt-1">
+            <button onclick="app.switchTab('mistakes')" class="btn-bounce p-3 rounded-2xl bg-rose-50 border-2 border-rose-200 text-left hover:bg-rose-100/70">
+              <div class="text-lg">📓</div>
+              <div class="text-xs font-black text-rose-700 mt-0.5">魔法錯題本</div>
+              <div id="home-mistake-count" class="text-xs text-rose-500 font-semibold">0 題待複習</div>
+            </button>
+            <button onclick="app.switchTab('gacha')" class="btn-bounce p-3 rounded-2xl bg-teal-50 border-2 border-teal-200 text-left hover:bg-teal-100/70">
+              <div class="text-lg">🎀</div>
+              <div class="text-xs font-black text-teal-700 mt-0.5">貼紙扭蛋機</div>
+              <div id="home-sticker-count" class="text-xs text-teal-600 font-semibold">已收集 0/24</div>
+            </button>
+          </div>
+
+          <button onclick="app.switchTab('calendar')" class="btn-bounce w-full py-2.5 px-4 rounded-xl bg-white border-2 border-sky-200 text-sky-700 text-xs font-bold flex items-center justify-center gap-1.5 shadow-sm">
+            <span>☁️</span> 備份 / 轉移手機與平板進度
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <!-- =================================================================== -->
+    <!-- VIEW 2: 150-STAGE ADVENTURE MAP (三科 50 關完整地圖) -->
+    <!-- =================================================================== -->
+    <section id="view-map" class="hidden space-y-4 animate-pop">
+      <div class="kawaii-card p-4 sm:p-5 space-y-4">
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+          <div>
+            <h2 class="text-lg sm:text-xl font-black text-slate-800 flex items-center gap-2">
+              <span>🗺️</span> 康軒五上 150 關星光冒險地圖
+            </h2>
+            <p class="text-xs text-slate-500 mt-0.5">
+              每個科目共有 50 關，循序漸進涵蓋五年級上學期全部 4 大單元與期中、期末評量！可隨時點選任何一關進行學習或複習。
+            </p>
+          </div>
+
+          <!-- Subject Filter Tabs -->
+          <div class="flex bg-pink-50/80 p-1 rounded-2xl border-2 border-pink-100 self-start">
+            <button onclick="app.setMapSubject('english')" id="map-tab-english" class="px-3.5 py-1.5 rounded-xl text-xs sm:text-sm font-black transition-all">
+              🎤 英文 (50關)
+            </button>
+            <button onclick="app.setMapSubject('social')" id="map-tab-social" class="px-3.5 py-1.5 rounded-xl text-xs sm:text-sm font-black transition-all">
+              ☁️ 社會 (50關)
+            </button>
+            <button onclick="app.setMapSubject('science')" id="map-tab-science" class="px-3.5 py-1.5 rounded-xl text-xs sm:text-sm font-black transition-all">
+              🌸 自然 (50關)
+            </button>
+          </div>
+        </div>
+
+        <!-- Unit Filter Pills -->
+        <div id="map-unit-filters" class="flex flex-wrap gap-1.5 pt-1">
+          <!-- Rendered by JS -->
+        </div>
+      </div>
+
+      <!-- 50 Stages Grid -->
+      <div id="map-stages-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3.5">
+        <!-- Rendered by JS -->
+      </div>
+    </section>
+
+    <!-- =================================================================== -->
+    <!-- VIEW 3: INTERACTIVE GAMEPLAY STAGE (三階段 10分鐘深度學習闖關) -->
+    <!-- =================================================================== -->
+    <section id="view-play" class="hidden space-y-4 animate-pop">
+      <!-- Stage Top Control Bar -->
+      <div class="kawaii-card p-3.5 sm:p-4 flex flex-wrap items-center justify-between gap-2 bg-white/95">
+        <div class="flex items-center gap-2.5">
+          <button onclick="app.exitStage()" class="btn-bounce px-3 py-1.5 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-bold flex items-center gap-1">
+            <span>←</span> 返回
+          </button>
+          <div>
+            <div class="flex items-center gap-1.5">
+              <span id="play-subject-badge" class="text-xs font-black px-2 py-0.5 rounded-full"></span>
+              <span id="play-unit-badge" class="text-xs font-bold text-slate-500"></span>
+            </div>
+            <h2 id="play-stage-title" class="text-sm sm:text-base font-black text-slate-800 mt-0.5"></h2>
+          </div>
+        </div>
+
+        <!-- 10-Minute Study Timer & Phase Indicator -->
+        <div class="flex items-center gap-2 sm:gap-3">
+          <div class="flex items-center gap-1.5 bg-teal-50 border border-teal-200 px-3 py-1 rounded-full text-xs font-bold text-teal-700" title="建議每關學習時間約 8~10 分鐘，不限時壓力！">
+            <span>⏱️ 學習時間</span>
+            <span id="play-timer" class="font-mono font-black">00:00</span>
+            <span class="text-teal-500 hidden sm:inline">/ 10:00</span>
+          </div>
+          <div id="play-combo-badge" class="hidden items-center gap-1 bg-amber-100 border border-amber-300 px-2.5 py-1 rounded-full text-xs font-black text-amber-700">
+            🔥 COMBO x<span id="play-combo-num">0</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- 3-Phase Stepper Bar -->
+      <div class="grid grid-cols-3 gap-2">
+        <div id="step-ind-1" class="p-2.5 rounded-2xl border-2 text-center text-xs font-bold transition-all">
+          1️⃣ 魔法重點祕笈 (暖身學觀念)
+        </div>
+        <div id="step-ind-2" class="p-2.5 rounded-2xl border-2 text-center text-xs font-bold transition-all">
+          2️⃣ 康軒評量闖關 (8題精選測驗)
+        </div>
+        <div id="step-ind-3" class="p-2.5 rounded-2xl border-2 text-center text-xs font-bold transition-all">
+          3️⃣ 閃耀安可配對 (滿星總驗收)
+        </div>
+      </div>
+
+      <!-- PHASE 1: STUDY FLASHCARDS (魔法重點祕笈) -->
+      <div id="phase-study" class="kawaii-card p-4 sm:p-6 space-y-5">
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-pink-100 pb-3">
+          <div class="flex items-center gap-3">
+            <div id="study-buddy-svg" class="w-14 h-14 rounded-2xl bg-pink-50 p-1.5 border-2 border-pink-200 shrink-0"></div>
+            <div>
+              <h3 class="text-base sm:text-lg font-black text-slate-800">
+                ✨ 第一階段：先看重點祕笈，把觀念記起來！
+              </h3>
+              <p class="text-xs text-slate-500">
+                請喬喬點選每一張「魔法知識卡」閱讀重點（英文卡可以點 🔊 聽發音喔！），全部打勾就能進入測驗！
+              </p>
+            </div>
+          </div>
+          <div class="text-xs font-black text-teal-600 bg-teal-50 px-3 py-1.5 rounded-full border border-teal-200 self-start sm:self-center">
+            已學會：<span id="study-read-count">0</span> / <span id="study-total-count">4</span> 張
+          </div>
+        </div>
+
+        <!-- Study Cards Grid -->
+        <div id="study-cards-grid" class="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <!-- Rendered by JS -->
+        </div>
+
+        <div class="pt-2 flex flex-col sm:flex-row items-center justify-between gap-3">
+          <p class="text-xs text-pink-500 font-semibold">
+            💡 小提示：點擊卡片就會亮起星光標記，讀熟後答題會超級順利喔！
+          </p>
+          <button id="btn-start-quiz" onclick="app.startPhase2Quiz()" class="btn-bounce w-full sm:w-auto px-8 py-3.5 rounded-2xl bg-gradient-to-r from-teal-400 to-pink-400 text-white font-black text-sm sm:text-base shadow-md">
+            我記熟了！開始第二階段評量測驗 🚀
+          </button>
+        </div>
+      </div>
+
+      <!-- PHASE 2: 8-QUESTION KANG HSUAN ASSESSMENT -->
+      <div id="phase-quiz" class="hidden kawaii-card p-4 sm:p-6 space-y-5">
+        <!-- Question Progress & Buddy Cheer -->
+        <div class="flex items-center justify-between gap-3">
+          <div class="flex items-center gap-2">
+            <span class="text-xs font-black px-3 py-1 rounded-full bg-pink-100 text-pink-700">
+              第 <span id="quiz-q-index">1</span> / <span id="quiz-q-total">8</span> 題
+            </span>
+            <button id="btn-quiz-tts" onclick="app.speakCurrentQuestion()" class="hidden btn-bounce px-3 py-1 rounded-full bg-teal-50 border border-teal-200 text-teal-700 text-xs font-bold flex items-center gap-1">
+              🔊 朗讀英文題目
+            </button>
+          </div>
+          <button id="btn-quiz-hint" onclick="app.showQuizHint()" class="btn-bounce px-3 py-1 rounded-full bg-amber-50 border border-amber-200 text-amber-700 text-xs font-bold">
+            🪄 夥伴小提示
+          </button>
+        </div>
+
+        <!-- Progress bar -->
+        <div class="w-full h-2.5 bg-slate-100 rounded-full overflow-hidden">
+          <div id="quiz-progress-bar" class="h-full bg-gradient-to-r from-teal-400 to-pink-400 transition-all duration-300" style="width: 12.5%"></div>
+        </div>
+
+        <!-- Question Text Box -->
+        <div class="p-4 sm:p-5 rounded-2xl bg-gradient-to-br from-teal-50/60 via-white to-pink-50/60 border-2 border-pink-100">
+          <p id="quiz-question-text" class="text-base sm:text-xl font-black text-slate-800 leading-relaxed"></p>
+          <div id="quiz-hint-box" class="hidden mt-3 p-3 rounded-xl bg-amber-50 border border-amber-200 text-xs text-amber-800 font-semibold">
+          </div>
+        </div>
+
+        <!-- 4 Options -->
+        <div id="quiz-options-list" class="grid grid-cols-1 gap-3">
+          <!-- Rendered by JS -->
+        </div>
+
+        <!-- Explanation Feedback Panel (Shown after answering) -->
+        <div id="quiz-feedback-panel" class="hidden p-4 rounded-2xl border-2 space-y-3 animate-pop">
+          <div class="flex items-start gap-3">
+            <div id="quiz-feedback-icon" class="text-2xl shrink-0"></div>
+            <div class="space-y-1 flex-1">
+              <h4 id="quiz-feedback-title" class="font-black text-sm sm:text-base"></h4>
+              <p id="quiz-feedback-exp" class="text-xs sm:text-sm text-slate-700 leading-relaxed"></p>
+            </div>
+          </div>
+          <div class="flex justify-end">
+            <button onclick="app.nextQuizQuestion()" class="btn-bounce px-6 py-2.5 rounded-xl bg-slate-800 text-white font-black text-xs sm:text-sm shadow">
+              下一題 →
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- PHASE 3: ENCORE MATCHING MINI-GAME (閃耀連連看安可賽) -->
+      <div id="phase-encore" class="hidden kawaii-card p-4 sm:p-6 space-y-5">
+        <div class="flex items-center justify-between border-b border-pink-100 pb-3">
+          <div>
+            <h3 class="text-base sm:text-lg font-black text-slate-800 flex items-center gap-2">
+              <span>🎀</span> 第三階段：星光舞台連連看安可挑戰！
+            </h3>
+            <p class="text-xs text-slate-500 mt-0.5">
+              將左邊的「康軒重點詞彙」與右邊的「正確說明」點選配對成功，就能點亮全部 3 顆星過關喔！
+            </p>
+          </div>
+          <span id="encore-match-progress" class="text-xs font-black px-3 py-1 rounded-full bg-teal-50 text-teal-700 border border-teal-200">
+            配對 0 / 4
+          </span>
+        </div>
+
+        <div class="grid grid-cols-2 gap-3 sm:gap-5">
+          <div id="encore-left-col" class="space-y-2.5"></div>
+          <div id="encore-right-col" class="space-y-2.5"></div>
+        </div>
+      </div>
+
+      <!-- STAGE COMPLETE CELEBRATION MODAL / PANEL -->
+      <div id="phase-complete" class="hidden kawaii-card p-6 sm:p-8 text-center space-y-5 bg-gradient-to-b from-white via-pink-50/70 to-teal-50/70 animate-pop">
+        <div id="complete-mascot-svg" class="w-24 h-24 mx-auto rounded-3xl bg-white p-2 shadow-md border-2 border-pink-300 animate-float"></div>
+        <div class="space-y-1">
+          <div id="complete-stars-row" class="text-3xl sm:text-4xl tracking-widest">⭐⭐⭐</div>
+          <h3 id="complete-title" class="text-xl sm:text-2xl font-black text-slate-800">
+            太棒了！喬喬成功通過本關！🎉
+          </h3>
+          <p id="complete-subtitle" class="text-xs sm:text-sm text-slate-600"></p>
+        </div>
+
+        <!-- Score & Rewards Summary -->
+        <div class="max-w-md mx-auto grid grid-cols-3 gap-3 bg-white p-4 rounded-2xl border-2 border-pink-100 shadow-sm">
+          <div>
+            <div class="text-xs text-slate-400 font-bold">測驗答對</div>
+            <div id="complete-score" class="text-lg font-black text-teal-600">8 / 8</div>
+          </div>
+          <div>
+            <div class="text-xs text-slate-400 font-bold">學習用時</div>
+            <div id="complete-time" class="text-lg font-black text-sky-600">06:30</div>
+          </div>
+          <div>
+            <div class="text-xs text-slate-400 font-bold">獲得音符幣</div>
+            <div id="complete-coins" class="text-lg font-black text-pink-600">+30 🎵</div>
+          </div>
+        </div>
+
+        <div class="flex flex-wrap items-center justify-center gap-3 pt-2">
+          <button onclick="app.switchTab('home')" class="btn-bounce px-6 py-3 rounded-2xl bg-gradient-to-r from-teal-400 to-pink-400 text-white font-black text-sm shadow-md">
+            🏠 回到今日三關任務
+          </button>
+          <button onclick="app.replayCurrentStage()" class="btn-bounce px-5 py-3 rounded-2xl bg-white border-2 border-pink-200 text-pink-600 font-bold text-sm">
+            🔄 再玩一次本關
+          </button>
+          <button onclick="app.switchTab('gacha')" class="btn-bounce px-5 py-3 rounded-2xl bg-amber-50 border-2 border-amber-200 text-amber-700 font-bold text-sm">
+            🎀 去抽可愛貼紙
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <!-- =================================================================== -->
+    <!-- VIEW 4: MISTAKE NOTEBOOK (魔法錯題本複習館) -->
+    <!-- =================================================================== -->
+    <section id="view-mistakes" class="hidden space-y-4 animate-pop">
+      <div class="kawaii-card p-4 sm:p-6 space-y-4">
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+          <div>
+            <h2 class="text-lg sm:text-xl font-black text-slate-800 flex items-center gap-2">
+              <span>📓</span> 喬喬的魔法錯題複習館
+            </h2>
+            <p class="text-xs text-slate-500 mt-0.5">
+              闖關時不小心答錯的題目會自動收錄在這裡！只要重新挑戰答對，就能把錯題消除並獲得額外音符幣喔！
+            </p>
+          </div>
+          <button id="btn-practice-mistakes" onclick="app.startMistakePractice()" class="btn-bounce px-5 py-2.5 rounded-2xl bg-gradient-to-r from-rose-400 to-pink-500 text-white font-black text-xs sm:text-sm shadow">
+            ✨ 立即挑戰錯題大掃除
+          </button>
+        </div>
+
+        <div id="mistakes-list" class="space-y-3">
+          <!-- Rendered by JS -->
+        </div>
+      </div>
+    </section>
+
+    <!-- =================================================================== -->
+    <!-- VIEW 5: GACHA & STICKER BOOK (初音×三麗鷗可愛貼紙扭蛋館 - 絕無酷洛米) -->
+    <!-- =================================================================== -->
+    <section id="view-gacha" class="hidden space-y-5 animate-pop">
+      <div class="kawaii-card p-5 sm:p-6 bg-gradient-to-r from-pink-50 via-white to-teal-50 border-2 border-pink-200">
+        <div class="flex flex-col md:flex-row items-center justify-between gap-5">
+          <div class="space-y-2 text-center md:text-left">
+            <span class="inline-block px-3 py-0.5 rounded-full bg-teal-100 text-teal-700 text-xs font-black">
+              ✨ 喬喬最愛角色限定（初音未來・大耳狗・美樂蒂・布丁狗・雙子星・帕恰狗・Hello Kitty）
+            </span>
+            <h2 class="text-xl sm:text-2xl font-black text-slate-800">
+              🎀 夢幻星光貼紙扭蛋機
+            </h2>
+            <p class="text-xs sm:text-sm text-slate-600 max-w-lg">
+              每過一關都能獲得「偶像音符幣 🎵」！使用 <strong>30 枚音符幣</strong> 就可以轉一次夢幻扭蛋，收集全套 24 款可愛閃耀角色貼紙！
+            </p>
+            <div class="flex flex-wrap items-center justify-center md:justify-start gap-3 pt-1">
+              <div class="px-4 py-2 rounded-2xl bg-white border-2 border-pink-200 text-sm font-black text-pink-600">
+                目前擁有：<span id="gacha-coin-display">0</span> 🎵
+              </div>
+              <button onclick="app.pullGacha()" class="btn-bounce px-6 py-2.5 rounded-2xl bg-gradient-to-r from-teal-400 via-sky-400 to-pink-400 text-white font-black text-sm shadow-md">
+                🎰 轉一次扭蛋 (消耗 30 🎵)
+              </button>
+            </div>
+          </div>
+
+          <!-- Gacha Machine SVG Illustration -->
+          <div id="gacha-result-box" class="w-44 h-44 rounded-3xl bg-white border-2 border-teal-200 shadow-inner flex flex-col items-center justify-center p-3 text-center">
+            <div class="text-4xl animate-float">🎁</div>
+            <div class="text-xs font-bold text-slate-500 mt-2">點擊扭蛋按鈕<br>看看抽到誰！</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 24 Stickers Collection Grid -->
+      <div class="kawaii-card p-4 sm:p-6 space-y-4">
+        <div class="flex items-center justify-between">
+          <h3 class="font-black text-slate-800 text-base sm:text-lg">
+            📖 喬喬的貼紙收集冊 (<span id="sticker-collected-num">0</span> / 24)
+          </h3>
+          <span class="text-xs text-pink-500 font-bold">點選已解鎖貼紙可設為首頁陪伴夥伴喔！</span>
+        </div>
+        <div id="stickers-grid" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-3">
+          <!-- Rendered by JS -->
+        </div>
+      </div>
+    </section>
+
+    <!-- =================================================================== -->
+    <!-- VIEW 6: 50-DAY CALENDAR & BACKUP (50天打卡日曆與跨裝置進度備份) -->
+    <!-- =================================================================== -->
+    <section id="view-calendar" class="hidden space-y-5 animate-pop">
+      <!-- 50-Day Study Plan Grid -->
+      <div class="kawaii-card p-4 sm:p-6 space-y-4">
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+          <div>
+            <h2 class="text-lg sm:text-xl font-black text-slate-800 flex items-center gap-2">
+              <span>📅</span> 喬喬的 50 天完課計畫表（每天 3 關 × 50 天 ＝ 150 關）
+            </h2>
+            <p class="text-xs text-slate-500 mt-0.5">
+              每完成一天的「英文、社會、自然」各一關，當天的日曆格就會蓋上閃耀印章！也可以直接點擊任何一天開始挑戰那一天的三關！
+            </p>
+          </div>
+          <div class="text-xs font-black px-3 py-1.5 rounded-full bg-amber-50 border border-amber-200 text-amber-700 self-start">
+            已完成天數：<span id="calendar-days-done">0</span> / 50 天
+          </div>
+        </div>
+
+        <div id="calendar-50days-grid" class="grid grid-cols-2 sm:grid-cols-5 md:grid-cols-10 gap-2.5">
+          <!-- Rendered by JS -->
+        </div>
+      </div>
+
+      <!-- Cross-Device Progress Backup / Restore (手機/平板進度同步) -->
+      <div class="kawaii-card p-4 sm:p-6 space-y-4 bg-gradient-to-br from-white to-sky-50/60">
+        <h3 class="text-base sm:text-lg font-black text-slate-800 flex items-center gap-2">
+          <span>☁️</span> 手機 / 平板跨裝置進度備份與還原
+        </h3>
+        <p class="text-xs text-slate-600 leading-relaxed">
+          喬喬的每天學習進度已經自動儲存在目前的瀏覽器中！如果喬喬想從手機換到 iPad 平板繼續玩，只要點「複製進度備份碼」，在另一台貼上並按「載入進度」就可以無縫接軌囉！
+        </p>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div class="space-y-2">
+            <label class="text-xs font-bold text-slate-700">📤 匯出目前的學習進度碼：</label>
+            <div class="flex gap-2">
+              <input id="backup-export-input" type="text" readonly class="w-full px-3 py-2 rounded-xl border-2 border-teal-200 bg-white text-xs font-mono text-slate-600" placeholder="點擊右側按鈕產生備份碼..." />
+              <button onclick="app.exportBackupCode()" class="btn-bounce shrink-0 px-4 py-2 rounded-xl bg-teal-500 text-white text-xs font-black">
+                複製備份碼
+              </button>
+            </div>
+          </div>
+          <div class="space-y-2">
+            <label class="text-xs font-bold text-slate-700">📥 貼上備份碼還原進度：</label>
+            <div class="flex gap-2">
+              <input id="backup-import-input" type="text" class="w-full px-3 py-2 rounded-xl border-2 border-pink-200 bg-white text-xs font-mono text-slate-600" placeholder="在此貼上備份碼..." />
+              <button onclick="app.importBackupCode()" class="btn-bounce shrink-0 px-4 py-2 rounded-xl bg-pink-500 text-white text-xs font-black">
+                載入進度
+              </button>
+            </div>
+          </div>
+        </div>
+        <div id="backup-status-msg" class="text-xs font-bold text-teal-600"></div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- MOBILE / TABLET BOTTOM NAVIGATION BAR -->
+  <nav class="md:hidden fixed bottom-0 left-0 right-0 z-40 bg-white/95 backdrop-blur-md border-t-2 border-pink-100 px-2 py-1.5 flex items-center justify-around shadow-lg">
+    <button onclick="app.switchTab('home')" id="nav-m-home" class="flex flex-col items-center py-1 px-2.5 rounded-xl text-xs font-bold">
+      <span class="text-lg">🏠</span>
+      <span>今日三關</span>
+    </button>
+    <button onclick="app.switchTab('map')" id="nav-m-map" class="flex flex-col items-center py-1 px-2.5 rounded-xl text-xs font-bold">
+      <span class="text-lg">🗺️</span>
+      <span>150關地圖</span>
+    </button>
+    <button onclick="app.switchTab('mistakes')" id="nav-m-mistakes" class="relative flex flex-col items-center py-1 px-2.5 rounded-xl text-xs font-bold">
+      <span class="text-lg">📓</span>
+      <span>錯題本</span>
+      <span id="badge-m-mistakes" class="hidden absolute top-0.5 right-1 px-1.5 rounded-full bg-rose-500 text-white text-xs font-black">0</span>
+    </button>
+    <button onclick="app.switchTab('gacha')" id="nav-m-gacha" class="flex flex-col items-center py-1 px-2.5 rounded-xl text-xs font-bold">
+      <span class="text-lg">🎀</span>
+      <span>貼紙扭蛋</span>
+    </button>
+    <button onclick="app.switchTab('calendar')" id="nav-m-calendar" class="flex flex-col items-center py-1 px-2.5 rounded-xl text-xs font-bold">
+      <span class="text-lg">📅</span>
+      <span>50天計畫</span>
+    </button>
+  </nav>
+
+  <!-- EMBEDDED CURRICULUM DATA & APPLICATION LOGIC -->
+  <script>
+    const CURRICULUM_DATA = {"englishStages": [{"id": 1, "unit": "Unit 1", "title": "飲料單字初登場 (上)", "sub": "coffee, tea, cola, soda", "buddy": "miku"}, {"id": 2, "unit": "Unit 1", "title": "飲料單字初登場 (下)", "sub": "bubble tea, soy milk, hot chocolate", "buddy": "cinnamoroll"}, {"id": 3, "unit": "Unit 1", "title": "飲料單字拼寫王", "sub": "Wonder World 5 飲品拼字特訓", "buddy": "mymelody"}, {"id": 4, "unit": "Unit 1", "title": "你喜歡什麼飲料？", "sub": "Do you like cola? Yes, I do.", "buddy": "miku"}, {"id": 5, "unit": "Unit 1", "title": "我不喜歡汽水！", "sub": "No, I don't. I like soy milk.", "buddy": "pompompurin"}, {"id": 6, "unit": "Unit 1", "title": "第三人稱單數問句", "sub": "Does he / she like tea?", "buddy": "twinstars"}, {"id": 7, "unit": "Unit 1", "title": "他喜歡珍珠奶茶", "sub": "Yes, he does. He likes bubble tea.", "buddy": "miku"}, {"id": 8, "unit": "Unit 1", "title": "Do 與 Does 大分辨", "sub": "主詞搭配助動詞文法特訓", "buddy": "cinnamoroll"}, {"id": 9, "unit": "Unit 1", "title": "Unit 1 課文對話情境", "sub": "在飲料店點餐與詢問喜好", "buddy": "mymelody"}, {"id": 10, "unit": "Unit 1", "title": "Unit 1 自然發音特訓", "sub": "長母音與短母音辨識練習", "buddy": "pochacco"}, {"id": 11, "unit": "Unit 1", "title": "Unit 1 閱讀素養挑戰", "sub": "健康飲品與減糖生活短文", "buddy": "miku"}, {"id": 12, "unit": "Unit 1", "title": "Unit 1 康軒評量總驗收", "sub": "第一單元單字與文法綜合測驗", "buddy": "hellokitty"}, {"id": 13, "unit": "Unit 2", "title": "繽紛水果單字 (上)", "sub": "apple, banana, orange, peach", "buddy": "mymelody"}, {"id": 14, "unit": "Unit 2", "title": "台灣特色水果 (下)", "sub": "guava, mango, papaya, pineapple", "buddy": "cinnamoroll"}, {"id": 15, "unit": "Unit 2", "title": "名詞單複數變化", "sub": "peaches, mangoes, apples 規則", "buddy": "miku"}, {"id": 16, "unit": "Unit 2", "title": "你有任何柳丁嗎？", "sub": "Do you have any oranges?", "buddy": "pompompurin"}, {"id": 17, "unit": "Unit 2", "title": "Some 與 Any 的魔法", "sub": "肯定句用 some、疑問否定用 any", "buddy": "twinstars"}, {"id": 18, "unit": "Unit 2", "title": "你需要幾顆蘋果？", "sub": "How many apples do you need?", "buddy": "miku"}, {"id": 19, "unit": "Unit 2", "title": "他需要一顆木瓜", "sub": "How many papayas does he need?", "buddy": "pochacco"}, {"id": 20, "unit": "Unit 2", "title": "一起做水果沙拉！", "sub": "Let's make fruit salad! 對話應用", "buddy": "mymelody"}, {"id": 21, "unit": "Unit 2", "title": "Unit 2 拼字與聽音辨字", "sub": "水果單字拼寫與重音練習", "buddy": "cinnamoroll"}, {"id": 22, "unit": "Unit 2", "title": "Unit 2 閱讀理解特訓", "sub": "採買水果清單與數量計算", "buddy": "hellokitty"}, {"id": 23, "unit": "Unit 2", "title": "Unit 2 康軒評量總驗收", "sub": "第二單元單字與句型綜合測驗", "buddy": "miku"}, {"id": 24, "unit": "期中評量", "title": "期中康軒模擬考 (一)", "sub": "Unit 1 ~ Unit 2 詞彙與聽力評量", "buddy": "twinstars"}, {"id": 25, "unit": "期中評量", "title": "期中康軒模擬考 (二)", "sub": "Unit 1 ~ Unit 2 文法與閱讀總複習", "buddy": "miku"}, {"id": 26, "unit": "Unit 3", "title": "陸上交通工具單字", "sub": "bike, bus, car, scooter, taxi", "buddy": "pochacco"}, {"id": 27, "unit": "Unit 3", "title": "大眾運輸與飛行", "sub": "MRT, train, plane, on foot", "buddy": "cinnamoroll"}, {"id": 28, "unit": "Unit 3", "title": "好玩的地方與景點", "sub": "park, zoo, library, museum", "buddy": "mymelody"}, {"id": 29, "unit": "Unit 3", "title": "我們怎麼去公園？", "sub": "How can we get to the park?", "buddy": "miku"}, {"id": 30, "unit": "Unit 3", "title": "搭乘交通工具介系詞", "sub": "by bike / by MRT vs. on foot", "buddy": "pompompurin"}, {"id": 31, "unit": "Unit 3", "title": "我們可以騎單車去嗎？", "sub": "Can we get there by bike?", "buddy": "twinstars"}, {"id": 32, "unit": "Unit 3", "title": "get to 與 get there", "sub": "地點副詞 there 不加 to 的祕訣", "buddy": "miku"}, {"id": 33, "unit": "Unit 3", "title": "Unit 3 課文故事挑戰", "sub": "A Fun Day 週末出遊計畫對話", "buddy": "cinnamoroll"}, {"id": 34, "unit": "Unit 3", "title": "Unit 3 發音與拼讀", "sub": "複合子音與雙母音發音規則", "buddy": "mymelody"}, {"id": 35, "unit": "Unit 3", "title": "Unit 3 旅遊地圖素養題", "sub": "看路線圖回答交通方式", "buddy": "pochacco"}, {"id": 36, "unit": "Unit 3", "title": "Unit 3 易錯文法大掃除", "sub": "助動詞 can 後接原形動詞", "buddy": "hellokitty"}, {"id": 37, "unit": "Unit 3", "title": "Unit 3 康軒評量總驗收", "sub": "第三單元單字與句型綜合測驗", "buddy": "miku"}, {"id": 38, "unit": "Unit 4", "title": "隨身物品單字 (上)", "sub": "jacket, umbrella, cap, glasses", "buddy": "mymelody"}, {"id": 39, "unit": "Unit 4", "title": "隨身物品單字 (下)", "sub": "smartphone, watch, water bottle", "buddy": "cinnamoroll"}, {"id": 40, "unit": "Unit 4", "title": "這是誰的外套？", "sub": "Whose jacket is this / that?", "buddy": "miku"}, {"id": 41, "unit": "Unit 4", "title": "所有格與所有格名詞", "sub": "my, your, his, her, Danny's", "buddy": "pompompurin"}, {"id": 42, "unit": "Unit 4", "title": "單數與複數物品問句", "sub": "Whose glasses are these / those?", "buddy": "twinstars"}, {"id": 43, "unit": "Unit 4", "title": "失物招領處對話", "sub": "Is this your umbrella? Yes, it is.", "buddy": "pochacco"}, {"id": 44, "unit": "Unit 4", "title": "Unit 4 閱讀素養挑戰", "sub": "校園失物招領海報閱讀理解", "buddy": "hellokitty"}, {"id": 45, "unit": "Unit 4", "title": "Unit 4 康軒評量總驗收", "sub": "第四單元單字與句型綜合測驗", "buddy": "miku"}, {"id": 46, "unit": "文化與節慶", "title": "萬聖節與感恩節文化", "sub": "Festivals & Culture 節慶英語", "buddy": "mymelody"}, {"id": 47, "unit": "期末總複習", "title": "五上單字拼寫總動員", "sub": "Unit 1 ~ Unit 4 必考單字大進擊", "buddy": "cinnamoroll"}, {"id": 48, "unit": "期末總複習", "title": "五上疑問詞大滿貫", "sub": "Do/Does, How many, How, Whose", "buddy": "miku"}, {"id": 49, "unit": "期末總複習", "title": "五上閱讀與對話整合", "sub": "跨單元情境對話與素養題", "buddy": "twinstars"}, {"id": 50, "unit": "期末總複習", "title": "五上康軒英語終極星光舞台", "sub": "全冊綜合評量滿分畢業挑戰！", "buddy": "miku"}], "socialStages": [{"id": 1, "unit": "第一單元", "title": "亞洲東緣的美麗島嶼", "sub": "臺灣在世界與亞洲的相對位置", "buddy": "cinnamoroll"}, {"id": 2, "unit": "第一單元", "title": "四面環海的海洋鄰居", "sub": "東海、太平洋、巴士海峽、臺灣海峽", "buddy": "miku"}, {"id": 3, "unit": "第一單元", "title": "臺灣的周邊鄰國與離島", "sub": "澎湖、金門、馬祖、蘭嶼、綠島、太平島", "buddy": "mymelody"}, {"id": 4, "unit": "第一單元", "title": "經緯線與北回歸線密碼", "sub": "東經120-122度、北緯22-25度、嘉義花蓮", "buddy": "pompompurin"}, {"id": 5, "unit": "第一單元", "title": "地理位置與交通貿易", "sub": "東亞島弧中心、候鳥遷徙與國際航線", "buddy": "twinstars"}, {"id": 6, "unit": "第一單元", "title": "生活中的社會規範 (上)", "sub": "風俗習慣與宗教信仰的力量", "buddy": "pochacco"}, {"id": 7, "unit": "第一單元", "title": "生活中的社會規範 (下)", "sub": "倫理道德與隨時代改變的規範", "buddy": "hellokitty"}, {"id": 8, "unit": "第一單元", "title": "為什麼需要法律？", "sub": "具有強制力、保障人權與維持秩序", "buddy": "cinnamoroll"}, {"id": 9, "unit": "第一單元", "title": "法律的制定與種類", "sub": "立法院制定修改、民法/刑法/行政法", "buddy": "miku"}, {"id": 10, "unit": "第一單元", "title": "公權力與國家賠償", "sub": "依法行政、人民權利與義務", "buddy": "mymelody"}, {"id": 11, "unit": "第一單元", "title": "兒童權利與法治生活", "sub": "兒童及少年福利與權益保障法", "buddy": "pompompurin"}, {"id": 12, "unit": "第一單元", "title": "第一單元康軒評量總驗收", "sub": "臺灣我的家綜合實力測驗", "buddy": "cinnamoroll"}, {"id": 13, "unit": "第二單元", "title": "臺灣五大地形大探索 (上)", "sub": "山地、丘陵、台地的高度與特色", "buddy": "pochacco"}, {"id": 14, "unit": "第二單元", "title": "臺灣五大地形大探索 (下)", "sub": "平原與盆地的分布與人口聚落", "buddy": "cinnamoroll"}, {"id": 15, "unit": "第二單元", "title": "臺灣的五大山脈與最高峰", "sub": "中央、雪山、玉山、阿里山、海岸山脈", "buddy": "miku"}, {"id": 16, "unit": "第二單元", "title": "千變萬化的四周海岸", "sub": "北岩岸、西沙岸、東斷層、南珊瑚礁", "buddy": "mymelody"}, {"id": 17, "unit": "第二單元", "title": "北回歸線與兩大氣候區", "sub": "以北副熱帶季風、以南熱帶季風氣候", "buddy": "twinstars"}, {"id": 18, "unit": "第二單元", "title": "季風與臺灣的降雨", "sub": "冬季東北季風、夏季西南季風、地形雨", "buddy": "pompompurin"}, {"id": 19, "unit": "第二單元", "title": "梅雨、颱風與氣象災害", "sub": "五六月梅雨、夏秋颱風、寒流與乾旱", "buddy": "hellokitty"}, {"id": 20, "unit": "第二單元", "title": "臺灣河川的特色", "sub": "坡陡流急、荒溪型河川、濁水溪與高屏溪", "buddy": "cinnamoroll"}, {"id": 21, "unit": "第二單元", "title": "珍貴的水資源與水庫", "sub": "石門、曾文、翡翠水庫與地下水超抽", "buddy": "miku"}, {"id": 22, "unit": "第二單元", "title": "自然環境與居住型態", "sub": "集村與散村、蘭嶼地下屋、九份階梯", "buddy": "mymelody"}, {"id": 23, "unit": "第二單元", "title": "第二單元康軒評量總驗收", "sub": "臺灣的自然環境與生活綜合測驗", "buddy": "pochacco"}, {"id": 24, "unit": "期中評量", "title": "期中康軒社會模擬考 (一)", "sub": "第一～二單元地圖與圖表判讀", "buddy": "cinnamoroll"}, {"id": 25, "unit": "期中評量", "title": "期中康軒社會模擬考 (二)", "sub": "第一～二單元素養題總複習", "buddy": "miku"}, {"id": 26, "unit": "第三單元", "title": "怎麼知道史前人類的生活？", "sub": "考古遺址、化石、石器與陶器", "buddy": "pompompurin"}, {"id": 27, "unit": "第三單元", "title": "舊石器時代：長濱文化", "sub": "敲擊石器、採集狩獵、已知用火、洞穴生活", "buddy": "cinnamoroll"}, {"id": 28, "unit": "第三單元", "title": "新石器時代：大坌坑與圓山", "sub": "磨製石器、粗繩紋陶、圓山貝塚與農業", "buddy": "mymelody"}, {"id": 29, "unit": "第三單元", "title": "新石器時代：卑南文化", "sub": "精美玉器、石板棺、定居農耕聚落", "buddy": "twinstars"}, {"id": 30, "unit": "第三單元", "title": "金屬器時代：十三行文化", "sub": "煉鐵技術、人面陶罐、玻璃珠與外來貿易", "buddy": "miku"}, {"id": 31, "unit": "第三單元", "title": "史前三大時代比較王", "sub": "舊石器、新石器、金屬器時代綜合整理", "buddy": "pochacco"}, {"id": 32, "unit": "第三單元", "title": "臺灣原住民族的分布與分類", "sub": "平埔族群與高山族群、16族多元文化", "buddy": "hellokitty"}, {"id": 33, "unit": "第三單元", "title": "原住民族與山海共存智慧", "sub": "輪耕休耕、排灣石板屋、泰雅編織", "buddy": "cinnamoroll"}, {"id": 34, "unit": "第三單元", "title": "原住民族的歲時祭儀 (上)", "sub": "達悟族飛魚祭、阿美族豐年祭、布農八部合音", "buddy": "mymelody"}, {"id": 35, "unit": "第三單元", "title": "原住民族的歲時祭儀 (下)", "sub": "賽夏族巴斯達隘(矮靈祭)、卑南大獵祭、平埔夜祭", "buddy": "miku"}, {"id": 36, "unit": "第三單元", "title": "尊重多元文化與傳統領域", "sub": "正名運動、傳統智慧與生態永續", "buddy": "pompompurin"}, {"id": 37, "unit": "第三單元", "title": "第三單元康軒評量總驗收", "sub": "尋根探源話臺灣綜合實力測驗", "buddy": "cinnamoroll"}, {"id": 38, "unit": "第四單元", "title": "16~17世紀大航海時代來臨", "sub": "福爾摩沙、澎湖與東亞海上貿易網", "buddy": "twinstars"}, {"id": 39, "unit": "第四單元", "title": "海商與先民的早期拓墾", "sub": "顏思齊、鄭芝龍與雲林嘉義笨港開墾", "buddy": "pochacco"}, {"id": 40, "unit": "第四單元", "title": "荷蘭人在南臺灣的統治", "sub": "大員(臺南)、熱蘭遮城、普羅民遮城", "buddy": "cinnamoroll"}, {"id": 41, "unit": "第四單元", "title": "西班牙人在北臺灣與競爭", "sub": "雞籠(聖薩爾瓦多城)、淡水(紅毛城)、荷蘭北上驅逐", "buddy": "miku"}, {"id": 42, "unit": "第四單元", "title": "荷西時期的貿易與新港文書", "sub": "鹿皮蔗糖出口、傳教士羅馬拼音、郭懷一事件", "buddy": "mymelody"}, {"id": 43, "unit": "第四單元", "title": "鄭成功驅逐荷蘭人與反清復明", "sub": "承天府、東都明京、鄭經改稱東寧", "buddy": "hellokitty"}, {"id": 44, "unit": "第四單元", "title": "鄭氏時期的土地拓墾與建設", "sub": "軍屯制度(新營、左營、林鳳營)、全臺首學臺南孔廟", "buddy": "pompompurin"}, {"id": 45, "unit": "第四單元", "title": "大航海時代對臺灣的改變", "sub": "外來作物(碗豆、番茄、番薯、芒果)與族群互動", "buddy": "cinnamoroll"}, {"id": 46, "unit": "第四單元", "title": "第四單元康軒評量總驗收", "sub": "大航海時代的臺灣綜合實力測驗", "buddy": "miku"}, {"id": 47, "unit": "主題探究", "title": "守護臺灣最美的風景", "sub": "古蹟保存、環境保育與公民行動", "buddy": "mymelody"}, {"id": 48, "unit": "期末總複習", "title": "臺灣地理與環境全攻略", "sub": "第一～二單元重點圖表大統整", "buddy": "twinstars"}, {"id": 49, "unit": "期末總複習", "title": "臺灣歷史演進時光機", "sub": "史前時代～荷西～鄭氏時期年表總整理", "buddy": "cinnamoroll"}, {"id": 50, "unit": "期末總複習", "title": "五上康軒社會終極領航員", "sub": "全冊綜合評量滿分畢業挑戰！", "buddy": "miku"}], "scienceStages": [{"id": 1, "unit": "第一單元", "title": "動物的覓食構造與食性", "sub": "草食、肉食、雜食動物的牙齒與口器", "buddy": "mymelody"}, {"id": 2, "unit": "第一單元", "title": "動物多元的運動方式", "sub": "擅長奔跑、跳躍、飛行、游泳的身體構造", "buddy": "cinnamoroll"}, {"id": 3, "unit": "第一單元", "title": "體溫調節：內溫與外溫動物", "sub": "鳥類哺乳類(恆溫) vs 爬蟲兩生魚類(變溫)", "buddy": "miku"}, {"id": 4, "unit": "第一單元", "title": "動物避敵絕招：保護色與擬態", "sub": "竹節蟲、枯葉蝶、變色龍、尺蠖的偽裝術", "buddy": "pompompurin"}, {"id": 5, "unit": "第一單元", "title": "警戒色與特殊防禦行為", "sub": "雨傘節、瓢蟲、裝死、斷尾、噴墨汁", "buddy": "twinstars"}, {"id": 6, "unit": "第一單元", "title": "社會性動物與分工合作", "sub": "蜜蜂(搖擺舞)、螞蟻、臺灣獼猴的社群行為", "buddy": "pochacco"}, {"id": 7, "unit": "第一單元", "title": "動物的求偶、領域與遷徙", "sub": "孔雀開屏、蛙鳴、招潮蟹揮螯、黑面琵鷺度冬", "buddy": "hellokitty"}, {"id": 8, "unit": "第一單元", "title": "動物的繁殖：卵生與胎生", "sub": "雞、蛙、龜(卵生) vs 狗、貓、鯨豚(胎生)", "buddy": "mymelody"}, {"id": 9, "unit": "第一單元", "title": "完全變態與不完全變態", "sub": "蝴蝶/甲蟲(經歷蛹期) vs 蝗蟲/蜻蜓/蟑螂", "buddy": "miku"}, {"id": 10, "unit": "第一單元", "title": "動物的育幼行為與子代存活", "sub": "企鵝孵蛋、袋鼠育兒袋、小狗喝母乳", "buddy": "cinnamoroll"}, {"id": 11, "unit": "第一單元", "title": "動物二分法分類實驗室", "sub": "利用特徵建立二分法檢索表", "buddy": "pompompurin"}, {"id": 12, "unit": "第一單元", "title": "第一單元康軒評量總驗收", "sub": "動物世界綜合實力測驗", "buddy": "mymelody"}, {"id": 13, "unit": "第二單元", "title": "聲音是如何產生的？", "sub": "物體振動發聲與傳播介質(固、液、氣體)", "buddy": "miku"}, {"id": 14, "unit": "第二單元", "title": "樂音、噪音與分貝計", "sub": "分貝(dB)、超過85分貝傷聽力、吸音與隔音", "buddy": "cinnamoroll"}, {"id": 15, "unit": "第二單元", "title": "聲音三要素：音量(大小)", "sub": "用力敲擊振幅越大、聲音越大聲", "buddy": "mymelody"}, {"id": 16, "unit": "第二單元", "title": "聲音三要素：音調(高低)", "sub": "短、細、緊的弦或短空氣柱音調較高", "buddy": "twinstars"}, {"id": 17, "unit": "第二單元", "title": "聲音三要素：音色與共鳴箱", "sub": "分辨不同樂器的音品、木箱放大音量", "buddy": "pochacco"}, {"id": 18, "unit": "第二單元", "title": "自製簡易樂器科學實驗", "sub": "吸管笛、水杯琴敲擊vs吹氣音調比較", "buddy": "pompompurin"}, {"id": 19, "unit": "第二單元", "title": "光的直線前進與影子", "sub": "針孔成像、皮影戲、日食月食原理", "buddy": "hellokitty"}, {"id": 20, "unit": "第二單元", "title": "光的反射與平面鏡實驗", "sub": "入射角等於反射角、鏡面反射、萬花筒與潛望鏡", "buddy": "miku"}, {"id": 21, "unit": "第二單元", "title": "光的折射現象大解密", "sub": "水中吸管看起來折斷、池水看起來較淺、放大鏡", "buddy": "cinnamoroll"}, {"id": 22, "unit": "第二單元", "title": "光的色散與彩虹的形成", "sub": "三稜鏡色散、陽光通過水滴折射與反射、背對太陽看彩虹", "buddy": "mymelody"}, {"id": 23, "unit": "第二單元", "title": "第二單元康軒評量總驗收", "sub": "探索聲光世界綜合實力測驗", "buddy": "twinstars"}, {"id": 24, "unit": "期中評量", "title": "期中康軒自然模擬考 (一)", "sub": "第一～二單元實驗操作與圖表題", "buddy": "mymelody"}, {"id": 25, "unit": "期中評量", "title": "期中康軒自然模擬考 (二)", "sub": "第一～二單元科學素養總複習", "buddy": "miku"}, {"id": 26, "unit": "第三單元", "title": "空氣的組成比例", "sub": "氮氣約78%、氧氣約21%、二氧化碳與其他氣體", "buddy": "cinnamoroll"}, {"id": 27, "unit": "第三單元", "title": "燭火燃燒與空氣實驗", "sub": "廣口瓶罩住蠟燭為何會熄滅？助燃氣體探討", "buddy": "pochacco"}, {"id": 28, "unit": "第三單元", "title": "實驗室製造氧氣大挑戰", "sub": "雙氧水＋胡蘿蔔/二氧化錳、排水集氣法", "buddy": "mymelody"}, {"id": 29, "unit": "第三單元", "title": "氧氣的性質與線香檢驗", "sub": "無色無味、助燃性、使餘燼線香劇烈燃燒", "buddy": "miku"}, {"id": 30, "unit": "第三單元", "title": "製造與檢驗二氧化碳", "sub": "小蘇打粉＋醋酸、使澄清石灰水變混濁、比空氣重", "buddy": "pompompurin"}, {"id": 31, "unit": "第三單元", "title": "燃燒三要素缺一不可", "sub": "可燃物、助燃物(氧氣)、達到燃點", "buddy": "twinstars"}, {"id": 32, "unit": "第三單元", "title": "滅火的原理與生活應用", "sub": "移除可燃物、隔絕助燃物、降低溫度至燃點以下", "buddy": "hellokitty"}, {"id": 33, "unit": "第三單元", "title": "火災逃生與用火安全", "sub": "濃煙關門塞門縫、壓低身體、不可搭電梯", "buddy": "cinnamoroll"}, {"id": 34, "unit": "第三單元", "title": "鐵為什麼會生鏽？", "sub": "鋼絲絨實驗：水和空氣(氧氣)同時存在、酸性加速", "buddy": "mymelody"}, {"id": 35, "unit": "第三單元", "title": "鐵生鏽會消耗氧氣嗎？", "sub": "廣口瓶水位上升實驗與控制變因分析", "buddy": "miku"}, {"id": 36, "unit": "第三單元", "title": "生活中的防鏽好方法", "sub": "保持乾燥、塗油漆、抹油、電鍍、合金(不鏽鋼)", "buddy": "pochacco"}, {"id": 37, "unit": "第三單元", "title": "第三單元康軒評量總驗收", "sub": "空氣的組成與反應綜合實力測驗", "buddy": "mymelody"}, {"id": 38, "unit": "第四單元", "title": "觀測太陽的位置：方位與仰角", "sub": "指北針定方位、太陽觀測器量竿影與仰角", "buddy": "twinstars"}, {"id": 39, "unit": "第四單元", "title": "一天中太陽與竿影的變化", "sub": "東升西落、影子方向與太陽相反、正午仰角最高影最短", "buddy": "cinnamoroll"}, {"id": 40, "unit": "第四單元", "title": "一年四季太陽軌跡的變化", "sub": "夏至偏北仰角高、冬至偏南仰角低、春分秋分正東升", "buddy": "miku"}, {"id": 41, "unit": "第四單元", "title": "太陽能與四季日照生活應用", "sub": "建築遮陽、太陽能板傾斜角度、日晷計時", "buddy": "pompompurin"}, {"id": 42, "unit": "第四單元", "title": "太陽系的大家族成員", "sub": "太陽(恆星)、八大行星：水金地火木土天海", "buddy": "mymelody"}, {"id": 43, "unit": "第四單元", "title": "類地行星 vs 類木行星與其他天體", "sub": "岩石表面 vs 氣體巨行星、衛星、小行星、彗星、流星", "buddy": "pochacco"}, {"id": 44, "unit": "第四單元", "title": "認識星座盤與觀星步驟", "sub": "對齊月日與時刻、面向方位舉高仰望對照", "buddy": "hellokitty"}, {"id": 45, "unit": "第四單元", "title": "夜晚星空的移動與北極星", "sub": "星星東升西落、北極星位在正北方幾乎不動", "buddy": "twinstars"}, {"id": 46, "unit": "第四單元", "title": "尋找北極星的兩大祕訣", "sub": "春夏用北斗七星勺口5倍、秋冬用仙后座W延伸5倍", "buddy": "miku"}, {"id": 47, "unit": "第四單元", "title": "四季代表星座與亮星顏色", "sub": "春大曲線、夏大三角、秋四邊形、冬大三角；星色與表面溫度", "buddy": "mymelody"}, {"id": 48, "unit": "第四單元", "title": "第四單元康軒評量總驗收", "sub": "神秘的天空綜合實力測驗", "buddy": "cinnamoroll"}, {"id": 49, "unit": "期末總複習", "title": "五上自然實驗變因大挑戰", "sub": "操縱變因、控制變因、應變變因全冊統整", "buddy": "twinstars"}, {"id": 50, "unit": "期末總複習", "title": "五上康軒自然終極科學家", "sub": "全冊綜合評量滿分畢業挑戰！", "buddy": "miku"}], "englishCards": {"u1_vocab1": [{"front": "coffee ☕", "pron": "coffee", "back": "咖啡 (不可數名詞)\n例：He likes coffee. 他喜歡咖啡。"}, {"front": "tea 🍵", "pron": "tea", "back": "茶 (不可數名詞)\n例：Does she like tea? 她喜歡茶嗎？"}, {"front": "cola 🥤", "pron": "cola", "back": "可樂 (不可數名詞)\n例：Do you like cola? 你喜歡可樂嗎？"}, {"front": "soda 🫧", "pron": "soda", "back": "汽水；蘇打水\n例：I don't like soda. 我不喜歡汽水。"}], "u1_vocab2": [{"front": "bubble tea 🧋", "pron": "bubble tea", "back": "珍珠奶茶 (台灣最著名的飲品！)\n例：I like bubble tea very much."}, {"front": "soy milk 🥛", "pron": "soy milk", "back": "豆漿 (營養健康的早餐飲品)\n例：No, I don't. I like soy milk."}, {"front": "hot chocolate 🍫", "pron": "hot chocolate", "back": "熱巧克力；熱可可\n例：She likes hot chocolate in winter."}, {"front": "juice / milk 🧃", "pron": "juice and milk", "back": "果汁 / 牛奶 (補充常用飲品單字)\n搭配不可數概念，不加 a 或 s 喔！"}], "u1_grammar1": [{"front": "Do you like + 飲料?", "pron": "Do you like bubble tea?", "back": "詢問「你喜歡…嗎？」\n肯定回答：Yes, I do.\n否定回答：No, I don't. (don't = do not)"}, {"front": "I like / I don't like...", "pron": "I don't like cola. I like soy milk.", "back": "表達自己的喜好：\n喜歡：I like + 飲料.\n不喜歡：I don't like + 飲料."}, {"front": "Does he / she like + 飲料?", "pron": "Does she like hot chocolate?", "back": "當主詞是第三人稱單數 (he, she, 單一人名) 時，疑問句要用助動詞 Does 開頭！\n注意：後面的動詞要恢復原形 like！"}, {"front": "Yes, he does. / No, she doesn't.", "pron": "No, she doesn't. She likes tea.", "back": "Does 問，does 答！\n肯定句時，he / she 後面的動詞要加 s → He likes coffee."}], "u2_vocab1": [{"front": "apple / apples 🍎", "pron": "apples", "back": "蘋果 (可數名詞)\n單數 an apple，複數 apples"}, {"front": "banana / bananas 🍌", "pron": "bananas", "back": "香蕉 (可數名詞)\n例：I need three bananas."}, {"front": "orange / oranges 🍊", "pron": "oranges", "back": "柳丁；柳橙\n例：Do you have any oranges?"}, {"front": "peach / peaches 🍑", "pron": "peaches", "back": "桃子；水蜜桃\n字尾是 ch，複數要加 -es → peaches！"}], "u2_vocab2": [{"front": "guava / guavas 🍐", "pron": "guavas", "back": "芭樂 (番石榴)\n複數直接加 s → guavas"}, {"front": "mango / mangoes 🥭", "pron": "mangoes", "back": "芒果\n複數可加 es 或 s (康軒課本常用 mangoes / mangos)"}, {"front": "papaya / papayas 🍈", "pron": "papayas", "back": "木瓜\n例：He needs one papaya."}, {"front": "pineapple / pineapples 🍍", "pron": "pineapples", "back": "鳳梨 (pine 松果 + apple 蘋果)\n例：We need two pineapples."}], "u2_grammar1": [{"front": "Do you have any + 複數名詞?", "pron": "Do you have any peaches?", "back": "詢問「你有任何…嗎？」\n疑問句與否定句中常用 any + 複數可數名詞！\n回答：Yes, I do. / No, I don't."}, {"front": "Does he/she have any...?", "pron": "Does he have any guavas?", "back": "第三人稱單數詢問「他/她有任何…嗎？」\n肯定：Yes, he does. He has some guavas.\n否定：No, he doesn't. He doesn't have any guavas."}, {"front": "How many + 複數名詞 + do you need?", "pron": "How many apples do you need?", "back": "詢問「你需要多少個…？」\nHow many 後面一定要接「複數可數名詞」！\n回答：I need one apple. / I need three apples."}, {"front": "How many... does he/she need?", "pron": "How many bananas does she need?", "back": "主詞為 he/she 時，助動詞用 does，回答時動詞 need 要加 s：\nShe needs two bananas."}], "u3_vocab1": [{"front": "bike / scooter 🚲🛵", "pron": "bike and scooter", "back": "bike 腳踏車 (單車)\nscooter 機車；滑板車\n搭配介系詞：by bike, by scooter"}, {"front": "bus / car / taxi 🚌🚗🚕", "pron": "bus, car, taxi", "back": "bus 公車、car 汽車、taxi 計程車\n例：We can get there by bus."}, {"front": "MRT / train / plane 🚇🚆✈️", "pron": "MRT, train, plane", "back": "MRT 捷運 (三個字母都要大寫！)\ntrain 火車、plane 飛機"}, {"front": "on foot / park / zoo / library 🚶‍♀️🏞️", "pron": "on foot, park, zoo, library", "back": "on foot 走路、步行 (注意不是 by foot 喔！)\npark 公園、zoo 動物園、library 圖書館"}], "u3_grammar1": [{"front": "How can we get to the + 地點?", "pron": "How can we get to the park?", "back": "詢問「我們可以如何到達某地？」\nHow 詢問交通方式，can 是助動詞，後面動詞 get 用原形！"}, {"front": "We can get there by + 交通工具.", "pron": "We can get there by MRT.", "back": "by + 交通工具（中間不加 a 或 the，且交通工具用單數！）\n特例：走路是 on foot！"}, {"front": "get to the park vs. get there", "pron": "We can get to the zoo by bus. We can get there by bus.", "back": "超級考點：\nget to + 地點名詞 (如 get to the zoo)\n但 there / here / home 是地方副詞，前面絕對不加 to (get there)！"}, {"front": "Can we get to the... by...?", "pron": "Can we get to the library by bike?", "back": "詢問「我們可以搭…去某地嗎？」\n肯定：Yes, we can.\n否定：No, we can't. We can get there by bus."}], "u4_vocab1": [{"front": "jacket / cap 🧥🧢", "pron": "jacket and cap", "back": "jacket 夾克、外套\ncap 棒球帽、便帽"}, {"front": "umbrella / water bottle ☂️🍼", "pron": "umbrella and water bottle", "back": "umbrella 雨傘 (母音開頭，單數用 an umbrella)\nwater bottle 水壺"}, {"front": "smartphone / watch 📱⌚", "pron": "smartphone and watch", "back": "smartphone 智慧型手機\nwatch 手錶 (複數加 es → watches)"}, {"front": "glasses / workbook 👓📓", "pron": "glasses and workbook", "back": "glasses 眼鏡 (因為有兩片鏡片，恆用複數！搭配 are / these / those)\nworkbook 作業本、習作"}], "u4_grammar1": [{"front": "Whose + 單數物品 + is this / that?", "pron": "Whose jacket is this?", "back": "Whose 詢問「誰的」：\n靠近自己用 this (這個)，遠處用 that (那個)。\n回答一律用 It's (It is) 開頭！"}, {"front": "It's my / your / his / her...", "pron": "It's my water bottle.", "back": "所有格代名詞整理：\nmy 我的、your 你的、his 他的、her 她的、our 我們的、their 他們的"}, {"front": "名詞所有格：人名 + 's", "pron": "It's Miku's umbrella.", "back": "表達「某人的…」，在人名後面加上 's (撇號 s)：\n例如：Danny's watch (丹尼的手錶)、QiaoQiao's cap (喬喬的帽子)。"}, {"front": "Whose glasses are these / those?", "pron": "Whose glasses are these? They're his glasses.", "back": "當物品是複數 (如 glasses 眼鏡、shoes 鞋子) 時：\n問句用 are these / those，回答用 They're (They are)！"}]}, "socialCards": {"u1_geo": [{"front": "🌏 臺灣的相對位置", "back": "位於亞洲大陸東南沿海、太平洋西岸，介於東北亞（日本、韓國）與東南亞（菲律賓等）之間的樞紐位置！"}, {"front": "🌊 臺灣四周的海洋", "back": "口訣記起來：\n【東】太平洋（最深廣）\n【西】臺灣海峽（與中國大陸相望）\n【南】巴士海峽（對望菲律賓）\n【北】東海（通往日韓）"}, {"front": "🏝️ 臺灣的領土與離島", "back": "包含臺灣本島及周邊島嶼：\n• 火山島：龜山島、綠島、蘭嶼、澎湖群島(玄武岩)\n• 大陸島：金門、馬祖\n• 珊瑚礁島：琉球嶼(小琉球)、東沙島、南沙太平島(最南端)"}, {"front": "🧭 臺灣的經緯度與北回歸線", "back": "臺灣本島約在東經120°～122°、北緯22°～25°之間。\n★ 北回歸線（北緯23.5度）通過：澎湖縣、嘉義縣（水上）、高雄、南投、花蓮縣（瑞穗、豐濱）！"}], "u1_law": [{"front": "🤝 四大社會規範", "back": "1. 風俗習慣（如端午划龍舟、過年貼春聯、婚喪喜慶）\n2. 宗教信仰（勸人為善、敬畏神明）\n3. 倫理道德（友愛同學、孝順父母、博愛座讓座）\n4. 法律（由國家制定，具「強制力」！）"}, {"front": "⚖️ 法律與其他規範的不同", "back": "風俗、宗教、道德主要靠「良心」與「社會輿論」約束；\n只有【法律】具有國家公權力的「強制力」，違法會受到處罰（罰鍰、罰金、坐牢等）！"}, {"front": "🏛️ 法律的制定與功能", "back": "我國制定與修改法律的機關是【立法院】（立法委員代表人民制定）。\n功能：保障人民權利與自由、維護社會秩序、促進社會進步。"}, {"front": "🛡️ 兒童權益與法治社會", "back": "《兒童及少年福利與權益保障法》專門保護未滿18歲的兒少。\n政府機關行使公權力也必須遵守法律（依法行政），若違法侵害人民權益，人民可請求【國家賠償】！"}], "u2_terrain": [{"front": "⛰️ 臺灣五大地形特色", "back": "1. 山地：海拔1000公尺以上，坡度陡峭（占面積最廣！）\n2. 丘陵：100～1000公尺，起伏和緩，常開闢為茶園、果園\n3. 台地：100～1000公尺，頂部平坦（如林口、桃園、大肚、八卦台地）\n4. 平原：地勢低平廣闊（如嘉南平原最大、屏東平原、蘭陽平原）\n5. 盆地：四周高、中間低平（如臺北盆地、臺中盆地、埔里盆地）"}, {"front": "🏔️ 五大山脈與最高峰", "back": "• 中央山脈：臺灣屋脊，縱貫南北最長\n• 玉山山脈：有臺灣第一高峰【玉山】（海拔3952公尺）\n• 雪山山脈、阿里山山脈、海岸山脈（位於花東縱谷東側）"}, {"front": "🏖️ 臺灣東西南北四大海岸", "back": "• 北部：岬灣海岸（岩岸，海灣與岬角相間，如野柳女王頭、基隆港）\n• 西部：沙岸（平坦多沙灘、沙洲、潟湖，發展養殖漁業與鹽田）\n• 東部：斷層海岸（高山緊臨太平洋，陡峭壯觀，如清水斷崖）\n• 南部：珊瑚礁海岸（恆春半島、墾丁，熱帶淺海珊瑚礁隆起）"}], "u2_climate": [{"front": "☀️ 北回歸線與氣候分界", "back": "北回歸線（23.5°N）將臺灣分為兩大氣候區：\n• 以北：副熱帶季風氣候（夏熱冬溫，四季較分明）\n• 以南：熱帶季風氣候（終年高溫，冬暖夏熱）"}, {"front": "🌬️ 季風與降雨差異", "back": "• 冬季吹【東北季風】：北部、東北部迎風面多雨（宜蘭、基隆）；中南部背風面乾燥少雨。\n• 夏季吹【西南季風】：帶來溫暖潮溼水氣，全臺高溫多雨。\n• 加上五六月【梅雨】、夏秋【颱風】，是臺灣主要水源！"}, {"front": "💧 臺灣河川與水資源", "back": "受山高島窄影響，臺灣河川【長度短、坡度陡、流速急】，大雨時易氾濫，枯水期水量少（荒溪型河川）。\n★ 最長河川：濁水溪；流域最廣：高屏溪。\n★ 興建水庫（如翡翠、石門、曾文水庫）可蓄水、發電、防洪、觀光。"}], "u3_prehistory": [{"front": "🪨 舊石器時代：長濱文化", "back": "• 代表遺址：臺東長濱鄉八仙洞\n• 特色：使用【敲擊石器】、骨角器；已知【用火】熟食與取暖；住在海邊洞穴，以採集、狩獵、捕魚維生，尚無農業與陶器。"}, {"front": "🏺 新石器時代：大坌坑、圓山、卑南", "back": "三大進步：【磨製石器】、【燒製陶器】、【開始農業與定居】！\n• 大坌坑文化（早期）：粗繩紋陶\n• 圓山文化（臺北）：食用貝類留下的【貝塚】\n• 卑南文化（臺東，晚期）：精美【玉器】（人獸形玉玦）與【石板棺】群"}, {"front": "⚔️ 金屬器時代：十三行文化", "back": "• 代表遺址：新北市八里區十三行遺址\n• 特色：擁有【煉鐵】技術（發現煉鐵作坊與鐵渣）；出土【人面陶罐】；還有玻璃珠、瑪瑙珠、中國銅錢，證明已有豐富的【對外貿易】！"}], "u3_indigenous": [{"front": "🌿 原住民族的分類與分布", "back": "早期漢人依生活地區與漢化程度分為：\n• 平埔族群：居住在平原、丘陵（如西拉雅族、凱達格蘭族、噶瑪蘭族等）\n• 高山族群：居住在山地、東部與蘭嶼（目前政府認定有16族！）"}, {"front": "🏡 原住民族與環境共存的智慧", "back": "• 排灣族、魯凱族：就地取材搭建冬暖夏涼的【石板屋】\n• 達悟族（蘭嶼）：適應颱風與酷熱的【地下屋】與【拼板舟】，在飛魚季捕捉飛魚並遵守禁捕期保育海洋\n• 傳統農業採輪耕、休耕，讓土地恢復生機。"}, {"front": "🎶 原住民族的重要歲時祭儀", "back": "• 阿美族：豐年祭（感謝神靈保佑農作豐收）\n• 達悟族：飛魚祭\n• 布農族：打耳祭、祈禱小米豐收歌（八部合音）\n• 賽夏族：巴斯達隘（矮靈祭，每兩年一小祭、十年一大祭）\n• 西拉雅族（平埔族群）：吉貝耍夜祭（拜阿立祖、壺信仰）"}], "u4_maritime": [{"front": "⛵ 大航海時代與早期海商", "back": "16世紀葡萄牙船員經過臺灣驚呼「Ilha Formosa」（美麗之島）！\n17世紀初，海商【顏思齊】、【鄭芝龍】率領漢人來臺，在今雲林北港、嘉義笨港一帶築寨開墾。"}, {"front": "🌷 荷蘭與西班牙在臺灣的統治", "back": "• 荷蘭人（1624～1662）：占領南部大員（臺南安平），建【熱蘭遮城】（安平古堡）與【普羅民遮城】（赤崁樓）。\n• 西班牙人（1626～1642）：占領北部雞籠（建聖薩爾瓦多城）與淡水（建聖多明哥城/紅毛城），後被荷蘭人北上驅逐。"}, {"front": "📜 荷西時期的建設與影響", "back": "• 經濟：招募漢人開墾（引進黃牛），大量出口【鹿皮、蔗糖、稻米】；因重稅引發【郭懷一抗荷事件】。\n• 文化：傳教士用羅馬字母拼寫原住民族語言（西拉雅語）傳教，留存土地契約稱為【新港文書】（番仔契）。"}, {"front": "⚔️ 鄭氏時期（明鄭時期）的經營", "back": "• 1661年【鄭成功】率軍自鹿耳門登陸，1662年擊敗荷蘭人，設承天府（東都明京）。\n• 鄭經繼位後改東都為【東寧】，採納陳永華建議興建全臺首學【臺南孔廟】，推動教育。\n• 實施【軍屯制度】（寓兵於農），留下新營、左營、前鎮、林鳳營等地名！"}]}, "scienceCards": {"u1_animals1": [{"front": "🦷 動物的覓食與體溫調節", "back": "• 草食動物（牛、羊、馬）：臼齒發達適合磨碎草料\n• 肉食動物（獅、虎）：犬齒尖銳適合撕裂肉類\n• 內溫(恆溫)動物：鳥類、哺乳類（體溫維持一定，靠流汗、喘氣、羽毛毛髮調節）\n• 外溫(變溫)動物：魚類、兩生類、爬蟲類、昆蟲（體溫隨環境改變，冬天會冬眠或躲藏）"}, {"front": "🦋 保護色、擬態與警戒色", "back": "• 保護色：身體顏色與環境相似（如草地上的綠色蚱蜢、變色龍、雪地北極熊）\n• 擬態：外型和顏色都模仿環境中的其他物體（如竹節蟲像樹枝、枯葉蝶像枯葉、尺蠖像小樹枝）\n• 警戒色：色彩鮮豔警告敵人自己有毒或不好吃（如雨傘節黑白相間、毒蛾幼蟲、七星瓢蟲）"}], "u1_animals2": [{"front": "🐝 社會性動物與動物行為", "back": "• 社會性動物：群居且有明確「分工合作」與階級（如蜜蜂分蜂后、雄蜂、工蜂，工蜂跳【搖擺舞/8字舞】通報蜜源；螞蟻分蟻后、雄蟻、工蟻、兵蟻；臺灣獼猴有猴王）。\n• 求偶行為：雄蛙鳴叫（鳴囊放大聲音）、孔雀開屏、螢火蟲發光。"}, {"front": "🥚 卵生 vs 胎生、完全變態 vs 不完全變態", "back": "• 卵生：產卵孵化，養分來自卵黃與蛋白（鳥類、爬蟲類、兩生類、多數魚類與昆蟲）。\n• 胎生：胎兒在母體內透過臍帶與胎盤吸收養分（絕大多數哺乳類：狗、貓、人、鯨魚、海豚、蝙蝠）。\n• 完全變態（卵→幼蟲→【蛹】→成蟲）：蝴蝶、蛾、獨角仙、蚊子、蜜蜂、瓢蟲。\n• 不完全變態（卵→若蟲/水蠆→成蟲，無蛹期）：蝗蟲、蟋蟀、蟑螂、螳螂、蜻蜓、蟬。"}], "u2_sound": [{"front": "🔊 聲音的產生與傳播", "back": "• 聲音是由物體【振動】所產生（例如說話時摸喉嚨聲帶會振動、敲音叉接觸水面會濺起水花）。\n• 聲音需要【介質】（固體、液體、氣體）才能傳播；外太空是真空，沒有空氣介質，所以聽不到聲音！\n• 分貝計（單位：分貝 dB）測量音量大小，超過 85 分貝長期暴露會傷害聽力。"}, {"front": "🎸 聲音三要素：音量、音調、音色", "back": "1. 音量（大小聲）：與敲擊力道（振幅）及是否有【共鳴箱】有關，越用力越大聲。\n2. 音調（高低音）：越【短、細、緊、薄】的物體振動越快，音調越【高】！\n★ 必考水杯實驗：【敲擊水杯】時（玻璃杯振動），水越少音調越高；【對瓶口吹氣】時（空氣柱振動），水越多（空氣柱越短）音調越高！\n3. 音色（音品）：不同材質或樂器發出的獨特聲音特色。"}], "u2_light": [{"front": "🔦 光的直線前進與反射", "back": "• 光的直線前進：形成影子、日食月食、皮影戲、針孔成像（上下顛倒、左右相反）。\n• 光的反射：光遇到平滑鏡面會改變方向返回，且【入射角＝反射角】。生活應用：平面鏡、汽車後視鏡、道路轉彎反光鏡、萬花筒、潛望鏡（內有2片平行且傾斜45度的平面鏡）。"}, {"front": "🌈 光的折射與彩虹色散", "back": "• 光的折射：光從空氣進入水或玻璃（不同介質）時行進方向偏折。例子：水中的吸管看起來折斷、游泳池水底看起來比實際淺、放大鏡、眼鏡。\n• 光的色散與彩虹：陽光通過三稜鏡或空中的小水滴時，發生折射與反射，分散成紅橙黃綠藍靛紫七色光。噴水造彩虹時，人一定要【背對太陽】向陰暗處噴水霧！"}], "u3_air": [{"front": "🧪 空氣組成與氧氣、二氧化碳實驗", "back": "• 空氣組成：氮氣最多（約78%）、氧氣次之（約21%，具助燃性）、其他氣體約1%（氬氣、二氧化碳、水蒸氣等）。\n• 製造氧氣：【雙氧水（過氧化氫）＋胡蘿蔔丁（或二氧化錳、金針菇）】→ 收集用排水集氣法 → 將帶餘燼的線香伸入瓶中會【劇烈燃燒（復燃）】！\n• 製造二氧化碳：【小蘇打粉＋醋（酸性水溶液）】→ 通入【澄清石灰水】會變成白色混濁，且比空氣重、不助燃也不自燃，可用來滅火。"}, {"front": "🔥 燃燒三要素與滅火、鐵生鏽防鏽", "back": "• 燃燒三要素（缺一不可）：1.可燃物 2.助燃物(氧氣) 3.達到燃點。\n• 滅火三原理：\n  - 移除可燃物（森林大火開闢防火巷、關瓦斯總開關）\n  - 隔絕助燃物（酒精燈蓋燈蓋、油鍋起火蓋鍋蓋、泡沫/乾粉滅火器）\n  - 降低溫度至燃點以下（消防隊灑水）\n• 鐵生鏽：需要【水】和【氧氣（空氣）】同時存在！浸泡醋酸（酸性）會加速生鏽；生鏽過程會消耗瓶內氧氣使水位上升。\n• 防鏽方法：隔絕水與空氣（擦乾、塗油漆、抹油、電鍍、製成不鏽鋼合金）。"}], "u4_sky": [{"front": "☀️ 太陽觀測與四季變化規律", "back": "• 竿影與太陽：影子方向永遠與太陽方位【相反】；太陽仰角越【高】，竿影越【短】。\n• 一天變化：早上太陽在東偏方（仰角小、影長在西）→ 正午12點仰角最高、影最短 → 下午太陽在西偏方（影長在東）。\n• 四季軌跡（臺灣北回歸線以北）：\n  - 夏至：東偏北升、西偏北落，正午仰角最高（接近90度），晝長夜短\n  - 春分/秋分：正東升、正西落，晝夜等長\n  - 冬至：東偏南升、西偏南落，正午仰角最低，影子最長，晝短夜長。"}, {"front": "🪐 太陽系八大行星與尋找北極星", "back": "• 八大行星（由內而外）：水星、金星、地球、火星（前4顆為岩石表面的【類地行星】）、木星、土星、天王星、海王星（後4顆為體積巨大的【類木/氣體行星】）。\n• 星座盤與星空：受地球自轉影響，星星和太陽一樣【東升西落】，只有正北方的【北極星】（小熊座尾端）位置幾乎不動，可指引正北方！\n• 尋找北極星口訣：\n  - 春夏季：找【北斗七星】（大熊座），將勺口兩顆星連線延伸【5倍】距離。\n  - 秋冬季：找【仙后座】（W形），將兩側線段延伸相交後，由缺口中央星向交點延伸【5倍】距離！"}]}, "englishQuestions": [{"u": 1, "q": "選出「珍珠奶茶」的正確英文單字：", "opts": ["bubble tea", "soy milk", "hot chocolate", "black tea"], "ans": 0, "exp": "bubble 是泡泡/珍珠，bubble tea 就是台灣最有名的珍珠奶茶喔！", "tts": "bubble tea"}, {"u": 1, "q": "選出「豆漿」的正確英文單字：", "opts": ["hot chocolate", "soy milk", "coffee", "soda"], "ans": 1, "exp": "soy 是黃豆/大豆，soy milk 就是營養好喝的豆漿！", "tts": "soy milk"}, {"u": 1, "q": "選出「熱巧克力（熱可可）」的英文：", "opts": ["ice cola", "bubble tea", "hot chocolate", "warm milk"], "ans": 2, "exp": "hot 是熱的，chocolate 是巧克力，合起來是 hot chocolate。", "tts": "hot chocolate"}, {"u": 1, "q": "「咖啡」的英文拼字哪一個是正確的？", "opts": ["cofee", "coffee", "caffee", "coffie"], "ans": 1, "exp": "注意 coffee 中間有兩個 f 和兩個 e：c-o-f-f-e-e！", "tts": "coffee"}, {"u": 1, "q": "A: Do you like cola?  B: Yes, I ____.", "opts": ["am", "do", "does", "can"], "ans": 1, "exp": "疑問句用助動詞 Do 開頭詢問 you，簡答時也要用 do 回答：Yes, I do.", "tts": "Do you like cola? Yes, I do."}, {"u": 1, "q": "A: Do you like soda?  B: No, I ____. I like tea.", "opts": ["am not", "doesn't", "don't", "can't"], "ans": 2, "exp": "Do you...? 的否定簡答為 No, I don't. (don't = do not)。", "tts": "No, I don't. I like tea."}, {"u": 1, "q": "A: ____ Miku like bubble tea?  B: Yes, she does.", "opts": ["Do", "Does", "Is", "Are"], "ans": 1, "exp": "主詞 Miku 是第三人稱單數（她），疑問句開頭要用助動詞 Does！", "tts": "Does Miku like bubble tea? Yes, she does."}, {"u": 1, "q": "A: Does Danny like coffee?  B: No, he ____. He likes soy milk.", "opts": ["don't", "isn't", "doesn't", "not"], "ans": 2, "exp": "主詞 he 是第三人稱單數，否定簡答要用 doesn't (does not)。", "tts": "No, he doesn't. He likes soy milk."}, {"u": 1, "q": "My Melody ____ hot chocolate very much.", "opts": ["like", "likes", "liking", "to like"], "ans": 1, "exp": "肯定直述句中，主詞 My Melody 是第三人稱單數，一般動詞 like 要加上 s 變成 likes！", "tts": "My Melody likes hot chocolate very much."}, {"u": 1, "q": "Does Cinnamoroll ____ milk?", "opts": ["likes", "like", "liking", "is like"], "ans": 1, "exp": "超級考點！當前面已經有助動詞 Does 時，後面的動詞一定要恢復「原形」like，不能加 s 喔！", "tts": "Does Cinnamoroll like milk?"}, {"u": 1, "q": "He ____ like cola. He likes water.", "opts": ["don't", "doesn't", "isn't", "not"], "ans": 1, "exp": "主詞 He 是第三人稱單數，否定句要用助動詞 doesn't + 原形動詞 like。", "tts": "He doesn't like cola. He likes water."}, {"u": 1, "q": "A: ____ they like tea?  B: Yes, they do.", "opts": ["Does", "Do", "Are", "Can"], "ans": 1, "exp": "主詞 they（他們）是複數，助動詞要用 Do！", "tts": "Do they like tea? Yes, they do."}, {"u": 1, "q": "選出正確的句子：", "opts": ["Do she like tea?", "Does she likes tea?", "Does she like tea?", "Is she like tea?"], "ans": 2, "exp": "she 搭配助動詞 Does，且後面動詞用原形 like，所以是 Does she like tea?", "tts": "Does she like tea?"}, {"u": 1, "q": "喬喬早餐想喝豆漿，店員問她：Do you like soy milk? 她應該回答：", "opts": ["Yes, I am.", "Yes, I do.", "Yes, she does.", "No, I don't."], "ans": 1, "exp": "店員問 Do you...（你喜歡嗎？），想喝豆漿的喬喬回答：Yes, I do.", "tts": "Yes, I do."}, {"u": 1, "q": "哪一個單字發音中的母音與其他三個不同？(康軒發音比較)", "opts": ["tea", "peach", "read", "bread"], "ans": 3, "exp": "tea, peach, read 的 ea 都發長母音 /i/，只有 bread (麵包) 發短母音 /ɛ/ 喔！", "tts": "tea, peach, read, bread"}, {"u": 1, "q": "短文理解：QiaoQiao likes bubble tea and soy milk. She doesn't like coffee. 請問喬喬不喜歡什麼？", "opts": ["珍珠奶茶", "豆漿", "咖啡", "熱可可"], "ans": 2, "exp": "She doesn't like coffee. 代表她不喜歡咖啡 (coffee)。", "tts": "QiaoQiao likes bubble tea and soy milk. She doesn't like coffee."}, {"u": 2, "q": "選出「芭樂」的正確英文單字：", "opts": ["guava", "papaya", "mango", "peach"], "ans": 0, "exp": "guava 是芭樂，papaya 是木瓜，mango 是芒果，peach 是水蜜桃。", "tts": "guava"}, {"u": 2, "q": "選出「鳳梨」的正確英文單字：", "opts": ["apple", "pineapple", "watermelon", "banana"], "ans": 1, "exp": "pineapple 是鳳梨！注意不要跟 apple (蘋果) 搞混囉。", "tts": "pineapple"}, {"u": 2, "q": "選出「木瓜」的正確英文單字：", "opts": ["papaya", "peach", "pear", "pineapple"], "ans": 0, "exp": "papaya (p-a-p-a-y-a) 是木瓜，很常出現在木瓜牛奶 papaya milk 中喔！", "tts": "papaya"}, {"u": 2, "q": "「水蜜桃 (peach)」的複數形應該怎麼拼？", "opts": ["peachs", "peaches", "peachies", "peach"], "ans": 1, "exp": "名詞字尾是 ch, sh, s, x 時，複數要加 -es，所以 peach 變成 peaches！", "tts": "peaches"}, {"u": 2, "q": "A: Do you have ____ oranges?  B: Yes, I do.", "opts": ["a", "an", "some", "any"], "ans": 3, "exp": "在疑問句（Do you have...?）和否定句中，通常用 any 搭配複數可數名詞 (oranges)！", "tts": "Do you have any oranges? Yes, I do."}, {"u": 2, "q": "I don't have ____ bananas, but I have ____ apples.", "opts": ["some / any", "any / some", "a / an", "any / a"], "ans": 1, "exp": "否定句 (don't have) 用 any；肯定句 (have) 用 some！口訣：肯定 some、否定疑問 any。", "tts": "I don't have any bananas, but I have some apples."}, {"u": 2, "q": "A: ____ many apples do you need?  B: I need three apples.", "opts": ["What", "Who", "How", "Whose"], "ans": 2, "exp": "詢問可數名詞的「數量多少」，使用疑問詞 How many（多少個）！", "tts": "How many apples do you need? I need three apples."}, {"u": 2, "q": "How many ____ do you need?", "opts": ["mango", "a mango", "mangoes", "milk"], "ans": 2, "exp": "How many 後面一定要接「複數可數名詞」，所以要選複數的 mangoes！", "tts": "How many mangoes do you need?"}, {"u": 2, "q": "A: How many papayas does Pompompurin need?  B: He ____ one papaya.", "opts": ["need", "needs", "needing", "to need"], "ans": 1, "exp": "主詞 He 是第三人稱單數，肯定回答時動詞 need 要加 s 變成 needs！", "tts": "He needs one papaya."}, {"u": 2, "q": "A: How many peaches do you need?  B: I need ____.", "opts": ["one peaches", "two peach", "one peach", "any peaches"], "ans": 2, "exp": "只有 1 顆時名詞用單數 (one peach)；2 顆以上才加 es (two peaches)！", "tts": "I need one peach."}, {"u": 2, "q": "A: Does she have any guavas?  B: ____, she doesn't.", "opts": ["Yes", "No", "Not", "Sure"], "ans": 1, "exp": "後面是 she doesn't (否定)，前面一定要搭配 No！", "tts": "No, she doesn't."}, {"u": 2, "q": "Let's ____ fruit salad together!", "opts": ["makes", "making", "make", "to make"], "ans": 2, "exp": "Let's (= Let us) 後面一定要接「原形動詞」make！", "tts": "Let's make fruit salad together!"}, {"u": 2, "q": "A: How many ____ does Miku need?  B: She needs four bananas.", "opts": ["banana", "bananas", "a banana", "any banana"], "ans": 1, "exp": "How many 後方務必接複數名詞 bananas；且助動詞是 does，後接原形動詞 need。", "tts": "How many bananas does Miku need?"}, {"u": 2, "q": "素養題：美樂蒂要做水果沙拉，食譜寫著「2 apples, 1 pineapple, 3 peaches」，請問她總共需要幾顆水果？", "opts": ["4顆", "5顆", "6顆", "7顆"], "ans": 2, "exp": "2顆蘋果 + 1顆鳳梨 + 3顆水蜜桃 = 2 + 1 + 3 = 6顆水果！", "tts": "Two apples, one pineapple, and three peaches."}, {"u": 3, "q": "選出「捷運」的正確英文縮寫：", "opts": ["BUS", "MRT", "KRT", "VIP"], "ans": 1, "exp": "MRT (Mass Rapid Transit) 是大眾捷運系統，三個字母都要大寫喔！", "tts": "MRT"}, {"u": 3, "q": "選出「機車 / 滑板車」的英文單字：", "opts": ["scooter", "plane", "train", "taxi"], "ans": 0, "exp": "scooter 是機車或滑板車；plane 是飛機、train 是火車、taxi 是計程車。", "tts": "scooter"}, {"u": 3, "q": "選出「圖書館」的英文單字：", "opts": ["park", "zoo", "library", "museum"], "ans": 2, "exp": "library 是圖書館；park 是公園、zoo 是動物園、museum 是博物館。", "tts": "library"}, {"u": 3, "q": "A: ____ can we get to the zoo?  B: We can get there by MRT.", "opts": ["What", "How", "Where", "Whose"], "ans": 1, "exp": "回答是 by MRT（搭捷運，交通方式），詢問「如何、怎麼去」要用疑問詞 How！", "tts": "How can we get to the zoo? We can get there by MRT."}, {"u": 3, "q": "We can get to the park ____ bike.", "opts": ["on", "in", "by", "at"], "ans": 2, "exp": "搭乘交通工具使用「by + 交通工具單數」，例如 by bike, by bus, by train。", "tts": "We can get to the park by bike."}, {"u": 3, "q": "我家離學校很近，我們可以「走路（步行）」去學校：We can get to school ____.", "opts": ["by foot", "on foot", "in foot", "by walk"], "ans": 1, "exp": "超重要必考題！所有交通工具都用 by，唯獨「走路、步行」是固定片語 on foot！", "tts": "We can get to school on foot."}, {"u": 3, "q": "We can ____ the library by bus.", "opts": ["get", "get to", "gets to", "getting to"], "ans": 1, "exp": "「到達某個地點名詞 (the library)」要用 get to + 地點；且 can 後接原形動詞 get。", "tts": "We can get to the library by bus."}, {"u": 3, "q": "A: How can we get to the park?  B: We can ____ by scooter.", "opts": ["get to there", "get there", "gets there", "getting there"], "ans": 1, "exp": "there（那裡）是地方副詞，前面絕對不加 to！所以是 get there（不能說 get to there）。", "tts": "We can get there by scooter."}, {"u": 3, "q": "A: Can we get to the zoo by train?  B: No, we ____. We can get there by bus.", "opts": ["don't", "aren't", "can't", "doesn't"], "ans": 2, "exp": "Can 開頭的問句，否定簡答用 No, we can't. (can't = cannot)。", "tts": "No, we can't. We can get there by bus."}, {"u": 3, "q": "選出文法完全正確的句子：", "opts": ["We can get there by a bus.", "We can get there by buses.", "We can get there by bus.", "We can gets there by bus."], "ans": 2, "exp": "by + 交通工具時，中間不加 a/the，字尾也不加 s，所以是 by bus！", "tts": "We can get there by bus."}, {"u": 3, "q": "大耳狗想從台北去澎湖玩，請問搭哪一種交通工具最快最合理？", "opts": ["by bike", "on foot", "by plane", "by MRT"], "ans": 2, "exp": "澎湖是離島，從台灣本島過去搭飛機 (by plane) 最快速方便喔！", "tts": "We can get there by plane."}, {"u": 3, "q": "A: Can they get to the museum on foot?  B: Yes, they ____.", "opts": ["do", "are", "can", "will"], "ans": 2, "exp": "Can they...? 問句，肯定簡答為 Yes, they can.", "tts": "Yes, they can."}, {"u": 4, "q": "選出「智慧型手機」的正確英文單字：", "opts": ["smartphone", "umbrella", "water bottle", "jacket"], "ans": 0, "exp": "smart (智慧的) + phone (電話) = smartphone (智慧型手機)。", "tts": "smartphone"}, {"u": 4, "q": "選出「水壺」的正確英文單字：", "opts": ["water cup", "water bottle", "tea bottle", "glass bottle"], "ans": 1, "exp": "water bottle 是水壺 / 水瓶，去學校每天必備的物品！", "tts": "water bottle"}, {"u": 4, "q": "選出「雨傘」的正確英文單字：", "opts": ["umbrella", "jacket", "watch", "cap"], "ans": 0, "exp": "umbrella 是雨傘，字首 u 發母音 /ʌ/，所以一把雨傘是 an umbrella。", "tts": "umbrella"}, {"u": 4, "q": "A: ____ jacket is this?  B: It's my jacket.", "opts": ["Who", "Whose", "What", "Where"], "ans": 1, "exp": "回答是 It's my jacket.（它是我的外套），詢問「誰的」要用疑問詞 Whose！", "tts": "Whose jacket is this? It's my jacket."}, {"u": 4, "q": "A: Whose umbrella is that?  B: ____ Melody's umbrella.", "opts": ["That", "This", "It's", "They're"], "ans": 2, "exp": "無論問句是 is this 或 is that，單數物品回答一律用 It's (It is) 開頭！", "tts": "It's Melody's umbrella."}, {"u": 4, "q": "This is ____ watch. (這是丹尼的手錶)", "opts": ["Danny", "Dannys", "Danny's", "Danny is"], "ans": 2, "exp": "表達「某人的…」，要在人名後面加上 's（所有格），即 Danny's watch！", "tts": "This is Danny's watch."}, {"u": 4, "q": "A: Whose ____ are these?  B: They're his glasses.", "opts": ["glass", "glasses", "watch", "umbrella"], "ans": 1, "exp": "眼鏡有兩片鏡片，英文恆用複數 glasses，且搭配複數動詞 are these / They're！", "tts": "Whose glasses are these? They're his glasses."}, {"u": 4, "q": "A: Is this your water bottle?  B: Yes, ____ is. Thank you!", "opts": ["this", "that", "it", "he"], "ans": 2, "exp": "Is this / Is that...? 的簡答句中，主詞要用代名詞 it 代替單數物品：Yes, it is.", "tts": "Is this your water bottle? Yes, it is."}, {"u": 4, "q": "A: Whose cap is that?  B: It's ____ cap. (它是她的帽子)", "opts": ["she", "her", "he", "his"], "ans": 1, "exp": "「她的」所有格是 her；she 是主格「她」。後面有名詞 cap，要填所有格 her！", "tts": "It's her cap."}, {"u": 4, "q": "A: Whose workbook is this?  B: It's ____ workbook. (它是他的習作)", "opts": ["he", "him", "his", "he's"], "ans": 2, "exp": "「他的」所有格是 his（注意不是 he's，he's 是 he is 的縮寫喔）！", "tts": "It's his workbook."}, {"u": 4, "q": "綜合挑戰：將四個單元的疑問詞配對，哪一個是詢問「數量多少」？", "opts": ["Whose", "How", "How many", "Do / Does"], "ans": 2, "exp": "Whose 問誰的、How 問如何(交通方式)、How many 問數量多少、Do/Does 問是否！", "tts": "How many"}, {"u": 4, "q": "綜合挑戰：A: ____ can we get to the park?  B: We can get there by bike.", "opts": ["Whose", "How many", "How", "What"], "ans": 2, "exp": "回答 by bike 是交通方式，所以用 How 提問！", "tts": "How can we get to the park?"}, {"u": 1, "q": "A: Do you like hot chocolate?  B: ____, I do. It's sweet!", "opts": ["Yes", "No", "Not", "Does"], "ans": 0, "exp": "後面是 I do (肯定)，所以前面填 Yes！", "tts": "Yes, I do. It's sweet!"}, {"u": 1, "q": "Pochacco doesn't ____ soda. He likes milk.", "opts": ["likes", "like", "liking", "to like"], "ans": 1, "exp": "助動詞 doesn't 後面一定要接「原形動詞」like！", "tts": "Pochacco doesn't like soda. He likes milk."}, {"u": 1, "q": "下列哪一個單字代表有氣泡的「汽水 / 蘇打水」？", "opts": ["tea", "coffee", "soda", "soy milk"], "ans": 2, "exp": "soda 是汽水或蘇打水；cola 是可樂。", "tts": "soda"}, {"u": 1, "q": "重組句子：like / Does / bubble tea / she / ?", "opts": ["Does she like bubble tea?", "Does like she bubble tea?", "She does like bubble tea?", "Do she like bubble tea?"], "ans": 0, "exp": "疑問句順序：助動詞 Does + 主詞 she + 原形動詞 like + 受詞 bubble tea?", "tts": "Does she like bubble tea?"}, {"u": 2, "q": "「一顆柳丁」因為 orange 字首發母音，前面要加哪一個冠詞？", "opts": ["a orange", "an orange", "any orange", "some orange"], "ans": 1, "exp": "apple 和 orange 字首都是母音，單數一顆要用 an apple, an orange！", "tts": "an orange"}, {"u": 2, "q": "A: Does Hello Kitty have ____ apples?  B: Yes, she does.", "opts": ["some", "any", "a", "an"], "ans": 1, "exp": "疑問句中搭配複數名詞 apples，使用 any！", "tts": "Does Hello Kitty have any apples?"}, {"u": 2, "q": "We need five ____ for the party.", "opts": ["pineapple", "a pineapple", "pineapples", "any pineapple"], "ans": 2, "exp": "數量是 five (5顆)，後面的名詞一定要加 s 變成複數 pineapples！", "tts": "We need five pineapples for the party."}, {"u": 2, "q": "重組句子：many / How / need / do / you / guavas / ?", "opts": ["How many guavas do you need?", "How guavas many do you need?", "How many do you need guavas?", "What many guavas do you need?"], "ans": 0, "exp": "How many + 複數名詞 (guavas) + do you need?", "tts": "How many guavas do you need?"}, {"u": 3, "q": "選出「博物館」的正確英文單字：", "opts": ["museum", "library", "hospital", "supermarket"], "ans": 0, "exp": "museum 是博物館；library 是圖書館。", "tts": "museum"}, {"u": 3, "q": "A: Can we get to the park by bike?  B: Yes, we ____.", "opts": ["do", "can", "are", "does"], "ans": 1, "exp": "Can we...? 問句，肯定簡答用 Yes, we can.", "tts": "Yes, we can."}, {"u": 3, "q": "They can get to the zoo ____ taxi.", "opts": ["on", "by", "in", "to"], "ans": 1, "exp": "搭計程車是 by taxi（by + 交通工具單數）。", "tts": "They can get to the zoo by taxi."}, {"u": 3, "q": "重組句子：can / How / get / we / the / to / zoo / ?", "opts": ["How can we get to the zoo?", "How we can get to the zoo?", "How can we get the zoo to?", "Where can we get to the zoo?"], "ans": 0, "exp": "How can we get to + 地點 (the zoo)?", "tts": "How can we get to the zoo?"}, {"u": 4, "q": "選出「手錶」的正確英文單字：", "opts": ["watch", "clock", "glasses", "cap"], "ans": 0, "exp": "戴在手腕上的手錶是 watch；掛在牆上的時鐘是 clock。", "tts": "watch"}, {"u": 4, "q": "A: Are these your glasses?  B: No, ____ aren't. They're Leo's glasses.", "opts": ["it", "these", "they", "he"], "ans": 2, "exp": "複數問句 Are these / Are those...? 簡答時主詞用代名詞 they：No, they aren't.", "tts": "No, they aren't. They're Leo's glasses."}, {"u": 4, "q": "A: Whose smartphone is that?  B: It's ____ smartphone. (它是我的手機)", "opts": ["I", "me", "my", "mine"], "ans": 2, "exp": "後面有名詞 smartphone，前面要填所有格 my（我的）！", "tts": "It's my smartphone."}, {"u": 4, "q": "重組句子：umbrella / Whose / this / is / ?", "opts": ["Whose umbrella is this?", "Whose is umbrella this?", "Who umbrella is this?", "Whose umbrella are this?"], "ans": 0, "exp": "Whose + 單數名詞 (umbrella) + is this?", "tts": "Whose umbrella is this?"}, {"u": 1, "q": "【聽音拼字】c _ f f e e（咖啡），請問空格中應該填入哪個字母？", "opts": ["a", "o", "u", "i"], "ans": 1, "exp": "coffee (c-o-f-f-e-e) 是咖啡！", "tts": "coffee"}, {"u": 1, "q": "【聽音拼字】b u b b l e   t _ _（珍珠奶茶），請問空格中應填入哪兩個字母？", "opts": ["ee", "ea", "ae", "oo"], "ans": 1, "exp": "tea 的拼法是 t-e-a，bubble tea 珍珠奶茶！", "tts": "bubble tea"}, {"u": 1, "q": "A: Does your brother like soy milk?  B: Yes, ____ does.", "opts": ["your brother", "she", "he", "it"], "ans": 2, "exp": "your brother（你的哥哥/弟弟）在簡答句中要用男生的代名詞 he 代替！", "tts": "Yes, he does."}, {"u": 1, "q": "A: Does your sister like hot chocolate?  B: No, ____ doesn't.", "opts": ["he", "she", "you", "I"], "ans": 1, "exp": "your sister（你的姐姐/妹妹）在簡答句中要用女生的代名詞 she 代替！", "tts": "No, she doesn't."}, {"u": 1, "q": "I like tea, ____ I don't like coffee. (我喜歡茶，但我不喜歡咖啡)", "opts": ["and", "but", "or", "to"], "ans": 1, "exp": "前後兩句語意相反（喜歡 vs 不喜歡），中間連接詞要用 but（但是）！", "tts": "I like tea, but I don't like coffee."}, {"u": 1, "q": "She likes milk, ____ he likes milk, too. (她喜歡牛奶，而且他也喜歡牛奶)", "opts": ["but", "and", "no", "not"], "ans": 1, "exp": "前後兩句都是肯定且順承，連接詞用 and（而且），句尾用 too（也）。", "tts": "She likes milk, and he likes milk, too."}, {"u": 1, "q": "選出錯誤的地方：He don't like cola.", "opts": ["He 應該改成 She", "don't 應該改成 doesn't", "like 應該改成 likes", "cola 應該改成 colas"], "ans": 1, "exp": "主詞 He 是第三人稱單數，否定助動詞不能用 don't，必須改成 doesn't！", "tts": "He doesn't like cola."}, {"u": 1, "q": "A: What do you like?  B: ____", "opts": ["Yes, I do.", "I like bubble tea.", "No, I don't.", "It's my tea."], "ans": 1, "exp": "What 開頭是問「你喜歡什麼？」，不能回答 Yes/No，要直接回答喜歡的東西：I like bubble tea.", "tts": "What do you like? I like bubble tea."}, {"u": 1, "q": "初音未來口渴了，想問大耳狗喜不喜歡汽水，她應該怎麼問？", "opts": ["Do you like soda?", "Does you like soda?", "Are you like soda?", "Can you like soda?"], "ans": 0, "exp": "對眼前的朋友提問「你喜歡…嗎？」，用 Do you like + 飲品?", "tts": "Do you like soda?"}, {"u": 2, "q": "【單字拼寫】p _ p _ y a（木瓜），請問兩個空格都是同一個母音字母，是哪一個？", "opts": ["e", "i", "a", "o"], "ans": 2, "exp": "papaya (p-a-p-a-y-a) 三個母音都是 a，非常好記喔！", "tts": "papaya"}, {"u": 2, "q": "【單字拼寫】g u _ v a（芭樂），請問空格中應填入哪個字母？", "opts": ["a", "e", "o", "u"], "ans": 0, "exp": "guava (g-u-a-v-a) 是芭樂！", "tts": "guava"}, {"u": 2, "q": "A: Do they have any pineapples?  B: Yes, they ____.", "opts": ["have", "do", "does", "are"], "ans": 1, "exp": "Do they have...? 是以助動詞 Do 開頭，簡答也要用 do：Yes, they do.", "tts": "Yes, they do."}, {"u": 2, "q": "A: Does your mom need any oranges?  B: Yes, she ____ three oranges.", "opts": ["need", "needs", "needing", "do"], "ans": 1, "exp": "肯定詳答句中，主詞 she 是第三人稱單數，動詞 need 要加 s 變成 needs！", "tts": "Yes, she needs three oranges."}, {"u": 2, "q": "I have ____ peach and ____ bananas.", "opts": ["a / some", "an / any", "some / a", "any / some"], "ans": 0, "exp": "peach 是單數且子音開頭用 a peach；bananas 是複數且在肯定句中用 some bananas！", "tts": "I have a peach and some bananas."}, {"u": 2, "q": "She doesn't have ____ apples.", "opts": ["some", "any", "a", "an"], "ans": 1, "exp": "否定句 (doesn't have) 中搭配複數可數名詞 apples，使用 any！", "tts": "She doesn't have any apples."}, {"u": 2, "q": "A: How many ____ does Danny need?  B: He needs one mango.", "opts": ["mango", "mangoes", "a mango", "the mango"], "ans": 1, "exp": "就算回答只有 1 顆，問句 How many 後面仍然一定要接「複數名詞」mangoes！", "tts": "How many mangoes does Danny need?"}, {"u": 2, "q": "A: Here you are! (拿給你！)  B: ____", "opts": ["Thank you!", "No, I don't.", "Yes, I can.", "By bus."], "ans": 0, "exp": "當別人把東西遞給你說 Here you are! 時，要有禮貌地回答 Thank you! (謝謝你！)", "tts": "Here you are! Thank you!"}, {"u": 3, "q": "【單字拼寫】s c _ _ t e r（機車/滑板車），中間兩個相同的母音字母是什麼？", "opts": ["ee", "oo", "aa", "ii"], "ans": 1, "exp": "scooter (s-c-o-o-t-e-r) 中間是 oo 發長音 /u/！", "tts": "scooter"}, {"u": 3, "q": "【單字拼寫】l i b r _ r y（圖書館），請問空格中應填入哪個字母？", "opts": ["a", "e", "i", "o"], "ans": 0, "exp": "library (l-i-b-r-a-r-y) 是圖書館！", "tts": "library"}, {"u": 3, "q": "A: How can we get ____ home?  B: On foot.", "opts": ["to", "at", "in", "(不加介系詞)"], "ans": 3, "exp": "home 和 there、here 一樣都是地方副詞，前面不加 to，直接說 get home！", "tts": "How can we get home? On foot."}, {"u": 3, "q": "Can QiaoQiao ____ to the park by bike?", "opts": ["gets", "get", "getting", "to get"], "ans": 1, "exp": "助動詞 Can 後面無論主詞是誰，動詞一律用「原形」get！", "tts": "Can QiaoQiao get to the park by bike?"}, {"u": 3, "q": "A: Let's go to the zoo!  B: ____! How can we get there?", "opts": ["Great", "No, I don't", "It's mine", "Yes, it is"], "ans": 0, "exp": "朋友提議 Let's go to the zoo!（我們去動物園吧！），贊同時回答 Great! / Good idea!（太棒了！）", "tts": "Let's go to the zoo! Great! How can we get there?"}, {"u": 3, "q": "如果看到紅綠燈是紅燈 (The light is red.)，我們應該怎麼做？", "opts": ["Go! Go! Go!", "Stop and wait. (停下來等待)", "Run fast.", "Close your eyes."], "ans": 1, "exp": "交通安全素養：紅燈時要 Stop and wait.（停下來等待），綠燈才通行！", "tts": "The light is red. Stop and wait."}, {"u": 3, "q": "下列哪一個地點最安靜，我們在那裡要說「Be quiet, please.」？", "opts": ["the library (圖書館)", "the park (公園)", "the zoo (動物園)", "the night market (夜市)"], "ans": 0, "exp": "在圖書館 (library) 看書時需要保持安靜：Be quiet, please.", "tts": "Be quiet in the library, please."}, {"u": 4, "q": "【單字拼寫】u m b r _ l l a（雨傘），請問空格中應填入哪個字母？", "opts": ["a", "e", "i", "u"], "ans": 1, "exp": "umbrella (u-m-b-r-e-l-l-a) 是雨傘！", "tts": "umbrella"}, {"u": 4, "q": "【單字拼寫】j _ c k e t（外套/夾克），請問空格中應填入哪個字母？", "opts": ["a", "e", "i", "o"], "ans": 0, "exp": "jacket (j-a-c-k-e-t) 是外套、夾克！", "tts": "jacket"}, {"u": 4, "q": "A: Whose water bottle is that?  B: It's ____ water bottle.", "opts": ["Cinnamoroll", "Cinnamoroll's", "Cinnamorolls", "he"], "ans": 1, "exp": "人名後加上 's 表示「某人的」：Cinnamoroll's water bottle（大耳狗的水壺）。", "tts": "It's Cinnamoroll's water bottle."}, {"u": 4, "q": "A: Whose glasses ____ those?  B: They're my glasses.", "opts": ["is", "am", "are", "do"], "ans": 2, "exp": "glasses（眼鏡）與 those（那些）都是複數，be動詞一定要用 are！", "tts": "Whose glasses are those? They're my glasses."}, {"u": 4, "q": "「Who's (Who is)」和「Whose」發音相同，但意思大不同！請問「Whose」是什麼意思？", "opts": ["誰是", "誰的", "哪裡", "如何"], "ans": 1, "exp": "超常考比較：Who's = Who is（誰是…）；Whose = 誰的（詢問物品主人）！", "tts": "Whose means belonging to whom."}, {"u": 4, "q": "A: ____ that your cap?  B: No, it isn't. It's his cap.", "opts": ["Are", "Do", "Does", "Is"], "ans": 3, "exp": "cap 是單數名詞，搭配指示代名詞 that，開頭用 Be動詞 Is：Is that your cap?", "tts": "Is that your cap? No, it isn't."}, {"u": 4, "q": "A: Excuse me. Is this your watch?  B: Oh, yes, it is! ____!", "opts": ["Thank you so much", "You're welcome", "I'm sorry", "Goodbye"], "ans": 0, "exp": "別人幫你撿到手錶歸還給你，要向對方道謝：Thank you so much!", "tts": "Oh, yes, it is! Thank you so much!"}], "socialQuestions": [{"u": 1, "q": "從世界地圖來看，臺灣位於哪一個洲的東南方沿海，以及哪一個大洋的西岸？", "opts": ["歐洲、大西洋", "亞洲、太平洋", "非洲、印度洋", "北美洲、北極海"], "ans": 1, "exp": "臺灣位於亞洲（亞細亞州）大陸東南沿海，東臨世界最大的太平洋！"}, {"u": 1, "q": "關於臺灣四周海域的配對，下列哪一個是完全正確的？", "opts": ["東邊：臺灣海峽", "西邊：太平洋", "南邊：巴士海峽", "北邊：南海"], "ans": 2, "exp": "臺灣東臨太平洋、西隔臺灣海峽、南界巴士海峽（對望菲律賓）、北瀕東海！"}, {"u": 1, "q": "每年秋、冬季節，黑面琵鷺會從北方飛來臺灣曾文溪口度冬，這主要是因為臺灣具有什麼地理優勢？", "opts": ["地處東亞島弧中心，是候鳥遷徙的中繼站", "全島都是高聳的雪山", "終年下雪寒冷", "四周沒有海洋阻隔"], "ans": 0, "exp": "臺灣位居東亞島弧中央位置，氣候溫暖、溼地生態豐富，成為冬候鳥南遷避寒的重要中繼站與度冬地。"}, {"u": 1, "q": "臺灣本島的經緯度範圍，大約位於東經120°～122°、北緯22°～25°之間。其中哪一條重要緯線通過嘉義水上與花蓮瑞穗？", "opts": ["赤道 (0度)", "北回歸線 (北緯23.5度)", "南回歸線 (南緯23.5度)", "北極圈 (北緯66.5度)"], "ans": 1, "exp": "北回歸線（北緯23.5度）橫貫臺灣中南部與東部，嘉義水上與花蓮瑞穗、豐濱都建有北回歸線標誌碑！"}, {"u": 1, "q": "下列哪一個島嶼是由海底珊瑚礁隆起形成的「珊瑚礁島」，且位於屏東縣外海？", "opts": ["龜山島", "蘭嶼", "琉球嶼（小琉球）", "金門島"], "ans": 2, "exp": "小琉球（琉球嶼）、東沙島、太平島屬於珊瑚礁島；龜山島、綠島、蘭嶼、澎湖是火山島；金門、馬祖是大陸島。"}, {"u": 1, "q": "我國領土最南端的島嶼位於南海中，請問是下列哪一個島？", "opts": ["彭佳嶼", "釣魚臺", "南沙太平島", "馬祖列島"], "ans": 2, "exp": "南沙群島中的「太平島」是我國位置最南端的領土喔！"}, {"u": 1, "q": "人們在端午節包粽子、划龍舟，過年吃團圓飯、貼春聯，這屬於哪一種社會規範？", "opts": ["法律規定", "風俗習慣", "法院判決", "憲法條文"], "ans": 1, "exp": "節慶習俗、婚喪喜慶禮儀等世代相傳的生活方式，屬於社會規範中的「風俗習慣」。"}, {"u": 1, "q": "搭乘捷運時主動將座位讓給行動不便的長輩或孕婦，主要是發自內心的哪一種社會規範？", "opts": ["倫理道德", "刑法處罰", "傳統祭典", "強制命令"], "ans": 0, "exp": "博愛座讓座、友愛同學、孝順父母等，主要靠內心良知與社會期望維持，屬於「倫理道德」。"}, {"u": 1, "q": "在風俗習慣、宗教信仰、倫理道德、法律四種社會規範中，哪一種具有國家公權力的「強制力」，違反一定會受罰？", "opts": ["風俗習慣", "宗教信仰", "倫理道德", "法律"], "ans": 3, "exp": "只有「法律」是由國家制定並具有強制力，人人必須遵守，違法會受到國家處罰！"}, {"u": 1, "q": "在我國，負責代表人民「制定」與「修改」法律的中央機關是哪一個？", "opts": ["總統府", "行政院", "立法院", "司法院"], "ans": 2, "exp": "立法院的立法委員由人民選舉產生，負責制定與修改法律！"}, {"u": 1, "q": "為了保護未滿18歲的兒童與少年身心健康，政府特別制定了哪一部專法？", "opts": ["《道路交通管理處罰條例》", "《兒童及少年福利與權益保障法》", "《國家公園法》", "《著作權法》"], "ans": 1, "exp": "《兒童及少年福利與權益保障法》專門保障兒少的生存、教育、受照顧與免於受虐的權益。"}, {"u": 1, "q": "如果公園裡的政府公有溜滑梯因為年久失修斷裂，導致小朋友正常遊玩時受傷，家長可以向政府請求什麼？", "opts": ["國家賠償", "繳納罰金", "吊銷駕照", "社會服務"], "ans": 0, "exp": "政府公共設施因管理或設置不當，導致人民生命、身體或財產受損時，人民可依法請求「國家賠償」！"}, {"u": 2, "q": "臺灣本島面積占比最大（約占三分之二以上）的是哪兩種地形？", "opts": ["平原與盆地", "山地與丘陵", "台地與平原", "盆地與沙洲"], "ans": 1, "exp": "臺灣山多平地少，山地與丘陵合計占全島面積約三分之二以上！"}, {"u": 2, "q": "海拔高度在1000公尺以下，頂部平坦、四周有明顯坡崁的地形（例如桃園、林口、大肚、八卦），稱為什麼地形？", "opts": ["山地", "盆地", "台地", "平原"], "ans": 2, "exp": "像舞台一樣頂部平坦、邊緣有斜坡且高度在1000公尺以下的地形稱為「台地」。"}, {"u": 2, "q": "「四周被山地或丘陵環繞，中間地勢低平」如臺北、臺中、埔里，這屬於哪一種地形？", "opts": ["盆地", "平原", "丘陵", "峽谷"], "ans": 0, "exp": "像洗臉盆一樣四周高、中間低平的地形稱為「盆地」！"}, {"u": 2, "q": "臺灣面積最大、也是重要農業米倉的平原是哪一個？", "opts": ["蘭陽平原", "屏東平原", "嘉南平原", "花東縱谷平原"], "ans": 2, "exp": "位於嘉義與臺南一帶的「嘉南平原」是全臺灣面積最大的平原！"}, {"u": 2, "q": "臺灣第一高峰海拔約3952公尺，也是東亞最高峰，請問是哪一座山？", "opts": ["雪山", "玉山", "阿里山", "合歡山"], "ans": 1, "exp": "玉山主峰海拔3952公尺，是臺灣第一高峰！而縱貫南北最長的山脈則是中央山脈。"}, {"u": 2, "q": "臺灣四面環海，各地海岸特色不同，請問「西部海岸」的主要特色是什麼？", "opts": ["高山緊臨深海的斷層海岸", "岬角與海灣相間的岩岸", "平坦寬廣、多沙洲與潟湖的沙岸", "遍布珊瑚礁的海岸"], "ans": 2, "exp": "西部河川帶下大量泥沙堆積，形成平坦的「沙岸」，多沙灘、沙洲與潟湖（如七股潟湖），適合養殖漁業與曬鹽。"}, {"u": 2, "q": "花蓮清水斷崖一帶，高山直接緊臨深邃的太平洋，風景險峻壯觀，屬於哪一種海岸地形？", "opts": ["沙岸", "斷層海岸", "岬灣海岸", "珊瑚礁海岸"], "ans": 1, "exp": "東部海岸山脈緊鄰太平洋，陡峭險峻，屬於「斷層海岸」；北部是岬灣海岸，南部恆春是珊瑚礁海岸。"}, {"u": 2, "q": "北回歸線通過臺灣中南部，將臺灣分成哪兩個氣候區？", "opts": ["以北寒帶、以南溫帶", "以北副熱帶季風氣候、以南熱帶季風氣候", "以北熱帶、以南副熱帶", "全島皆為沙漠氣候"], "ans": 1, "exp": "北回歸線以北緯度較高，屬「副熱帶季風氣候」；以南緯度較低，屬終年溫暖的「熱帶季風氣候」。"}, {"u": 2, "q": "冬季時，臺灣盛行什麼風向的季風，導致基隆、宜蘭等迎風面陰雨綿綿，而中南部背風面乾燥少雨？", "opts": ["西南季風", "東北季風", "東南季風", "西北季風"], "ans": 1, "exp": "口訣：冬吹「東北季風」（北部東北部迎風多雨），夏吹「西南季風」（中南部迎風多雨）！"}, {"u": 2, "q": "每年5、6月春夏交替時，冷暖氣團在臺灣上空交會滯留，帶來連續性的降雨，稱為什麼雨？", "opts": ["颱風雨", "梅雨", "午後雷陣雨", "暴風雪"], "ans": 1, "exp": "每年5、6月正值梅子成熟季節的滯留鋒面降雨，稱為「梅雨」，是臺灣重要的水資源來源。"}, {"u": 2, "q": "臺灣河川大多具有「長度短、坡度陡、流速急」的特性，最主要的原因是什麼？", "opts": ["島嶼南北狹長且中央山脈高聳陡峭", "全年都不下雨", "全島都是平坦的沙漠", "河川都流向北極海"], "ans": 0, "exp": "因為臺灣島窄山高，加上降雨時間分布不均，使河川坡陡流急，雨季易氾濫、乾季水量少，必須興建水庫蓄水。"}, {"u": 2, "q": "西南沿海地區若長期超抽地下水，最容易引發下列哪一種環境災害？", "opts": ["火山爆發", "地層下陷與海水倒灌", "沙塵暴", "冰河融化"], "ans": 1, "exp": "超抽地下水會使地層失去支撐而發生「地層下陷」，地勢變低後遇到暴潮就容易海水倒灌！"}, {"u": 3, "q": "由於史前時代還沒有文字紀錄，考古學家主要是透過什麼來了解史前人類的生活？", "opts": ["閱讀當時的報紙", "挖掘遺址出土的器物、骨骸與遺跡", "看當時拍攝的照片", "查閱網路資料"], "ans": 1, "exp": "史前時代沒有文字，必須依靠考古挖掘出的石器、陶器、骨角器、墓葬與貝塚等遺跡來推論。"}, {"u": 3, "q": "臺灣目前已發現年代最早的舊石器時代文化，位於臺東縣八仙洞遺址，請問是哪一個文化？", "opts": ["圓山文化", "卑南文化", "長濱文化", "十三行文化"], "ans": 2, "exp": "臺東「長濱文化」是臺灣舊石器時代代表，使用敲擊石器、已知用火、住海邊洞穴、靠採集狩獵漁撈維生。"}, {"u": 3, "q": "從「舊石器時代」進入「新石器時代」，人類生活發生了哪三大重要進步？", "opts": ["學會上網、開車、蓋大樓", "磨製石器、燒製陶器、開始農業與定居", "開始煉鐵、使用銅錢、造飛機", "還不會用火，只會敲擊石頭"], "ans": 1, "exp": "新石器時代三大特徵：石器改用「磨製」、懂得燒製「陶器」裝水煮食、開始「農耕與畜牧」並建立定居聚落！"}, {"u": 3, "q": "在臺北盆地發現的新石器時代遺址中，出土了大量古人吃完貝類後丟棄堆積而成的「貝塚」，這是哪一個文化？", "opts": ["長濱文化", "圓山文化", "卑南文化", "大坌坑文化"], "ans": 1, "exp": "臺北「圓山文化」最著名的特徵就是保存良好的「圓山貝塚」，證明當時臺北盆地曾是湖泊或河口環境。"}, {"u": 3, "q": "臺東「卑南文化」屬於新石器時代晚期，該遺址出土了大量精美的玉器（如人獸形玉玦）以及哪一種特殊墓葬？", "opts": ["金字塔", "石板棺", "水晶棺", "兵馬俑"], "ans": 1, "exp": "卑南遺址發現了上千具排列整齊的「石板棺」群，以及精美的臺灣玉器！"}, {"u": 3, "q": "新北市八里區的「十三行文化」屬於金屬器時代，考古學家在遺址中發現了什麼，證明他們擁有金屬冶煉技術？", "opts": ["煉鐵作坊與鐵渣、鐵器", "塑膠玩具", "不鏽鋼水壺", "鋁合金單車"], "ans": 0, "exp": "十三行文化人懂得「煉鐵」，還製作出精美的「人面陶罐」，並以玻璃珠、瑪瑙珠、中國銅錢與外地貿易！"}, {"u": 3, "q": "早期漢人將居住在平原、丘陵地帶，較早與外來族群接觸並受漢文化影響較深的原住民族稱為什麼？", "opts": ["高山族群", "平埔族群", "南島水手", "長濱人"], "ans": 1, "exp": "居住在平地與淺山丘陵的原住民族稱為「平埔族群」（如西拉雅族、凱達格蘭族、噶瑪蘭族等）。"}, {"u": 3, "q": "居住在屏東、高雄山區的排灣族與魯凱族，善於就地取材，利用當地的哪一種石材搭建冬暖夏涼的房屋？", "opts": ["大理石", "板岩與頁岩（石板屋）", "珊瑚礁岩", "紅磚瓦"], "ans": 1, "exp": "排灣族與魯凱族利用山區盛產的板岩與頁岩片，搭建出堅固且冬暖夏涼的「石板屋」！"}, {"u": 3, "q": "居住在臺東蘭嶼的「達悟族（雅美族）」，為了順應海洋生態與防範颱風，發展出哪兩項獨特文化？", "opts": ["石板屋與矮靈祭", "地下屋與飛魚祭（拼板舟）", "八部合音與打耳祭", "夜祭與牽田"], "ans": 1, "exp": "蘭嶼達悟族建造能躲避強風的「地下屋」，並打造「拼板舟」在春夏舉行「飛魚祭」，遵守生態保育智慧。"}, {"u": 3, "q": "布農族舉世聞名的「祈禱小米豐收歌（Pasibutbut）」，族人圍成圓圈由低而高和諧吟唱，又被稱為什麼？", "opts": ["八部合音", "豐年祭舞曲", "矮靈之歌", "飛魚之歌"], "ans": 0, "exp": "布農族的「祈禱小米豐收歌」以自然泛音交織出莊嚴和聲，被音樂學者譽為「八部合音」！"}, {"u": 3, "q": "新竹、苗栗山區的「賽夏族」，每兩年一小祭、十年一大祭，表達對傳說中矮人感恩與懺悔的祭典是什麼？", "opts": ["豐年祭", "巴斯達隘（矮靈祭）", "大獵祭", "五年祭"], "ans": 1, "exp": "賽夏族的「巴斯達隘（矮靈祭）」是極具代表性的傳統歲時祭儀！"}, {"u": 3, "q": "臺南地區的平埔族群「西拉雅族」，傳統上在公廨（祭祀場所）中供奉裝水的祀壺，祭拜祖靈稱為什麼？", "opts": ["阿立祖（夜祭）", "媽祖", "土地公", "海神"], "ans": 0, "exp": "西拉雅族具有獨特的「祀壺信仰」，尊稱祖靈為「阿立祖」或「阿立母」，每年舉行隆重的夜祭與牽曲。"}, {"u": 4, "q": "16世紀時，哪一個歐洲國家的船員航行經過臺灣海面，驚嘆臺灣的美麗而稱呼為「Ilha Formosa」（美麗之島）？", "opts": ["荷蘭", "西班牙", "葡萄牙", "英國"], "ans": 2, "exp": "葡萄牙人航經臺灣時讚嘆「Ilha Formosa」（福爾摩沙），但葡萄牙人並未占領臺灣；後來占領臺灣的是荷蘭與西班牙！"}, {"u": 4, "q": "17世紀初，哪兩位海商領袖率領漢人來到雲林北港、嘉義笨港一帶築寨開墾，並從事海上貿易？", "opts": ["鄭成功、陳永華", "顏思齊、鄭芝龍", "郭懷一、莫那魯道", "劉銘傳、沈葆楨"], "ans": 1, "exp": "顏思齊與鄭芝龍（鄭成功的父親）在17世紀初率眾來臺開墾雲嘉笨港一帶，奠定漢人拓墾基礎。"}, {"u": 4, "q": "西元1624年，荷蘭人從澎湖轉往臺灣南部的大員（今臺南安平），興建了哪兩座重要城堡作為統治與貿易中心？", "opts": ["紅毛城、聖薩爾瓦多城", "熱蘭遮城（安平古堡）、普羅民遮城（赤崁樓）", "億載金城、恆春古城", "臺北北門、淡水砲臺"], "ans": 1, "exp": "荷蘭人在臺南興建「熱蘭遮城」（今安平古堡）與「普羅民遮城」（今赤崁樓）！"}, {"u": 4, "q": "西元1626年，哪一個國家為了與荷蘭競爭貿易，出兵占領北臺灣的雞籠（基隆）與淡水，興建聖薩爾瓦多城與紅毛城前身？", "opts": ["西班牙", "葡萄牙", "法國", "日本"], "ans": 0, "exp": "「南荷蘭、北西班牙」！西班牙占領北臺灣雞籠與淡水，直到1642年被荷蘭人北上驅逐。"}, {"u": 4, "q": "荷蘭統治時期，臺灣大量出口哪兩項重要商品到日本與世界各地，使臺灣成為東亞貿易轉運站？", "opts": ["茶葉、樟腦", "鹿皮、蔗糖", "晶片、電腦", "香蕉、鳳梨罐頭"], "ans": 1, "exp": "荷蘭時期臺灣最著名的出口商品是「鹿皮」（銷往日本做武士甲冑）與「蔗糖」！"}, {"u": 4, "q": "荷蘭傳教士為了向原住民族（西拉雅族）傳播基督教，用羅馬字母拼寫原住民族語言，後來留存至今的雙語契約稱為什麼？", "opts": ["甲骨文", "新港文書（番仔契）", "摩斯密碼", "唐詩三百首"], "ans": 1, "exp": "臺南新港社等地原住民族用羅馬拼音書寫自己語言並與漢人簽訂土地契約，稱為「新港文書」（俗稱番仔契）。"}, {"u": 4, "q": "荷蘭統治時期，因為對漢人農民課徵重稅並嚴格管制，在1652年引發了哪一場大規模的漢人抗荷事件？", "opts": ["朱一貴事件", "林爽文事件", "郭懷一事件", "牡丹社事件"], "ans": 2, "exp": "1652年漢人領袖「郭懷一」率領農民反抗荷蘭人的重稅壓迫，史稱「郭懷一事件」。"}, {"u": 4, "q": "西元1661年，哪一位歷史人物率軍自臺南鹿耳門登陸，並在1662年擊敗荷蘭人，以臺灣作為「反清復明」的基地？", "opts": ["鄭芝龍", "鄭成功（國姓爺）", "鄭經", "施琅"], "ans": 1, "exp": "延平郡王「鄭成功」於1661年登陸鹿耳門，1662年迫使荷蘭長官揆一投降，結束荷蘭在臺38年的統治。"}, {"u": 4, "q": "鄭成功去世後，其子「鄭經」繼位，將原本的「東都」改稱為什麼，並任用陳永華積極建設臺灣？", "opts": ["東寧", "臺北府", "高砂國", "大員"], "ans": 0, "exp": "鄭成功設「東都明京」，鄭經繼位後改稱為「東寧」！"}, {"u": 4, "q": "鄭氏時期，諮議參軍「陳永華」建議在承天府（今臺南市）興建哪一座建築，被譽為「全臺首學」，開啟臺灣儒學教育？", "opts": ["臺南孔廟", "赤崁樓", "天后宮", "龍山寺"], "ans": 0, "exp": "陳永華倡議興建的「臺南孔廟」設明倫堂講學，是臺灣第一座孔廟，被稱為「全臺首學」！"}, {"u": 4, "q": "鄭氏時期為了徹底解決軍隊糧食問題，實施「寓兵於農」的制度，讓士兵在各地開墾土地，稱為什麼制度？", "opts": ["科舉制度", "軍屯制度（屯田）", "公地放領", "圈地運動"], "ans": 1, "exp": "鄭氏實施「軍屯制度」，士兵平時耕種、戰時打仗，因此留下今日臺南「新營、柳營、林鳳營」及高雄「左營、前鎮」等地名！"}, {"u": 4, "q": "大航海時代荷蘭人與西班牙人引進了許多外來農作物與家畜到臺灣，下列哪一組是當時引進的？（提示：很多名字帶有「番」或「荷蘭」喔！）", "opts": ["高麗菜、蘋果、乳牛", "荷蘭豆(碗豆)、番茄、番薯、番檨(芒果)、黃牛", "奇異果、榴槤、羊駝", "小麥、燕麥、袋鼠"], "ans": 1, "exp": "荷蘭豆（碗豆）、番茄、番薯、番椒（辣椒）、番檨（芒果）、釋迦（番荔枝）及耕田的黃牛，都是大航海時代引進臺灣的！"}, {"u": 1, "q": "臺灣四面環海，如果從高雄港搭船往西航行前往澎湖或金門，會經過哪一個海域？", "opts": ["太平洋", "臺灣海峽", "巴士海峽", "東海"], "ans": 1, "exp": "澎湖與金門位於臺灣本島西側，介於臺灣與中國大陸之間的海域是「臺灣海峽」！"}, {"u": 1, "q": "在法治社會中，「法律之前，人人平等」代表什麼意思？", "opts": ["有錢人不必守法", "無論身分、性別、財富或職位高低，每個人都受法律保障，違法也都要受罰", "只有大人要守法", "官員可以隨意修改法律"], "ans": 1, "exp": "法律之前人人平等，不論一般民眾或政府官員、總統，都必須遵守法律！"}, {"u": 2, "q": "早期先民在平原地區開墾時，若水源充足且為了防禦安全，常將房屋集中興建在一起，形成什麼聚落型態？", "opts": ["集村", "散村", "地下屋", "石板屋"], "ans": 0, "exp": "水源固定或為求安全合作而聚集居住的聚落稱為「集村」；若在丘陵或水源到處可得的平原分散居住則稱為「散村」。"}, {"u": 2, "q": "臺灣最長的河川是「濁水溪」，那麼流域面積最廣（涵蓋範圍最大）的河川是位於南部的哪一條溪？", "opts": ["淡水河", "大甲溪", "高屏溪", "秀姑巒溪"], "ans": 2, "exp": "臺灣最長河川是「濁水溪」，而流域面積最廣的河川則是南部的「高屏溪」！"}, {"u": 3, "q": "臺灣的新石器時代早期代表「大坌坑文化」，其出土的陶器表面有什麼明顯特徵？", "opts": ["印有粗繩紋（粗繩紋陶）", "寫滿英文單字", "塗滿亮晶晶的塑膠漆", "完全沒有任何紋路的不鏽鋼"], "ans": 0, "exp": "大坌坑文化是臺灣新石器時代早期代表，以拍印有繩子紋路的「粗繩紋陶」聞名！"}, {"u": 3, "q": "現今政府積極推動原住民族「正名運動」與恢復傳統名字、語言教育，這展現了什麼精神？", "opts": ["尊重多元文化與保障族群平等", "強迫所有人穿一樣的衣服", "廢除所有傳統祭典", "禁止說母語"], "ans": 0, "exp": "尊重各族群的語言、名字與傳統文化，是現代民主多元社會的重要精神！"}, {"u": 4, "q": "荷蘭人在臺南安平興建的「熱蘭遮城」，以及在臺南市區興建的「普羅民遮城」，分別是今日的哪兩處國定古蹟？", "opts": ["安平古堡、赤崁樓", "紅毛城、億載金城", "臺南孔廟、延平郡王祠", "恆春古城、基隆砲臺"], "ans": 0, "exp": "熱蘭遮城就是今日的「安平古堡」；普羅民遮城就是今日的「赤崁樓」！"}, {"u": 4, "q": "為什麼今日臺灣南部有許多地名叫做「新營、柳營、左營、前鎮、林鳳營」？", "opts": ["因為以前有很多露營區", "因為鄭氏時期實施「軍屯制度」，軍隊分營駐紮開墾而留下的地名", "因為荷蘭人喜歡露營", "因為日治時期蓋火車站"], "ans": 1, "exp": "這些帶有「營」、「鎮」的地名，都是鄭氏時期軍隊實施「軍屯制度（屯田）」開墾所留下的歷史見證！"}, {"u": 1, "q": "在地圖或地球儀上，橫向環繞地球、用來標示「南北位置（如北緯23.5度）」的線稱為什麼線？", "opts": ["經線", "緯線", "海岸線", "等高線"], "ans": 1, "exp": "「緯線」是橫向的線，以赤道為0度，分南緯與北緯，緯度高低會影響氣候冷暖；「經線」則是直向連接南北極，標示東西位置！"}, {"u": 1, "q": "在地圖或地球儀上，直向連接南北兩極、通過英國格林威治天文臺為0度，用來標示「東西位置（如東經121度）」的線稱為什麼線？", "opts": ["經線", "緯線", "北回歸線", "赤道"], "ans": 0, "exp": "直向的是「經線」（分東經、西經），臺灣本島大約位在東經120度到122度之間！"}, {"u": 1, "q": "澎湖群島有壯觀的柱狀玄武岩，綠島與蘭嶼有海底火山噴發遺跡，請問這些島嶼在成因上屬於哪一種島嶼？", "opts": ["火山島", "珊瑚礁島", "沙洲島", "人工島"], "ans": 0, "exp": "澎湖群島、龜山島、綠島、蘭嶼都是由火山噴發熔岩冷卻形成的「火山島」！"}, {"u": 1, "q": "傳統社會講究「重男輕女」或「男主外、女主內」，但現代社會強調「性別平等」，法律也保障男女平權，這說明了社會規範具有什麼特性？", "opts": ["永遠不會改變", "會隨著時代變遷與觀念進步而調整改變", "只有古代人才需要遵守", "可以隨便廢除所有規範"], "ans": 1, "exp": "社會規範（包含風俗習慣與法律）並非一成不變，會隨著時代進步、人權觀念提升而修改調整！"}, {"u": 1, "q": "許多廟宇或教會會舉辦發放物資給弱勢家庭、設立醫院或學校、淨灘等公益活動，這展現了哪一種社會規範對社會的正面貢獻？", "opts": ["宗教信仰勸人為善、關懷社會的力量", "強制收稅", "交通處罰", "軍事訓練"], "ans": 0, "exp": "各種宗教信仰大都具有勸人行善、博愛慈悲的精神，不僅安定人心，也常舉辦公益慈善事業幫助社會。"}, {"u": 1, "q": "如果有人向別人借錢卻故意不還，或是弄壞別人的物品不賠償，主要會涉及哪一類法律的糾紛？", "opts": ["民法（處理私人之間的財產與身分關係）", "憲法", "少年事件處理法", "國籍法"], "ans": 0, "exp": "買賣、借貸、租屋、損害賠償、結婚繼承等私人之間的權利義務關係，主要由《民法》規範！若是偷竊、搶劫、傷害等犯罪行為則由《刑法》處罰。"}, {"u": 2, "q": "茶樹適合生長在排水良好、雲霧繚繞的緩坡地帶（海拔約100～1000公尺），因此臺灣的苗栗、新竹、南投鹿谷等哪一種地形常見茶園與果園？", "opts": ["丘陵與台地", "海底盆地", "珊瑚礁海岸", "高山雪地"], "ans": 0, "exp": "丘陵與台地坡度和緩、排水良好，非常適合開闢為茶園（如凍頂烏龍茶、東方美人茶）與果園！"}, {"u": 2, "q": "臺灣北部海岸（如野柳、鼻頭角、和平島）因為海浪長期侵蝕軟硬不同的岩石，形成凸出的「岬角」與凹入的「海灣」相間，稱為什麼海岸？", "opts": ["岬灣海岸（岩岸）", "沙洲潟湖海岸", "斷層海岸", "珊瑚礁海岸"], "ans": 0, "exp": "北部海岸屬於岩岸中的「岬灣海岸」，奇岩怪石多（如野柳女王頭），且水深灣澳適合闢建良港（如基隆港）！"}, {"u": 2, "q": "觀察臺灣的「全年平均氣溫分布圖」，會發現高山地區（如中央山脈、玉山）的氣溫明顯比平地低很多，這是受到什麼因素影響？", "opts": ["地勢高低（海拔高度越高，氣溫越低）", "距離海邊太近", "高山上沒有太陽", "高山上風車太多"], "ans": 0, "exp": "海拔高度每上升1000公尺，氣溫約下降6°C！因此臺灣高山地區即使在夏天也十分涼爽，冬季甚至會下雪。"}, {"u": 2, "q": "夏、秋兩季常侵襲臺灣的「颱風」，雖然能帶來豐沛雨水解除乾旱，但也容易在山區引發什麼災害，因此我們需要做好水土保持？", "opts": ["土石流與山崩、低窪地區淹水", "地震與海嘯", "火山爆發", "寒流霜害"], "ans": 0, "exp": "颱風常伴隨狂風豪雨，容易導致山區山崩、土石流及沿海低窪地區海水倒灌與淹水。"}, {"u": 2, "q": "為了充分利用珍貴的雨水資源，我們在日常生活中可以怎麼做？", "opts": ["刷牙時水龍頭一直開著不關", "選用省水標章器材、收集洗米水澆花、隨手關緊水龍頭", "每天換三次游泳池的水", "把垃圾丟進河川裡"], "ans": 1, "exp": "臺灣雖然雨量豐沛，但因地形陡峭、降雨時間不均，水資源得來不易，生活中應落實節約用水與愛護河川！"}, {"u": 3, "q": "考古學家在臺東「卑南文化」遺址出土的玉器（如人獸形玉玦），經過科學檢驗發現玉石原料來自花蓮豐田地區，這證明了當時新石器時代晚期已經有什麼活動？", "opts": ["不同地區人群之間的交通往來與物品交易（貿易）", "已經有高速公路與火車", "用網購宅配寄送", "會自己用塑膠合成玉石"], "ans": 0, "exp": "花蓮的豐田玉出現在臺東卑南、甚至臺北圓山與海外遺址，證明史前人類已經有跨區域的水陸交通與交換貿易行為！"}, {"u": 3, "q": "將臺灣三個史前時代按照「時間先後順序（由古至今）」排列，哪一個是正確的？", "opts": ["金屬器時代 → 新石器時代 → 舊石器時代", "舊石器時代（長濱） → 新石器時代（大坌坑/圓山/卑南） → 金屬器時代（十三行）", "新石器時代 → 舊石器時代 → 金屬器時代", "三個時代同時發生"], "ans": 1, "exp": "歷史演進順序：舊石器時代（敲擊石器）→ 新石器時代（磨製石器、陶器、農業）→ 金屬器時代（煉鐵器、玻璃珠貿易）！"}, {"u": 3, "q": "臺灣原住民族屬於語系分布極廣的「南島語族」，下列關於原住民族傳統生活的敘述，哪一項是正確的？", "opts": ["各族都有完全一模一樣的服飾與語言", "遵循自然時序進行漁獵與輪耕，重視分享、不浪費自然資源", "自古以來都住在水泥高樓大廈", "完全不舉行任何祭典"], "ans": 1, "exp": "原住民族各族擁有獨特的語言、服飾與神話祭儀，但都具備敬畏大自然、取之有度、與山海環境永續共存的智慧！"}, {"u": 3, "q": "在排灣族與魯凱族的傳統社會中，哪三種物品常被視為珍貴的傳家寶（三寶），並常裝飾百步蛇或太陽紋樣？", "opts": ["琉璃珠、青銅刀、古陶壺", "金幣、銀元、鑽石", "鐵鎚、鐮刀、鋤頭", "毛筆、硯臺、宣紙"], "ans": 0, "exp": "排灣族與魯凱族著名的「文化三寶」是：琉璃珠（象徵身分與祝福）、青銅刀、古陶壺！"}, {"u": 4, "q": "17世紀大航海時代，歐洲國家紛紛乘船來到亞洲進行貿易。當時占領臺灣南部的「荷蘭人」主要是透過哪一個特許貿易公司來治理臺灣？", "opts": ["荷蘭聯合東印度公司 (VOC)", "英國東印度公司", "西班牙皇家艦隊", "鄭氏商行"], "ans": 0, "exp": "荷蘭人透過「荷蘭聯合東印度公司 (VOC)」，以大員（臺南安平）為基地，統治臺灣並進行國際轉口貿易。"}, {"u": 4, "q": "荷蘭人統治臺灣期間，因為野生梅花鹿被大量捕捉出口鹿皮，導致鹿群減少；同時為了種植哪一種高經濟價值作物出口，大量招募漢人來臺開墾？", "opts": ["甘蔗（製成蔗糖出口）與稻米", "蘋果與水蜜桃", "咖啡與可可", "棉花與小麥"], "ans": 0, "exp": "荷蘭人鼓勵漢人來臺種植「甘蔗」與「稻米」，其中「蔗糖」與「鹿皮」是當時最重要的出口商品！"}, {"u": 4, "q": "今日位於新北市淡水區的著名古蹟「紅毛城」，最初是由哪一個國家興建（聖多明哥城），後來又被哪一個國家重建而俗稱紅毛城？", "opts": ["最初西班牙人興建，後來荷蘭人（俗稱紅毛人）重建", "最初日本人興建，後來美國人重建", "最初鄭成功興建，後來清朝重建", "最初葡萄牙人興建"], "ans": 0, "exp": "西班牙人於1628年在淡水建聖多明哥城，1642年撤離時摧毀；隨後北上的荷蘭人（被民間俗稱紅毛人）於原址重建，因此被稱為「紅毛城」！"}, {"u": 4, "q": "鄭氏時期（明鄭時期）在臺灣歷史發展上有什麼重要意義？", "opts": ["是臺灣歷史上第一個以漢人為主體的政權，奠定了漢人移民社會與儒家文教的基礎", "從此不再有任何農業開墾", "把臺灣變成無人島", "讓臺灣進入舊石器時代"], "ans": 0, "exp": "鄭氏時期大量漢人軍民來臺屯墾，引進漢人官制、法律與孔廟學校教育，奠定了臺灣漢人社會文化的基礎！"}], "scienceQuestions": [{"u": 1, "q": "觀察動物的牙齒構造，獅子、老虎等「肉食性動物」哪一種牙齒特別尖銳發達，適合撕裂獵物的肉？", "opts": ["門齒", "犬齒", "臼齒", "智齒"], "ans": 1, "exp": "肉食性動物的「犬齒」尖銳發達，適合咬住並撕裂獵物；草食性動物（牛、羊）則是「臼齒」平坦發達，適合磨碎植物纖維。"}, {"u": 1, "q": "青蛙、變色龍在捕食昆蟲時，主要是利用什麼特殊的身體構造快速黏住獵物？", "opts": ["尖銳的爪子", "能快速伸出且有黏液的長舌頭", "長長的象鼻", "鋒利的牙齒"], "ans": 1, "exp": "蛙類與變色龍具有能瞬間彈出並分泌黏液的長舌頭，可以閃電般把昆蟲捲進嘴裡！"}, {"u": 1, "q": "下列哪一組動物全部屬於能夠維持體溫恆定的「內溫動物（恆溫動物）」？", "opts": ["企鵝、台灣黑熊、麻雀、鯨魚", "青蛙、烏龜、蜥蜴、鮭魚", "蝴蝶、獨角仙、蜜蜂、蜘蛛", "鱷魚、眼鏡蛇、蟾蜍、蓋斑鬥魚"], "ans": 0, "exp": "「鳥類」（企鵝、麻雀）與「哺乳類」（台灣黑熊、鯨魚、狗、人）屬於內溫（恆溫）動物；魚類、兩生類、爬蟲類、昆蟲都是外溫（變溫）動物！"}, {"u": 1, "q": "寒冷的冬天時，青蛙、蛇、烏龜等外溫（變溫）動物為什麼會躲在洞穴或泥土裡「冬眠」？", "opts": ["因為冬天陽光太刺眼", "因為外溫動物體溫隨環境下降，活動力變弱，需要躲起來減少能量消耗", "因為牠們喜歡在冬天孵蛋", "因為牠們在玩捉迷藏"], "ans": 1, "exp": "外溫動物無法靠自身代謝維持高體溫，天冷時體溫降低、行動遲緩，因此會躲在溫暖隱蔽處休眠度冬。"}, {"u": 1, "q": "「竹節蟲長得像樹枝」、「枯葉蝶合起翅膀像枯葉」，這種不僅顏色相近，連外型都模仿環境中其他物體的避敵方式稱為什麼？", "opts": ["保護色", "警戒色", "擬態", "冬眠"], "ans": 2, "exp": "「擬態」是外型與顏色都模仿環境中的特定物體（如樹枝、枯葉、鳥糞）；若只是顏色與背景融合（如綠草地上的綠蚱蜢）則稱為「保護色」。"}, {"u": 1, "q": "毒蛾幼蟲、雨傘節（黑白相間）、七星瓢蟲身上有非常鮮豔顯眼的顏色，這在自然界中稱為什麼？", "opts": ["保護色", "警戒色", "擬態", "求偶色"], "ans": 1, "exp": "鮮豔對比強烈的顏色稱為「警戒色」，用來警告天敵「我有毒或味道很臭，別吃我」！"}, {"u": 1, "q": "蜜蜂是典型的「社會性動物」，當負責採蜜的工蜂發現遠處有豐富的花蜜時，回蜂巢會用什麼方式告訴同伴蜜源的方向與距離？", "opts": ["大聲唱歌", "跳「搖擺舞（8字舞）」或圓舞", "用觸角畫地圖", "吐出泡泡"], "ans": 1, "exp": "工蜂會透過跳「圓舞」（近處蜜源）或「搖擺舞／8字舞」（遠處蜜源的方向與距離）來傳遞訊息！"}, {"u": 1, "q": "下列哪一種動物行為的主要目的與「求偶（吸引異性繁殖後代）」無關？", "opts": ["雄孔雀展開美麗的尾羽（孔雀開屏）", "春夏季夜晚雄蛙鼓起鳴囊大聲鳴叫", "螢火蟲在夜晚腹部發出亮光", "綠蠵龜爬上沙灘挖洞把卵埋起來"], "ans": 3, "exp": "孔雀開屏、蛙鳴、螢火蟲發光都是為了求偶；綠蠵龜在沙灘埋卵則是屬於「產卵繁殖與保護受精卵」的行為。"}, {"u": 1, "q": "「鯨魚、海豚、蝙蝠」雖然會游泳或飛行，但牠們的繁殖方式與哺育幼兒方式屬於哪一類？", "opts": ["卵生、不育幼", "胎生、用母乳哺育幼兒（哺乳類）", "卵生、完全變態", "分裂生殖"], "ans": 1, "exp": "超常考陷阱題！水中的鯨魚、海豚，以及會飛的蝙蝠，全部都是「胎生哺乳類動物」，幼崽在母體內發育並喝母乳長大喔！"}, {"u": 1, "q": "昆蟲的一生若經歷「卵 → 幼蟲 → 蛹 → 成蟲」四個階段，稱為「完全變態」。下列哪一組昆蟲都是完全變態？", "opts": ["紋白蝶、獨角仙、蠶蛾、蚊子", "蝗蟲、蟋蟀、蟑螂、螳螂", "蜻蜓、蟬、竹節蟲、椿象", "蜘蛛、蜈蚣、蚯蚓、蝸牛"], "ans": 0, "exp": "蝴蝶、蛾、甲蟲（獨角仙、瓢蟲）、蜂、蟻、蚊、蠅都會結「蛹」，屬於完全變態！蝗蟲、蟑螂、螳螂、蜻蜓、蟬不經蛹期，屬不完全變態。"}, {"u": 1, "q": "進行「動物二分法分類」時，每一次分類應該依據幾個分類標準，將動物分成「具有此特徵」與「不具有此特徵」兩類？", "opts": ["每次只用 1 個明確特徵分成兩群", "每次同時用 3 個特徵分五群", "看心情喜歡與不喜歡分", "用動物的名字字數分"], "ans": 0, "exp": "科學「二分法」每次只選定 1 個客觀、明確的特徵（例如：有無翅膀、是不是胎生），將生物一分為二。"}, {"u": 1, "q": "國王企鵝爸媽會輪流把蛋放在腳背上用育兒袋保暖，小袋鼠會在媽媽的育兒袋裡喝奶長大，這些「育幼行為」有什麼重要意義？", "opts": ["讓小動物學算數", "大幅提高子代的存活率，延續種族生命", "為了參加動物運動會", "減少媽媽的體重"], "ans": 1, "exp": "具有育幼行為的動物雖然一次產下的子代數量較少，但透過父母保護與餵食，能大幅提高幼體的存活率！"}, {"u": 2, "q": "我們能聽見樂器、說話或自然界的聲音，是因為發聲物體正在做什麼運動？", "opts": ["發光", "快速振動", "融化", "生鏽"], "ans": 1, "exp": "所有的聲音都是由物體「振動」所產生的！當振動停止，聲音就會消失。"}, {"u": 2, "q": "太空人在外太空漫步時，就算面對面大聲喊叫也聽不見對方的聲音，必須靠無線電通話，這是因為什麼原因？", "opts": ["太空人戴了耳塞", "外太空是真空狀態，沒有空氣等「介質」可以傳播聲音", "外太空太冷把聲音結凍了", "外太空風太大"], "ans": 1, "exp": "聲音的傳播需要「介質」（固體、液體或氣體），外太空接近真空，沒有空氣介質，所以聲音無法傳播！"}, {"u": 2, "q": "測量環境聲音大小（音量）的儀器稱為「分貝計」，它的單位是什麼？長期處於超過幾分貝的環境容易傷害聽力？", "opts": ["攝氏(°C)、超過30度", "分貝(dB)、超過85分貝", "公分(cm)、超過100公分", "公克(g)、超過50公克"], "ans": 1, "exp": "音量單位是「分貝 (dB)」，當環境噪音超過 85 分貝以上，長時間聆聽就會損害聽力！"}, {"u": 2, "q": "彈吉他或烏克麗麗時，要怎麼做才能讓發出來的聲音「音調變高」？", "opts": ["換撥比較粗、比較鬆的弦", "將弦調緊、選較細的弦，或用手指按住琴格讓振動的弦變短", "用更大的力氣撥弦", "把吉他木箱拆掉"], "ans": 1, "exp": "發聲物體越「短、細、緊、薄」，振動越快，發出的「音調越高」！用力撥弦改變的是「音量（大小聲）」喔！"}, {"u": 2, "q": "【康軒必考實驗】在四個相同玻璃杯中裝入不同高度的水（甲杯水最少、丁杯水最多）。如果用木棒「敲擊杯身」，哪一杯音調最高？如果改用嘴巴「對著杯口吹氣」，哪一杯音調最高？", "opts": ["敲擊：甲最高；吹氣：甲最高", "敲擊：甲(水最少)最高；吹氣：丁(水最多、空氣柱最短)最高", "敲擊：丁最高；吹氣：甲最高", "四杯音調都一樣"], "ans": 1, "exp": "超重要觀念！【敲擊水杯】是水與玻璃振動，水越少越輕（甲），音調越高；【對杯口吹氣】是杯內「空氣柱」振動，水越多則空氣柱越短（丁），音調越高！"}, {"u": 2, "q": "吉他、小提琴、木琴都有一個中空的木盒構造，這個構造稱為什麼？有什麼功能？", "opts": ["共鳴箱，可以放大聲音的音量", "電池盒，用來充電", "調音器，用來把低音變高音", "消音盒，讓別人聽不見"], "ans": 0, "exp": "樂器中空的盒體稱為「共鳴箱」，能使內部空氣產生共鳴，讓發出來的聲音「音量變大」！"}, {"u": 2, "q": "我們閉上眼睛，依然能分辨出同一個音高是由「鋼琴」還是「小提琴」演奏的，這是因為不同樂器的什麼不同？", "opts": ["音量大小", "音調高低", "音色（音品）", "傳播速度"], "ans": 2, "exp": "不同材質與構造的發聲體具有獨特的「音色（音品）」，讓我們能分辨是誰在說話或是哪一種樂器。"}, {"u": 2, "q": "陽光下大樹有影子、皮影戲表演、以及針孔成像實驗，這些現象都證明了光具有什麼特性？", "opts": ["光會轉彎繞過障礙物", "光是直線前進的", "光只能在水中傳播", "光沒有速度"], "ans": 1, "exp": "光在同種均勻介質中是「直線前進」的，當光被不透明物體擋住時，背光處就會形成陰影（影子）。"}, {"u": 2, "q": "利用平面鏡玩「陽光接力」或使用「潛望鏡」觀察高處物體，這是應用了光的哪一種現象？且入射角與反射角有什麼關係？", "opts": ["光的折射，入射角大於反射角", "光的反射，入射角等於反射角", "光的色散，不會反射", "光的吸收"], "ans": 1, "exp": "鏡面會將光線反彈回來，稱為「光的反射」，且遵守反射定律：「入射角＝反射角」！潛望鏡內部裝有兩片平行的平面鏡。"}, {"u": 2, "q": "把一支筆直的吸管斜放入裝水的透明玻璃杯中，從側面看吸管在水面處好像「折斷了」，這是光的什麼現象？", "opts": ["光的直線前進", "光的反射", "光的折射", "光的燃燒"], "ans": 2, "exp": "光從空氣進入水中（或從水中進入空氣）時，因為在不同介質中傳播速度不同，行進方向發生偏折，稱為「光的折射」！"}, {"u": 2, "q": "雨後天晴或是用噴霧器在陽光下噴水霧時，常能看見美麗的「彩虹」。請問要朝哪一個方向噴水霧才看得到彩虹？", "opts": ["面向太陽噴水", "背對太陽噴水（面向太陽相反方向）", "在完全黑暗的房間裡噴水", "正中午趴在地上往太陽看"], "ans": 1, "exp": "陽光進入空中細小水滴發生折射與反射，色散成紅橙黃綠藍靛紫七色光。觀測者必須「背對太陽」才能看見水滴反射回來的彩虹喔！"}, {"u": 3, "q": "地球大氣層的空氣是由多種氣體混合而成的，其中含量最多的前兩名氣體依序是什麼？", "opts": ["第一名氧氣(78%)、第二名二氧化碳(21%)", "第一名氮氣(約78%)、第二名氧氣(約21%)", "第一名氫氣、第二名氦氣", "全部都是純氧氣"], "ans": 1, "exp": "空氣中含量最多的是「氮氣」（約占五分之四，78%），第二名才是具有助燃性的「氧氣」（約占五分之一，21%）！"}, {"u": 3, "q": "在實驗室製造「氧氣」時，我們通常將哪兩種材料混合產生氣泡，並使用「排水集氣法」收集？", "opts": ["小蘇打粉＋白醋", "雙氧水（過氧化氫水溶液）＋胡蘿蔔丁（或二氧化錳）", "食鹽＋自來水", "砂糖＋檸檬汁"], "ans": 1, "exp": "「雙氧水＋胡蘿蔔丁（或金針菇、二氧化錳作為催化劑）」會快速分解產生「氧氣」；而「小蘇打粉＋醋」產生的是二氧化碳喔！"}, {"u": 3, "q": "要檢驗收集到的無色無味氣體是不是「氧氣」，應該使用下列哪一種方法？", "opts": ["通入澄清石灰水看會不會變混濁", "將點燃後吹熄、帶有餘燼的線香伸入瓶中，看是否會復燃（劇烈燃燒）", "用鼻子大力聞聞看香不香", "放入冰塊看會不會結冰"], "ans": 1, "exp": "氧氣具有「助燃性」，能使帶有餘燼的線香瞬間復燃並劇烈燃燒！"}, {"u": 3, "q": "將「小蘇打粉」加入「醋酸（白醋）」中會產生大量氣泡，將此氣體通入「澄清石灰水」中會變成白色混濁，請問這是什麼氣體？", "opts": ["氧氣", "氮氣", "二氧化碳", "水蒸氣"], "ans": 2, "exp": "小蘇打加酸會產生「二氧化碳」，二氧化碳能使澄清石灰水變白色混濁，且比空氣重、不助燃也不自燃，常用於汽水與滅火器！"}, {"u": 3, "q": "物質要發生燃燒，必須同時具備「燃燒三要素」，缺一不可。請問燃燒三要素是哪三個？", "opts": ["可燃物、助燃物（氧氣）、達到燃點（足夠溫度）", "水、空氣、陽光", "木頭、鐵塊、二氧化碳", "打火機、風扇、冰塊"], "ans": 0, "exp": "燃燒三要素：1.可燃物、2.助燃物（如氧氣）、3.溫度達到燃點！只要移除其中任何一項，火就會熄滅。"}, {"u": 3, "q": "實驗結束後，我們用「燈蓋」把酒精燈蓋熄；或是炒菜油鍋起火時立刻「蓋上鍋蓋」，這是運用了哪一個滅火原理？", "opts": ["移除可燃物", "隔絕助燃物（氧氣）", "降低溫度至燃點以下", "增加二氧化碳濃度"], "ans": 1, "exp": "蓋上酒精燈蓋或鍋蓋，是讓火源無法接觸外面的空氣，屬於「隔絕助燃物（氧氣）」！（注意：油鍋起火絕對不能潑水！）"}, {"u": 3, "q": "森林發生大火時，消防人員會砍除火場周圍的一排樹木，開闢出「防火巷（防火線）」，這是應用哪一個滅火原理？", "opts": ["移除可燃物", "隔絕氧氣", "灑水降溫", "製造人造雨"], "ans": 0, "exp": "把周圍還沒燒到的樹木（可燃物）先清除移開，火勢就無法繼續蔓延，這屬於「移除可燃物」！而消防隊灑水則是「降低溫度至燃點以下」。"}, {"u": 3, "q": "進行「鋼絲絨生鏽實驗」時，我們發現鋼絲絨在下列哪一種環境中最容易且最快生鏽？", "opts": ["完全乾燥且密封的瓶子裡", "浸過醋酸（酸性水溶液）並接觸空氣的夾鏈袋中", "完全浸泡在煮沸過且滴油隔絕空氣的水底", "充滿純氮氣的乾燥袋子裡"], "ans": 1, "exp": "鐵生鏽需要「水（水氣）」和「空氣（氧氣）」同時存在！如果接觸到「酸性物質（如醋酸、酸雨）」或鹽分，生鏽速度會更快！"}, {"u": 3, "q": "將沾溼的鋼絲絨放入倒扣在水槽中的廣口瓶裡，一段時間後鋼絲絨生鏽了，廣口瓶內的水位會發生什麼變化？為什麼？", "opts": ["水位下降，因為鐵生鏽產生氧氣", "水位上升（約五分之一），因為鐵生鏽消耗了瓶內的氧氣", "水位完全不變", "水全部變成紅色蒸發了"], "ans": 1, "exp": "鐵生鏽是鐵與氧氣、水結合的氧化反應，會「消耗瓶內的氧氣」，使瓶內氣體減少，水槽的水就會上升填補空間！"}, {"u": 3, "q": "公園的鐵欄杆塗上油漆、腳踏車鏈條抹潤滑油、迴紋針外層電鍍，這些「防鏽方法」的共同原理是什麼？", "opts": ["讓鐵變成塑膠", "隔絕鐵製品與「水」和「空氣（氧氣）」的接觸", "降低鐵的燃點", "吸引磁鐵"], "ans": 1, "exp": "只要不讓鐵製品同時接觸到水和氧氣，鐵就不會生鏽！塗漆、抹油、電鍍、保持乾燥都是為了隔絕水與空氣。"}, {"u": 4, "q": "觀測太陽在天空中的位置時，我們需要記錄哪兩個數值？（提示：不能用眼睛直視太陽喔！）", "opts": ["太陽的方位（方向）與高度角（仰角）", "太陽的重量與體積", "太陽的距離與顏色", "雲的朵數與風速"], "ans": 0, "exp": "利用指北針與太陽觀測器，同時記錄太陽的「方位」（如東偏南）與「高度角／仰角」（0°～90°），就能確定太陽在天空中的位置！"}, {"u": 4, "q": "利用太陽觀測器測量竿影時，「太陽的方位」與「竿影的方向」，以及「太陽仰角」與「竿影長度」有什麼關係？", "opts": ["竿影方向與太陽相同；仰角越高竿影越長", "竿影方向與太陽相反；仰角越高竿影越短", "竿影永遠指北；長度永遠不變", "正中午沒有太陽也沒有影子"], "ans": 1, "exp": "必考口訣：「影向與日相反，仰角越高影越短」！例如早上太陽在東邊，影子就在西邊；正午12點太陽仰角最高，影子最短！"}, {"u": 4, "q": "在臺灣（北回歸線以北地區）觀測一年四季太陽的軌跡，哪一個節氣正午太陽仰角最高（白晝最長）？哪一個節氣正午太陽仰角最低（影子最長）？", "opts": ["夏至最高、冬至最低", "冬至最高、夏至最低", "春分最高、秋分最低", "四季仰角完全相同"], "ans": 0, "exp": "「夏至」（約6月21日）太陽直射北回歸線，正午仰角最高、影子最短、晝最長；「冬至」（約12月22日）太陽偏南，正午仰角最低、影子最長、晝最短！"}, {"u": 4, "q": "在春分（3月）與秋分（9月）這兩天，太陽會從哪一個方位升起、哪一個方位落下？", "opts": ["正東方升起、正西方落下", "正北方升起、正南方落下", "東偏北升起、西偏北落下", "東偏南升起、西偏南落下"], "ans": 0, "exp": "春分與秋分太陽直射赤道，全球晝夜等長，太陽由「正東方」升起、「正西方」落下！夏至偏北、冬至偏南。"}, {"u": 4, "q": "太陽系的中心是一顆會自己發光發熱的「恆星」（太陽），而圍繞太陽公轉的八大行星，由內而外（離太陽由近到遠）的正確順序是什麼？", "opts": ["水星、金星、地球、火星、木星、土星、天王星、海王星", "地球、月球、太陽、火星、木星、土星、天王星、冥王星", "金星、木星、水星、火星、土星、地球、海王星、天王星", "水星、火星、地球、金星、土星、木星、海王星、天王星"], "ans": 0, "exp": "八大行星口訣：「水、金、地、火、木、土、天、海」！其中水金地火是岩石表面的「類地行星」，木土天海是巨大的「類木（氣體）行星」。"}, {"u": 4, "q": "太陽系八大行星中，體積最大的是哪一顆？有著明顯美麗光環的又是哪一顆？", "opts": ["水星最大、火星有光環", "木星體積最大、土星有明顯美麗的光環", "地球最大、金星有光環", "海王星最大、水星有光環"], "ans": 1, "exp": "「木星」是太陽系體積最大的行星（表面有大紅斑）；「土星」則擁有最明顯、最美麗的冰與岩石光環！"}, {"u": 4, "q": "使用「星座盤」觀測星空時，下列哪一個操作步驟是正確的？", "opts": ["把星座盤放在地上踩著看", "先轉動轉盤對齊觀測的「月、日」與「時刻」，再面向實際方位，將星座盤舉高過頭仰望對照", "不管幾月幾號，直接看中間就好", "只能在正中午太陽底下看"], "ans": 1, "exp": "使用星座盤：1.對齊月日與時刻 → 2.面向觀測方位（如面向北方，盤上的「北」字就朝前下方）→ 3.高舉過頭仰望盤面與星空對照！"}, {"u": 4, "q": "連續幾個小時觀察夜晚的星空，會發現絕大多數的星星都如何移動？只有哪一顆星幾乎固定在正北方不動？", "opts": ["星星由西向東移；天狼星不動", "星星和太陽一樣「東升西落」（繞著北極星逆時針旋轉）；只有「北極星」幾乎不動", "所有星星都不會動", "星星隨機亂跑；月亮不動"], "ans": 1, "exp": "因為地球由西向東自轉，夜晚的星星看起來都是「東升西落」（面向北方看會繞北極星逆時針轉），只有正北方的「北極星」位在地軸延伸線上，幾乎不動！"}, {"u": 4, "q": "在沒有指北針的夜晚，我們可以利用星座尋找「北極星」來辨認正北方。請問在「春季、夏季」與「秋季、冬季」分別最常利用哪兩個星座來找北極星？", "opts": ["春夏用北斗七星（大熊座勺口延伸5倍）；秋冬用仙后座（W形延伸交點5倍）", "春夏用獵戶座；秋冬用天蠍座", "四季都用月亮找", "春夏用南十字星；秋冬用織女星"], "ans": 0, "exp": "必考觀星秘訣！春夏季北方天空容易看到「北斗七星」（勺口兩顆星連線延伸約5倍距離）；秋冬季北斗七星較低，改用W形的「仙后座」（兩邊延伸交點向中央星延伸約5倍）找北極星！"}, {"u": 4, "q": "夜晚仔細觀察天上的亮星，會發現星星有不同的顏色（例如織女星偏藍白色、太陽偏黃色、心宿二與參宿四偏橙紅色），星星的顏色代表什麼意義？", "opts": ["星星的表面溫度不同（藍白色溫度最高、黃色次之、紅色表面溫度較低）", "星星上面塗了不同油漆", "紅色星星代表正在生鏽", "藍色星星代表上面都是海水"], "ans": 0, "exp": "恆星的顏色與它的「表面溫度」有關！表面溫度越高呈現藍白色（如織女星），中等溫度呈現黃色（如太陽），溫度較低則呈現橙紅色（如心宿二、參宿四）！"}, {"u": 1, "q": "觀察動物的運動方式：擅長「跳躍」的動物（如青蛙、袋鼠、兔子、蝗蟲），牠們的四肢或步足通常有什麼共同特徵？", "opts": ["前肢比後肢長", "後肢（後腿）特別粗壯發達且比前肢長", "四隻腳一樣短小", "沒有腳只有鰭"], "ans": 1, "exp": "青蛙、袋鼠、兔子、蝗蟲的「後肢（後腿）」都特別粗壯有力，能產生強大彈跳力來跳躍！"}, {"u": 1, "q": "壁虎遇到敵人攻擊時會「自割斷尾」逃生，烏賊（花枝）遇到危險會「噴出黑墨汁」，這屬於動物的什麼行為？", "opts": ["求偶行為", "避敵與防禦（求生存）行為", "育幼行為", "冬眠行為"], "ans": 1, "exp": "斷尾、裝死（竹節蟲、瓢蟲）、噴墨汁、膨脹身體（河豚）都是動物為了躲避天敵、保護生命的防禦行為！"}, {"u": 2, "q": "學校音樂教室或電影院的牆壁常貼有「多孔的吸音泡棉」或掛厚布簾，這有什麼科學功用？", "opts": ["讓聲音產生更大回音", "吸收聲波、減少回音與防制噪音傳播", "讓教室變暗", "讓樂器音調變高"], "ans": 1, "exp": "柔軟多孔的材質（如海綿、布簾）能吸收聲波能量，減少聲音反射產生的回音與噪音干擾！"}, {"u": 2, "q": "利用紙盒與兩片平面鏡自製「潛望鏡」時，盒內上、下兩片平面鏡應該如何擺放，才能讓光線經過兩次反射進入眼睛？", "opts": ["兩片鏡面背對背貼在一起", "兩片鏡面互相平行，且與盒底呈45度角面對面斜放", "兩片鏡面垂直成90度", "只放一片鏡子在盒底"], "ans": 1, "exp": "潛望鏡內的兩片平面鏡必須「互相平行（約呈45度傾斜）」且鏡面相對，光線才能經上鏡反射到下鏡，再反射進眼睛！"}, {"u": 3, "q": "火災發生時，如果在室內遇到濃煙密布、門把發燙無法往下逃生，下列哪一個應變方式最正確安全？", "opts": ["立刻搭電梯下樓", "躲進塑膠材質且沒有對外窗的浴室", "緊閉房門、用衣物或毛巾塞住門縫阻擋濃煙，到有對外窗的房間撥打119待援", "打開所有門窗讓風吹進來"], "ans": 2, "exp": "火場頭號殺手是「濃煙」！門外濃煙高溫時應「關門塞門縫」阻絕濃煙，到有對外窗的房間呼救；逃生時要「小火快逃、濃煙關門」，壓低身體並絕對不可搭電梯！"}, {"u": 3, "q": "在設計「醋酸是否會加速鋼絲絨生鏽」的實驗時，一個夾鏈袋放「沾醋酸的鋼絲絨」，另一個對照組夾鏈袋應該放什麼？（操縱變因與控制變因）", "opts": ["沾相同水量「清水」的相同大小鋼絲絨", "完全乾燥的塑膠塊", "泡在油裡的銅線", "兩倍大的乾燥鋼絲絨"], "ans": 0, "exp": "科學實驗一次只能改變一個「操縱變因」（水溶液種類：醋酸 vs 清水），其餘條件（鋼絲絨大小、液體量、空氣量）都必須保持相同（控制變因）！"}, {"u": 4, "q": "古人利用太陽照射晷針所產生的影子位置來計算時間，這種古老的計時工具稱為什麼？", "opts": ["沙漏", "日晷", "星座盤", "指北針"], "ans": 1, "exp": "「日晷」是利用太陽東升西落造成竿影方向與長度規律變化的原理，來測量時刻的計時儀器！"}, {"u": 4, "q": "在臺灣夏夜的星空，可以看見牛郎星（天鷹座）、織女星（天琴座）和天津四（天鵝座）連成一個巨大的三角形，稱為什麼？", "opts": ["春季大三角", "夏季大三角", "冬季大三角", "秋季四邊形"], "ans": 1, "exp": "牛郎星、織女星、天津四是夏天夜晚最著名的「夏季大三角」！而冬季大三角則是天狼星、南河三、參宿四。"}, {"u": 1, "q": "觀察動物的體溫變化圖：如果環境溫度從 10°C 上升到 35°C，甲動物的體溫一直維持在 37°C 左右；乙動物的體溫則從 11°C 跟著上升到 34°C。請問甲、乙分別可能是什麼動物？", "opts": ["甲是台灣獼猴(內溫)；乙是綠蜥蜴(外溫)", "甲是青蛙；乙是麻雀", "甲是眼鏡蛇；乙是黃金獵犬", "甲是烏龜；乙是企鵝"], "ans": 0, "exp": "甲動物體溫不隨環境大幅改變，是「內溫（恆溫）動物」（鳥類、哺乳類如獼猴）；乙動物體溫隨環境高低起伏，是「外溫（變溫）動物」（爬蟲、兩生、魚類如蜥蜴）！"}, {"u": 1, "q": "人類也是內溫（恆溫）動物，當夏天運動覺得非常炎熱時，我們的身體會自然做出什麼反應來幫助散熱、維持體溫？", "opts": ["皮膚流汗、血管擴張散熱", "全身發抖起雞皮疙瘩", "鑽進土裡冬眠", "停止呼吸"], "ans": 0, "exp": "天熱時人類會靠「排汗」（汗水蒸發帶走熱量）來降溫；天冷時則會靠發抖（肌肉收縮產熱）來維持約 36.5°C～37°C 的體溫。"}, {"u": 1, "q": "在螞蟻的王國（社會性昆蟲）中，具有巨大大顎、主要負責「保衛蟻巢與抵禦外敵」的是哪一種螞蟻？", "opts": ["蟻后", "雄蟻", "兵蟻", "工蟻"], "ans": 2, "exp": "蟻后負責產卵繁殖；工蟻負責覓食、築巢、照顧幼蟻；頭部與大顎特別發達的「兵蟻」則負責保衛家園！"}, {"u": 1, "q": "雞蛋（受精卵）在孵化成小雞的過程中，裡面的胚胎發育所需要的養分是由什麼部位提供的？", "opts": ["母雞透過臍帶輸送", "蛋裡面的卵黃與蛋白", "小雞自己打破蛋殼出去吃米", "吸收空氣中的氮氣"], "ans": 1, "exp": "卵生動物的受精卵在母體外孵化，胚胎發育所需的養分完全來自卵本身的「卵黃」與「蛋白」！"}, {"u": 2, "q": "將發音中的音叉輕輕觸碰水面，會看到水面濺起水花並產生波紋；手摸正在發出聲音的喇叭紙盆也會感覺麻麻的。這兩個實驗共同證明了什麼？", "opts": ["發聲的物體正在振動", "水會自己產生聲音", "聲音只能在固體中傳播", "喇叭會漏電"], "ans": 0, "exp": "音叉濺起水花、喇叭紙盆震動、說話時聲帶振動，都直接證明了「聲音是由物體振動產生的」！"}, {"u": 2, "q": "如果把鬧鐘放在密封的玻璃罩內，當抽氣機把罩內的空氣漸漸抽走（接近真空）時，我們聽到的鬧鐘鈴聲會發生什麼變化？", "opts": ["聲音越來越小，最後幾乎聽不見", "聲音越來越大聲", "音調變得越來越高", "鬧鐘會自己爆炸"], "ans": 0, "exp": "空氣是傳播聲音的介質，當玻璃罩內的空氣被抽走變成真空時，沒有介質傳聲，就聽不見鈴聲了（但因為光不需要介質，我們還是看得到鬧鐘在動喔）！"}, {"u": 2, "q": "玩「吸管笛」實驗時，一邊吹氣一邊用剪刀把吸管一截一截剪短，請問吹出來的聲音「音調」會如何變化？", "opts": ["吸管越短，空氣柱越短，音調越高", "吸管越短，音調越低", "音調完全不會改變", "吸管剪短就發不出聲音"], "ans": 0, "exp": "吸管笛是靠管內的「空氣柱」振動發聲，吸管剪得越短，空氣柱越短，振動越快，發出的「音調就越高」！"}, {"u": 2, "q": "站在游泳池岸邊往下看池底，池水看起來的深度跟實際深度相比會如何？為什麼？", "opts": ["看起來比實際還要「淺」，因為光從水中進入空氣發生「折射」", "看起來比實際還要深，因為光的反射", "看起來跟實際完全一樣深", "完全看不到池底"], "ans": 0, "exp": "因為「光的折射」現象，池底反射的光從水中進入空氣時偏折，使眼睛誤以為池底比較高（看起來比實際淺），因此戲水時千萬不可貿然跳水！"}, {"u": 3, "q": "將兩支點燃的高度相同蠟燭，分別用「大廣口瓶」和「小廣口瓶」同時罩住，請問哪一瓶裡面的蠟燭會先熄滅？為什麼？", "opts": ["小廣口瓶先熄滅，因為裡面的空氣（氧氣）量比較少", "大廣口瓶先熄滅，因為空間太大", "兩支蠟燭永遠都不會熄滅", "兩支蠟燭在0.1秒內同時熄滅"], "ans": 0, "exp": "燃燒需要消耗空氣中的助燃物（氧氣），小廣口瓶內的空氣（氧氣）較少，因此蠟燭會比較快熄滅！"}, {"u": 3, "q": "使用「排水集氣法」收集氧氣或二氧化碳時，裝滿水的廣口瓶倒立在水槽中，隨著氣體進入瓶內，瓶內的水位會如何變化？", "opts": ["氣體把水往下排開，瓶內水位逐漸下降", "瓶內水位越來越高", "水會立刻結冰", "廣口瓶會浮到天花板上"], "ans": 0, "exp": "排水集氣法就是利用收集的氣體進入集氣瓶頂部，將原本裝滿的水往下排出瓶外，當水全部排空時就代表收集滿一瓶氣體了！"}, {"u": 3, "q": "如果把點燃的線香或蠟燭伸入裝滿「二氧化碳」的廣口瓶中，會發生什麼現象？這證明二氧化碳有什麼特性？", "opts": ["火會立刻熄滅，證明二氧化碳「不助燃、本身也不會燃燒」", "火會劇烈燃燒並爆炸", "線香會變成藍色", "瓶子會變成黑色"], "ans": 0, "exp": "二氧化碳「不具助燃性、本身也不自燃」，而且比空氣重，能覆蓋在火源上隔絕氧氣，因此常被用來製作滅火器！"}, {"u": 3, "q": "廚房裡的菜刀洗完後如果沒有擦乾，放在潮溼的空氣中幾天後表面出現紅褐色的斑點，這是什麼現象？該如何預防？", "opts": ["鐵生鏽了；每次使用清洗後應「擦乾保持乾燥」或塗抹少許食用油隔絕水氣", "菜刀發霉長香菇了；放進冰箱冷凍", "菜刀變成黃金了", "這是正常現象不用理它"], "ans": 0, "exp": "紅褐色斑點是鐵與水、氧氣反應生成的「鐵鏽」。菜刀洗淨後擦乾保持乾燥，就能有效防止生鏽！"}, {"u": 4, "q": "上午 9 點在操場測量旗竿的影子，發現影子朝向「西偏北方」且長 150 公分；到了正午 12 點再測一次，請問影子長度會比 150 公分長還是短？當時太陽在偏哪一個方向？", "opts": ["影子變短；臺灣正午太陽通常在偏南方（北回歸線以北）", "影子變長到 500 公分；太陽在正西方", "影子完全消失不見；太陽在正北方", "影子方向與早上一模一樣"], "ans": 0, "exp": "正午 12 點是一天中太陽仰角最高的時候，所以「竿影最短」！且臺灣大部分地區位在北回歸線以北，正午太陽多位於偏南方，影子則朝向偏北方。"}, {"u": 4, "q": "地球表面有海洋、陸地與大氣層，是太陽系目前已知唯一孕育生命的星球。請問地球本身會自己發光嗎？月球又是什麼星體？", "opts": ["地球是行星、月球是地球的衛星，兩者都不會自己發光，是反射太陽（恆星）的光", "地球、月球、太陽都會自己發光", "月球是恆星，晚上自己發光", "地球是彗星"], "ans": 0, "exp": "太陽系中只有「太陽」是會自己發光發熱的「恆星」；地球是繞太陽轉的「行星」，月球是繞地球轉的「衛星」，行星和衛星都不會自己發光，而是反射太陽光！"}, {"u": 4, "q": "如果在秋季夜晚 8 點觀察星空，看到仙后座在東北方天空；到了同一天深夜 11 點（過了3小時）再次觀察，仙后座的位置會如何改變？", "opts": ["會繞著北極星逆時針方向移動（由東向西移動）", "會固定在原地完全不動", "會掉到地面上", "會變成北斗七星"], "ans": 0, "exp": "在同一夜晚不同時刻觀察，除了北極星幾乎不動外，其他星座都會隨時間「東升西落」（面對北方看是繞著北極星逆時針旋轉）！"}, {"u": 4, "q": "冬天的夜晚星空中，有一個非常顯眼、中間有三顆亮星排成一直線（像腰帶一樣）的著名星座，請問是什麼星座？", "opts": ["獵戶座", "天蠍座", "大熊座", "飛馬座"], "ans": 0, "exp": "冬天夜空中最容易辨認的就是「獵戶座」，中央有三顆連成一線的腰帶星，左上角還有紅巨星「參宿四」，與天狼星、南河三組成「冬季大三角」！"}], "matchPairs": {"english": {"1": [["bubble tea", "珍珠奶茶 🧋"], ["soy milk", "豆漿 🥛"], ["hot chocolate", "熱可可 🍫"], ["coffee", "咖啡 ☕"], ["soda", "汽水 🫧"], ["cola", "可樂 🥤"], ["Do you like tea?", "你喜歡茶嗎？"], ["Yes, she does.", "是的，她喜歡。"]], "2": [["pineapple", "鳳梨 🍍"], ["papaya", "木瓜 🍈"], ["guava", "芭樂 🍐"], ["peach / peaches", "水蜜桃 🍑"], ["mango / mangoes", "芒果 🥭"], ["orange", "柳丁 🍊"], ["How many", "多少個(問數量)"], ["Do you have any...", "你有任何…嗎？"]], "3": [["by MRT", "搭捷運 🚇"], ["by scooter", "騎機車 🛵"], ["on foot", "走路/步行 🚶‍♀️"], ["by plane", "搭飛機 ✈️"], ["library", "圖書館 📚"], ["museum", "博物館 🏛️"], ["get there", "到達那裡(不加to)"], ["How can we...", "我們如何…"]], "4": [["smartphone", "智慧型手機 📱"], ["water bottle", "水壺 🍼"], ["umbrella", "雨傘 ☂️"], ["glasses", "眼鏡(複數) 👓"], ["jacket", "外套/夾克 🧥"], ["watch", "手錶 ⌚"], ["Whose", "誰的(問主人)"], ["Danny's", "丹尼的(所有格)"]]}, "social": {"1": [["東臨海洋", "太平洋 🌊"], ["西隔海峽", "臺灣海峽 🚢"], ["南界海峽", "巴士海峽 🏝️"], ["北回歸線", "北緯23.5度(嘉/花)"], ["立法院", "制定與修改法律 ⚖️"], ["法律特性", "具國家強制力 🛡️"], ["小琉球/太平島", "珊瑚礁島 🪸"], ["澎湖/綠島/蘭嶼", "火山島 🌋"]], "2": [["嘉南平原", "臺灣最大平原 🌾"], ["玉山主峰", "臺灣第一高峰 🏔️"], ["北部海岸", "岬灣海岸(岩岸) 🪨"], ["西部海岸", "沙岸(沙洲潟湖) 🏖️"], ["東部海岸", "斷層海岸(陡峭) ⛰️"], ["冬季盛行風", "東北季風(北東多雨)"], ["最長河川", "濁水溪 💧"], ["流域最廣河川", "高屏溪 🌊"]], "3": [["長濱文化", "舊石器(敲擊/用火)"], ["圓山文化", "新石器(圓山貝塚)"], ["卑南文化", "新石器(玉器/石板棺)"], ["十三行文化", "金屬器(煉鐵/人面陶罐)"], ["排灣族/魯凱族", "石板屋與琉璃珠 🏡"], ["達悟族(蘭嶼)", "飛魚祭與地下屋 🛶"], ["布農族", "祈禱小米豐收歌(八部合音)"], ["賽夏族", "巴斯達隘(矮靈祭)"]], "4": [["福爾摩沙", "葡萄牙人驚嘆美麗之島"], ["顏思齊與鄭芝龍", "開墾雲嘉笨港一帶"], ["熱蘭遮城", "荷蘭建(今安平古堡)"], ["普羅民遮城", "荷蘭建(今赤崁樓)"], ["西班牙占領", "雞籠與淡水(紅毛城)"], ["新港文書", "羅馬拼音西拉雅語契約"], ["陳永華建議", "興建全臺首學臺南孔廟"], ["鄭氏軍屯制度", "新營、左營、林鳳營"]]}, "science": {"1": [["內溫(恆溫)動物", "鳥類與哺乳類 🐧"], ["外溫(變溫)動物", "魚/兩生/爬蟲/昆蟲 🐸"], ["擬態", "竹節蟲與枯葉蝶 🍂"], ["警戒色", "雨傘節與毒蛾幼蟲 ⚠️"], ["完全變態(有蛹)", "蝴蝶、獨角仙、蚊子 🦋"], ["不完全變態(無蛹)", "蝗蟲、螳螂、蜻蜓 🦗"], ["胎生哺乳類", "鯨魚、海豚、蝙蝠 🐋"], ["蜜蜂搖擺舞", "通報同伴蜜源位置 🐝"]], "2": [["聲音的產生", "物體快速振動 🔊"], ["分貝計(dB)", "測量音量大小(85傷耳)"], ["敲擊水杯高音", "水越少音調越高 🥁"], ["吹氣水杯高音", "水越多(氣柱短)越高 🎵"], ["共鳴箱功能", "放大聲音的音量 🎸"], ["光的直線前進", "影子與針孔成像 🔦"], ["光的反射定律", "入射角＝反射角(潛望鏡)"], ["光的折射現象", "水中吸管折斷/池水變淺"]], "3": [["空氣中最多(78%)", "氮氣 🌬️"], ["空氣中第二(21%)", "氧氣(具助燃性) 🔥"], ["製造氧氣材料", "雙氧水＋胡蘿蔔丁 🥕"], ["製造二氧化碳", "小蘇打粉＋醋酸 🫧"], ["檢驗二氧化碳", "澄清石灰水變混濁 🥛"], ["油鍋蓋鍋蓋滅火", "隔絕助燃物(氧氣) 🍳"], ["開闢防火巷滅火", "移除可燃物 🌲"], ["鐵生鏽必要條件", "水與氧氣同時存在 🔩"]], "4": [["竿影方向與長度", "與太陽相反/仰角高影短"], ["夏至太陽軌跡", "仰角最高、影最短、晝最長"], ["冬至太陽軌跡", "仰角最低、影最長、晝最短"], ["春分與秋分", "正東升、正西落"], ["類地行星(前4顆)", "水星、金星、地球、火星"], ["類木行星(後4顆)", "木星、土星、天王、海王"], ["春夏找北極星", "利用北斗七星勺口5倍"], ["秋冬找北極星", "利用仙后座(W形)5倍"]]}}};
+
+    // =========================================================================
+    // CUTE KAWAII SVG ARTWORK (Strictly NO Kuromi! Features Miku & Cute Sanrio)
+    // =========================================================================
+    const CHARACTER_SVGS = {
+      miku: {
+        name: "🎤 初音未來 Miku",
+        cheer: "喬喬加油！跟著初音的音樂節奏，今天的三關一定能完美過關喔！🎵",
+        svg: `<svg viewBox="0 0 100 100" class="w-full h-full">
+          <!-- Twin tails in iconic Miku Teal #39C5BB -->
+          <path d="M18 36 C4 48, 4 78, 16 90 C22 86, 24 62, 26 42 Z" fill="#39C5BB"/>
+          <path d="M82 36 C96 48, 96 78, 84 90 C78 86, 76 62, 74 42 Z" fill="#39C5BB"/>
+          <!-- Magenta Hair Accessories -->
+          <rect x="17" y="28" width="11" height="11" rx="3" transform="rotate(-18 22 33)" fill="#ec4899" stroke="#1e293b" stroke-width="1.5"/>
+          <rect x="72" y="28" width="11" height="11" rx="3" transform="rotate(18 77 33)" fill="#ec4899" stroke="#1e293b" stroke-width="1.5"/>
+          <!-- Head & Face -->
+          <circle cx="50" cy="52" r="26" fill="#fff1f2"/>
+          <!-- Bangs -->
+          <path d="M24 46 C26 24, 74 24, 76 46 C70 36, 62 48, 50 48 C38 48, 30 36, 24 46 Z" fill="#39C5BB"/>
+          <!-- Cute Big Eyes -->
+          <ellipse cx="40" cy="55" rx="4.2" ry="5" fill="#0f766e"/>
+          <ellipse cx="60" cy="55" rx="4.2" ry="5" fill="#0f766e"/>
+          <circle cx="38.8" cy="53.2" r="1.6" fill="#ffffff"/>
+          <circle cx="58.8" cy="53.2" r="1.6" fill="#ffffff"/>
+          <!-- Blush & Smile -->
+          <ellipse cx="33" cy="61" rx="3.5" ry="2" fill="#f472b6" opacity="0.55"/>
+          <ellipse cx="67" cy="61" rx="3.5" ry="2" fill="#f472b6" opacity="0.55"/>
+          <path d="M46 62 Q50 66 54 62" stroke="#e11d48" stroke-width="2.2" fill="none" stroke-linecap="round"/>
+          <!-- Musical Note -->
+          <text x="75" y="24" font-size="14">🎵</text>
+        </svg>`
+      },
+      cinnamoroll: {
+        name: "☁️ 大耳狗喜拿",
+        cheer: "軟綿綿的雲朵為喬喬應援！遇到不會的題目別緊張，看詳解就能學會囉！☁️",
+        svg: `<svg viewBox="0 0 100 100" class="w-full h-full">
+          <!-- Long Floppy White Ears -->
+          <ellipse cx="18" cy="58" rx="14" ry="24" transform="rotate(25 18 58)" fill="#ffffff" stroke="#7dd3fc" stroke-width="2.5"/>
+          <ellipse cx="82" cy="58" rx="14" ry="24" transform="rotate(-25 82 58)" fill="#ffffff" stroke="#7dd3fc" stroke-width="2.5"/>
+          <!-- Chubby White Head -->
+          <ellipse cx="50" cy="54" rx="28" ry="23" fill="#ffffff" stroke="#7dd3fc" stroke-width="2.5"/>
+          <!-- Sky Blue Eyes -->
+          <ellipse cx="38" cy="54" rx="3.5" ry="4.5" fill="#0284c7"/>
+          <ellipse cx="62" cy="54" rx="3.5" ry="4.5" fill="#0284c7"/>
+          <circle cx="37" cy="52.5" r="1.3" fill="#ffffff"/>
+          <circle cx="61" cy="52.5" r="1.3" fill="#ffffff"/>
+          <!-- Pink Cheeks & Cute ω Mouth -->
+          <ellipse cx="31" cy="59" rx="4" ry="2.2" fill="#f9a8d4"/>
+          <ellipse cx="69" cy="59" rx="4" ry="2.2" fill="#f9a8d4"/>
+          <path d="M45 58 Q47.5 61 50 58 Q52.5 61 55 58" stroke="#0284c7" stroke-width="2" fill="none" stroke-linecap="round"/>
+          <!-- Cute Sky Ribbon on top -->
+          <circle cx="50" cy="30" r="4" fill="#38bdf8"/>
+          <ellipse cx="43" cy="30" rx="6" ry="3.5" fill="#7dd3fc"/>
+          <ellipse cx="57" cy="30" rx="6" ry="3.5" fill="#7dd3fc"/>
+        </svg>`
+      },
+      mymelody: {
+        name: "🌸 美樂蒂 My Melody",
+        cheer: "喬喬最棒了！美樂蒂準備了草莓點心與滿滿的星星要送給認真的妳喔！🍓",
+        svg: `<svg viewBox="0 0 100 100" class="w-full h-full">
+          <!-- Pink Bunny Ears -->
+          <ellipse cx="34" cy="24" rx="9" ry="20" transform="rotate(-8 34 24)" fill="#f472b6"/>
+          <ellipse cx="66" cy="26" rx="9" ry="20" transform="rotate(14 66 26)" fill="#f472b6"/>
+          <!-- Pink Hood -->
+          <ellipse cx="50" cy="58" rx="30" ry="26" fill="#f472b6"/>
+          <!-- White Face Inside Hood -->
+          <ellipse cx="50" cy="61" rx="22" ry="18" fill="#ffffff"/>
+          <!-- Cute Flower / Bow on Ear -->
+          <circle cx="66" cy="38" r="7" fill="#fff1f2" stroke="#f43f5e" stroke-width="1.5"/>
+          <circle cx="66" cy="38" r="3" fill="#facc15"/>
+          <!-- Eyes & Yellow Oval Nose -->
+          <ellipse cx="40" cy="60" rx="2.8" ry="3.8" fill="#334155"/>
+          <ellipse cx="60" cy="60" rx="2.8" ry="3.8" fill="#334155"/>
+          <ellipse cx="50" cy="63" rx="3" ry="2.2" fill="#facc15"/>
+          <ellipse cx="34" cy="64" rx="3.2" ry="1.8" fill="#fbcfe8"/>
+          <ellipse cx="66" cy="64" rx="3.2" ry="1.8" fill="#fbcfe8"/>
+        </svg>`
+      },
+      pompompurin: {
+        name: "🍮 布丁狗 Pompompurin",
+        cheer: "焦糖布丁能量滿滿！一步一步慢慢來，每天 30 分鐘不知不覺就變學霸囉！🍮",
+        svg: `<svg viewBox="0 0 100 100" class="w-full h-full">
+          <!-- Golden Floppy Ears -->
+          <ellipse cx="20" cy="56" rx="10" ry="18" transform="rotate(20 20 56)" fill="#fde047" stroke="#ca8a04" stroke-width="2"/>
+          <ellipse cx="80" cy="56" rx="10" ry="18" transform="rotate(-20 80 56)" fill="#fde047" stroke="#ca8a04" stroke-width="2"/>
+          <!-- Pudding Body/Head -->
+          <ellipse cx="50" cy="58" rx="28" ry="24" fill="#fef08a" stroke="#ca8a04" stroke-width="2"/>
+          <!-- Signature Brown Beret -->
+          <ellipse cx="50" cy="34" rx="18" ry="7" fill="#78350f"/>
+          <path d="M48 25 L52 25 L51 30 L49 30 Z" fill="#78350f"/>
+          <!-- Face -->
+          <circle cx="39" cy="55" r="2.8" fill="#451a03"/>
+          <circle cx="61" cy="55" r="2.8" fill="#451a03"/>
+          <ellipse cx="50" cy="58" rx="2.5" ry="1.8" fill="#78350f"/>
+          <path d="M44 61 Q47 64 50 60 Q53 64 56 61" stroke="#78350f" stroke-width="2" fill="none" stroke-linecap="round"/>
+        </svg>`
+      },
+      twinstars: {
+        name: "🌟 雙子星 Kiki & Lala",
+        cheer: "一閃一閃亮晶晶！雙子星帶著夢幻星杖，陪喬喬探索自然與社會的奧祕！🌟",
+        svg: `<svg viewBox="0 0 100 100" class="w-full h-full">
+          <!-- Golden Star Background -->
+          <polygon points="50,8 61,34 90,36 67,54 75,82 50,66 25,82 33,54 10,36 39,34" fill="#fef08a" stroke="#f59e0b" stroke-width="2"/>
+          <!-- Twin Star Faces -->
+          <circle cx="38" cy="54" r="14" fill="#fff1f2"/>
+          <path d="M24 50 C26 36, 50 36, 52 50 Z" fill="#38bdf8"/>
+          <circle cx="62" cy="54" r="14" fill="#fff1f2"/>
+          <path d="M48 50 C50 36, 74 36, 76 50 Z" fill="#f472b6"/>
+          <circle cx="34" cy="55" r="1.8" fill="#334155"/>
+          <circle cx="42" cy="55" r="1.8" fill="#334155"/>
+          <circle cx="58" cy="55" r="1.8" fill="#334155"/>
+          <circle cx="66" cy="55" r="1.8" fill="#334155"/>
+        </svg>`
+      },
+      pochacco: {
+        name: "🐾 帕恰狗 Pochacco",
+        cheer: "充滿活力的帕恰狗來囉！運動跟學習都一樣，每天堅持三關最有成就感！🐾",
+        svg: `<svg viewBox="0 0 100 100" class="w-full h-full">
+          <!-- Black Floppy Ears -->
+          <ellipse cx="22" cy="42" rx="7" ry="18" transform="rotate(28 22 42)" fill="#1e293b"/>
+          <ellipse cx="78" cy="42" rx="7" ry="18" transform="rotate(-28 78 42)" fill="#1e293b"/>
+          <!-- White Pear-Shaped Head -->
+          <ellipse cx="50" cy="56" rx="26" ry="23" fill="#ffffff" stroke="#cbd5e1" stroke-width="2.5"/>
+          <!-- 3 Cute Hair Sprouts -->
+          <path d="M50 33 L50 25 M46 34 L43 27 M54 34 L57 27" stroke="#1e293b" stroke-width="2.2" stroke-linecap="round"/>
+          <!-- Eyes & Nose -->
+          <circle cx="41" cy="54" r="2.8" fill="#1e293b"/>
+          <circle cx="59" cy="54" r="2.8" fill="#1e293b"/>
+          <ellipse cx="50" cy="59" rx="3.5" ry="2.5" fill="#1e293b"/>
+          <!-- Mint Scarf -->
+          <rect x="32" y="74" width="36" height="8" rx="4" fill="#34d399"/>
+        </svg>`
+      },
+      hellokitty: {
+        name: "🎀 Hello Kitty 凱蒂貓",
+        cheer: "戴上最可愛的蝴蝶結！喬喬今天也準備好拿下滿分三顆星了嗎？🎀",
+        svg: `<svg viewBox="0 0 100 100" class="w-full h-full">
+          <!-- Kitty Ears & Head -->
+          <polygon points="24,42 28,20 44,34" fill="#ffffff" stroke="#fda4af" stroke-width="2.5"/>
+          <polygon points="76,42 72,20 56,34" fill="#ffffff" stroke="#fda4af" stroke-width="2.5"/>
+          <ellipse cx="50" cy="56" rx="28" ry="23" fill="#ffffff" stroke="#fda4af" stroke-width="2.5"/>
+          <!-- Signature Red/Pink Bow -->
+          <ellipse cx="62" cy="34" rx="8" ry="6" fill="#f43f5e"/>
+          <ellipse cx="76" cy="38" rx="8" ry="6" fill="#f43f5e"/>
+          <circle cx="69" cy="36" r="4.5" fill="#fb7185"/>
+          <!-- Whiskers -->
+          <line x1="16" y1="52" x2="26" y2="54" stroke="#334155" stroke-width="2" stroke-linecap="round"/>
+          <line x1="15" y1="59" x2="26" y2="59" stroke="#334155" stroke-width="2" stroke-linecap="round"/>
+          <line x1="84" y1="52" x2="74" y2="54" stroke="#334155" stroke-width="2" stroke-linecap="round"/>
+          <line x1="85" y1="59" x2="74" y2="59" stroke="#334155" stroke-width="2" stroke-linecap="round"/>
+          <!-- Eyes & Yellow Nose -->
+          <ellipse cx="38" cy="56" rx="2.8" ry="3.8" fill="#1e293b"/>
+          <ellipse cx="62" cy="56" rx="2.8" ry="3.8" fill="#1e293b"/>
+          <ellipse cx="50" cy="60" rx="3.2" ry="2.2" fill="#facc15"/>
+        </svg>`
+      }
+    };
+
+    // 24 Collectible Stickers for Gacha (Strictly Miku + Sanrio Cute Friends, NO Kuromi)
+    const STICKER_CATALOG = [
+      { id: "s1", buddy: "miku", title: "星光歌姬初音", rarity: "SSR", desc: "拿著閃耀麥克風為喬喬唱應援曲！" },
+      { id: "s2", buddy: "cinnamoroll", title: "雲朵飛行大耳狗", rarity: "SSR", desc: "張開大耳朵在藍天白雲間飛翔～" },
+      { id: "s3", buddy: "mymelody", title: "草莓花園美樂蒂", rarity: "SSR", desc: "親手烤了草莓蛋糕獎勵認真學習的喬喬！" },
+      { id: "s4", buddy: "twinstars", title: "銀河許願雙子星", rarity: "SSR", desc: "Kiki & Lala 點亮五上自然科學的星空！" },
+      { id: "s5", buddy: "pompompurin", title: "焦糖貝雷帽布丁狗", rarity: "SR", desc: "悠閒喝著下午茶背英文單字～" },
+      { id: "s6", buddy: "pochacco", title: "滿分活力帕恰狗", rarity: "SR", desc: "帶著喬喬一起探索台灣地圖！" },
+      { id: "s7", buddy: "hellokitty", title: "經典蝴蝶結Kitty", rarity: "SR", desc: "最溫柔的好朋友，陪妳拿滿分！" },
+      { id: "s8", buddy: "miku", title: "蔥綠音符初音", rarity: "SR", desc: "Wonder World 5 英語發音小老師！" },
+      { id: "s9", buddy: "cinnamoroll", title: "珍珠奶茶大耳狗", rarity: "SR", desc: "I like bubble tea! 台灣必喝美食～" },
+      { id: "s10", buddy: "mymelody", title: "水果沙拉美樂蒂", rarity: "SR", desc: "Let's make fruit salad together!" },
+      { id: "s11", buddy: "miku", title: "電音鍵盤手初音", rarity: "SSR", desc: "彈奏探索聲光世界的科學樂章！" },
+      { id: "s12", buddy: "twinstars", title: "北極星導航雙子星", rarity: "SR", desc: "春夏北斗七星、秋冬仙后座！" },
+      { id: "s13", buddy: "pompompurin", title: "大航海船長布丁狗", rarity: "SR", desc: "認識荷西時期與鄭氏時期的台灣歷史！" },
+      { id: "s14", buddy: "pochacco", title: "單車出遊帕恰狗", rarity: "R", desc: "We can get to the park by bike!" },
+      { id: "s15", buddy: "hellokitty", title: "蘋果派廚師Kitty", rarity: "R", desc: "How many apples do you need?" },
+      { id: "s16", buddy: "cinnamoroll", title: "彩虹實驗大耳狗", rarity: "R", desc: "背對太陽噴水霧，折射出美麗彩虹！" },
+      { id: "s17", buddy: "mymelody", title: "花冠小公主美樂蒂", rarity: "R", desc: "溫柔守法又愛護小動物！" },
+      { id: "s18", buddy: "miku", title: "未來耳機初音", rarity: "R", desc: "每天聽讀英語，聽力一級棒！" },
+      { id: "s19", buddy: "twinstars", title: "八大行星雙子星", rarity: "R", desc: "水金地火木土天海，漫遊太陽系！" },
+      { id: "s20", buddy: "pompompurin", title: "玉山登山家布丁狗", rarity: "R", desc: "登上台灣第一高峰玉山 3952 公尺！" },
+      { id: "s21", buddy: "pochacco", title: "失物招領小幫手", rarity: "R", desc: "Whose water bottle is this?" },
+      { id: "s22", buddy: "hellokitty", title: "音樂家小提琴Kitty", rarity: "R", desc: "共鳴箱放大音量，細弦音調高！" },
+      { id: "s23", buddy: "cinnamoroll", title: "氧氣小博士大耳狗", rarity: "SR", desc: "雙氧水加胡蘿蔔丁，製造助燃氧氣！" },
+      { id: "s24", buddy: "miku", title: "150關畢業傳奇初音", rarity: "SSR", desc: "見證喬喬完成五年級上學期全部評量的最高榮耀！" }
+    ];
+
+    // =========================================================================
+    // WEB AUDIO SYNTHESIZER (Cute Chimes, Fanfare & Vocaloid Arpeggios)
+    // =========================================================================
+    class SoundEffects {
+      constructor() {
+        this.enabled = true;
+        this.ctx = null;
+      }
+      init() {
+        if (!this.ctx) {
+          const AudioCtx = window.AudioContext || window.webkitAudioContext;
+          if (AudioCtx) this.ctx = new AudioCtx();
+        }
+        if (this.ctx && this.ctx.state === 'suspended') {
+          this.ctx.resume();
+        }
+      }
+      playTone(freq, duration = 0.14, type = 'sine', delay = 0, vol = 0.12) {
+        if (!this.enabled) return;
+        try {
+          this.init();
+          if (!this.ctx) return;
+          const osc = this.ctx.createOscillator();
+          const gain = this.ctx.createGain();
+          osc.type = type;
+          osc.frequency.setValueAtTime(freq, this.ctx.currentTime + delay);
+          gain.gain.setValueAtTime(vol, this.ctx.currentTime + delay);
+          gain.gain.exponentialRampToValueAtTime(0.001, this.ctx.currentTime + delay + duration);
+          osc.connect(gain);
+          gain.connect(this.ctx.destination);
+          osc.start(this.ctx.currentTime + delay);
+          osc.stop(this.ctx.currentTime + delay + duration);
+        } catch (e) {}
+      }
+      pop() { this.playTone(660, 0.09, 'sine', 0, 0.1); }
+      correct() {
+        this.playTone(523.25, 0.12, 'triangle', 0, 0.14);
+        this.playTone(659.25, 0.12, 'triangle', 0.09, 0.14);
+        this.playTone(783.99, 0.18, 'triangle', 0.18, 0.15);
+        this.playTone(1046.5, 0.25, 'sine', 0.27, 0.15);
+      }
+      wrong() {
+        this.playTone(300, 0.15, 'sawtooth', 0, 0.08);
+        this.playTone(250, 0.22, 'sawtooth', 0.14, 0.08);
+      }
+      fanfare() {
+        const notes = [523.25, 659.25, 783.99, 1046.5, 783.99, 1046.5];
+        const times = [0, 0.1, 0.2, 0.3, 0.45, 0.58];
+        notes.forEach((n, i) => this.playTone(n, 0.22, 'triangle', times[i], 0.15));
+      }
+      speakEnglish(text) {
+        if (!('speechSynthesis' in window)) return;
+        try {
+          window.speechSynthesis.cancel();
+          const u = new SpeechSynthesisUtterance(text);
+          u.lang = 'en-US';
+          u.rate = 0.88; // Slightly slower & clearer for 5th grade learning
+          u.pitch = 1.15;
+          window.speechSynthesis.speak(u);
+        } catch (e) {}
+      }
+    }
+
+    const sfx = new SoundEffects();
+
+    // =========================================================================
+    // MAIN APPLICATION STATE & PERSISTENCE
+    // =========================================================================
+    const STORAGE_KEY = "qiaoqiao_kanghsuan_5a_save_v1";
+
+    class QiaoQiaoApp {
+      constructor() {
+        this.state = this.loadState();
+        this.currentTab = 'home';
+        this.mapSubject = 'english';
+        this.mapUnitFilter = 'ALL';
+
+        // Active gameplay state
+        this.activeStage = null; // { subject, id, meta, studyCards, questions, matchPairs }
+        this.studyChecked = new Set();
+        this.quizIndex = 0;
+        this.quizScore = 0;
+        this.quizCombo = 0;
+        this.quizAnswered = false;
+        this.stageSeconds = 0;
+        this.timerInterval = null;
+        this.isMistakePractice = false;
+
+        // Encore matching state
+        this.encoreSelectedLeft = null;
+        this.encoreMatchedCount = 0;
+      }
+
+      getDefaultState() {
+        return {
+          partner: "miku",
+          coins: 60, // Start with 60 coins so QiaoQiao can try Gacha right away!
+          streak: 1,
+          lastPlayedDate: null,
+          dailyHistory: {}, // { "YYYY-MM-DD": { english: stageId, social: stageId, science: stageId } }
+          clearedStages: {
+            english: {}, // { stageId: { stars: 3, bestScore: 8, timeSec: 420 } }
+            social: {},
+            science: {}
+          },
+          mistakes: [], // [{ id, subject, q, opts, ans, exp, tts }]
+          stickers: ["s1", "s2", "s3"], // Unlocked starter stickers (Miku, Cinnamoroll, My Melody)
+          selectedPlanDay: null // Optional override if QiaoQiao picks a specific day (1..50)
+        };
+      }
+
+      loadState() {
+        try {
+          const raw = localStorage.getItem(STORAGE_KEY);
+          if (!raw) return this.getDefaultState();
+          const parsed = JSON.parse(raw);
+          return Object.assign(this.getDefaultState(), parsed);
+        } catch (e) {
+          return this.getDefaultState();
+        }
+      }
+
+      saveState() {
+        try {
+          localStorage.setItem(STORAGE_KEY, JSON.stringify(this.state));
+        } catch (e) {}
+        this.updateHeaderStats();
+      }
+
+      getTodayKey() {
+        const d = new Date();
+        const yyyy = d.getFullYear();
+        const mm = String(d.getMonth() + 1).padStart(2, '0');
+        const dd = String(d.getDate()).padStart(2, '0');
+        return `${yyyy}-${mm}-${dd}`;
+      }
+
+      init() {
+        this.updateHeaderStats();
+        this.renderHome();
+        this.switchTab('home');
+      }
+
+      toggleSound() {
+        sfx.enabled = !sfx.enabled;
+        document.getElementById('btn-sound-toggle').textContent = sfx.enabled ? '🔊' : '🔇';
+        if (sfx.enabled) sfx.pop();
+      }
+
+      cyclePartner() {
+        sfx.pop();
+        const keys = Object.keys(CHARACTER_SVGS);
+        const idx = keys.indexOf(this.state.partner);
+        this.state.partner = keys[(idx + 1) % keys.length];
+        this.saveState();
+        this.renderHome();
+      }
+
+      updateHeaderStats() {
+        const partnerObj = CHARACTER_SVGS[this.state.partner] || CHARACTER_SVGS.miku;
+        document.getElementById('header-mascot').innerHTML = partnerObj.svg;
+
+        // Calculate total stars
+        let totalStars = 0;
+        ['english', 'social', 'science'].forEach(sub => {
+          Object.values(this.state.clearedStages[sub] || {}).forEach(info => {
+            totalStars += (info.stars || 0);
+          });
+        });
+
+        document.getElementById('stat-streak').textContent = this.state.streak || 1;
+        document.getElementById('stat-stars').textContent = totalStars;
+        document.getElementById('stat-coins').textContent = this.state.coins || 0;
+
+        // Mistake badges
+        const mCount = (this.state.mistakes || []).length;
+        const badgeD = document.getElementById('badge-d-mistakes');
+        const badgeM = document.getElementById('badge-m-mistakes');
+        if (badgeD) badgeD.textContent = mCount;
+        if (badgeM) {
+          badgeM.textContent = mCount;
+          badgeM.classList.toggle('hidden', mCount === 0);
+        }
+      }
+
+      switchTab(tab) {
+        sfx.pop();
+        if (this.currentTab === 'play' && tab !== 'play') {
+          this.stopStageTimer();
+        }
+        this.currentTab = tab;
+
+        const views = ['home', 'map', 'play', 'mistakes', 'gacha', 'calendar'];
+        views.forEach(v => {
+          const el = document.getElementById(`view-${v}`);
+          if (el) el.classList.toggle('hidden', v !== tab);
+        });
+
+        // Highlight active nav buttons
+        ['home', 'map', 'mistakes', 'gacha', 'calendar'].forEach(v => {
+          const dBtn = document.getElementById(`nav-d-${v}`);
+          const mBtn = document.getElementById(`nav-m-${v}`);
+          const active = (v === tab);
+          if (dBtn) {
+            dBtn.className = active
+              ? "px-4 py-1.5 rounded-full bg-gradient-to-r from-teal-400 to-pink-400 text-white shadow-sm transition-all"
+              : "px-4 py-1.5 rounded-full text-slate-600 hover:bg-pink-50 transition-all";
+          }
+          if (mBtn) {
+            mBtn.className = active
+              ? "relative flex flex-col items-center py-1 px-2.5 rounded-xl text-xs font-black text-pink-600 bg-pink-50"
+              : "relative flex flex-col items-center py-1 px-2.5 rounded-xl text-xs font-bold text-slate-500";
+          }
+        });
+
+        if (tab === 'home') this.renderHome();
+        if (tab === 'map') this.renderMap();
+        if (tab === 'mistakes') this.renderMistakes();
+        if (tab === 'gacha') this.renderGacha();
+        if (tab === 'calendar') this.renderCalendar();
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      }
+
+      // =======================================================================
+      // NEXT STAGE & DAILY 3 MISSIONS LOGIC
+      // =======================================================================
+      getNextStageId(subject) {
+        if (this.state.selectedPlanDay) {
+          return this.state.selectedPlanDay;
+        }
+        const cleared = this.state.clearedStages[subject] || {};
+        for (let i = 1; i <= 50; i++) {
+          if (!cleared[i]) return i;
+        }
+        return 50;
+      }
+
+      getStageMeta(subject, stageId) {
+        const list = subject === 'english'
+          ? CURRICULUM_DATA.englishStages
+          : subject === 'social'
+            ? CURRICULUM_DATA.socialStages
+            : CURRICULUM_DATA.scienceStages;
+        return list.find(s => Number(s.id) === Number(stageId)) || list[0];
+      }
+
+      renderHome() {
+        const partnerObj = CHARACTER_SVGS[this.state.partner] || CHARACTER_SVGS.miku;
+        document.getElementById('hero-partner-svg').innerHTML = partnerObj.svg;
+        document.getElementById('hero-partner-name').textContent = partnerObj.name;
+        document.getElementById('hero-speech').textContent = partnerObj.cheer;
+
+        // Calculate total cleared stages out of 150
+        const engDone = Object.keys(this.state.clearedStages.english || {}).length;
+        const socDone = Object.keys(this.state.clearedStages.social || {}).length;
+        const sciDone = Object.keys(this.state.clearedStages.science || {}).length;
+        const totalDone = engDone + socDone + sciDone;
+        const pct = Math.round((totalDone / 150) * 100);
+
+        document.getElementById('home-total-progress-text').textContent = `${totalDone} / 150 關 (${pct}%)`;
+        document.getElementById('home-total-progress-bar').style.width = `${pct}%`;
+
+        const todayKey = this.getTodayKey();
+        const todayRecord = this.state.dailyHistory[todayKey] || {};
+        const todayCount = ['english', 'social', 'science'].filter(s => todayRecord[s]).length;
+        document.getElementById('home-today-badge').textContent = `${todayCount} / 3 關完成`;
+
+        const planLabel = this.state.selectedPlanDay
+          ? `📅 目前指定挑戰：第 ${this.state.selectedPlanDay} 天任務（點此可恢復自動推薦）`
+          : `📅 今日日期：${todayKey}（自動接續未完成關卡）`;
+        const dateEl = document.getElementById('today-date-label');
+        dateEl.textContent = planLabel;
+        dateEl.onclick = () => {
+          if (this.state.selectedPlanDay) {
+            this.state.selectedPlanDay = null;
+            this.saveState();
+            this.renderHome();
+          }
+        };
+
+        // Render Today's 3 Subject Mission Cards
+        const subjectsConfig = [
+          {
+            key: "english",
+            label: "🎤 英文科 (Wonder World 5)",
+            themeCard: "kawaii-card-miku",
+            badgeBg: "bg-teal-100 text-teal-800 border-teal-300",
+            btnGradient: "from-teal-400 to-emerald-400",
+            mascot: "miku",
+            timeLabel: "約 10 分鐘 (含單字發音＋8題評量＋配對)"
+          },
+          {
+            key: "social",
+            label: "☁️ 社會科 (康軒五上臺灣歷史地理)",
+            themeCard: "kawaii-card-cinna",
+            badgeBg: "bg-sky-100 text-sky-800 border-sky-300",
+            btnGradient: "from-sky-400 to-blue-400",
+            mascot: "cinnamoroll",
+            timeLabel: "約 10 分鐘 (含重點圖卡＋8題評量＋配對)"
+          },
+          {
+            key: "science",
+            label: "🌸 自然科 (康軒五上科學探索)",
+            themeCard: "kawaii-card-melody",
+            badgeBg: "bg-pink-100 text-pink-800 border-pink-300",
+            btnGradient: "from-pink-400 to-rose-400",
+            mascot: "mymelody",
+            timeLabel: "約 10 分鐘 (含實驗祕笈＋8題評量＋配對)"
+          }
+        ];
+
+        const grid = document.getElementById('daily-missions-grid');
+        grid.innerHTML = subjectsConfig.map(cfg => {
+          const nextId = this.getNextStageId(cfg.key);
+          const meta = this.getStageMeta(cfg.key, nextId);
+          const clearedInfo = (this.state.clearedStages[cfg.key] || {})[nextId];
+          const doneToday = Boolean(todayRecord[cfg.key] || clearedInfo);
+          const buddyObj = CHARACTER_SVGS[meta.buddy] || CHARACTER_SVGS[cfg.mascot];
+
+          return `
+            <div class="${cfg.themeCard} p-4 sm:p-5 flex flex-col justify-between space-y-4 relative overflow-hidden">
+              <div class="space-y-2.5">
+                <div class="flex items-center justify-between gap-2">
+                  <span class="text-xs font-black px-2.5 py-1 rounded-full border ${cfg.badgeBg}">
+                    ${cfg.label}
+                  </span>
+                  <span class="text-xs font-black ${doneToday ? 'text-emerald-600 bg-emerald-50 border-emerald-200' : 'text-amber-600 bg-amber-50 border-amber-200'} px-2.5 py-0.5 rounded-full border">
+                    ${doneToday ? '✅ 已過關' : '✨ 今日推薦'}
+                  </span>
+                </div>
+
+                <div class="flex items-center gap-3 pt-1">
+                  <div class="w-14 h-14 rounded-2xl bg-white p-1.5 border-2 border-slate-100 shadow-sm shrink-0">
+                    ${buddyObj.svg}
+                  </div>
+                  <div>
+                    <div class="text-xs font-bold text-slate-400">
+                      第 ${meta.id} / 50 關 ・ ${meta.unit}
+                    </div>
+                    <h4 class="text-base sm:text-lg font-black text-slate-800 leading-snug">
+                      ${meta.title}
+                    </h4>
+                    <p class="text-xs text-slate-500 font-medium mt-0.5">
+                      ${meta.sub}
+                    </p>
+                  </div>
+                </div>
+              </div>
+
+              <div class="space-y-2.5 pt-2 border-t border-slate-100">
+                <div class="flex items-center justify-between text-xs text-slate-500 font-semibold">
+                  <span>⏱️ ${cfg.timeLabel}</span>
+                </div>
+                <button onclick="app.launchStage('${cfg.key}', ${meta.id})" class="btn-bounce w-full py-3 px-4 rounded-2xl bg-gradient-to-r ${cfg.btnGradient} text-white font-black text-sm shadow-md flex items-center justify-center gap-1.5">
+                  <span>${doneToday ? '🌟 再次複習第 ' + meta.id + ' 關' : '🚀 開始第 ' + meta.id + ' 關挑戰'}</span>
+                </button>
+              </div>
+            </div>
+          `;
+        }).join('');
+
+        // Render 3 Subject Progress Bars
+        const progressHtml = [
+          { key: 'english', name: '🎤 英文 (康軒 Wonder World 5)', done: engDone, color: 'from-teal-400 to-emerald-400' },
+          { key: 'social', name: '☁️ 社會 (康軒五上 臺灣地理與歷史)', done: socDone, color: 'from-sky-400 to-blue-400' },
+          { key: 'science', name: '🌸 自然 (康軒五上 生物/聲光/空氣/星空)', done: sciDone, color: 'from-pink-400 to-rose-400' }
+        ].map(item => {
+          const p = Math.round((item.done / 50) * 100);
+          return `
+            <div class="space-y-1">
+              <div class="flex items-center justify-between text-xs font-bold">
+                <span class="text-slate-700">${item.name}</span>
+                <span class="text-slate-600">${item.done} / 50 關 (${p}%)</span>
+              </div>
+              <div class="w-full h-3 bg-slate-100 rounded-full overflow-hidden p-0.5 border border-slate-200">
+                <div class="h-full bg-gradient-to-r ${item.color} rounded-full transition-all duration-500" style="width: ${p}%"></div>
+              </div>
+            </div>
+          `;
+        }).join('');
+        document.getElementById('subject-progress-list').innerHTML = progressHtml;
+
+        document.getElementById('home-mistake-count').textContent = `${(this.state.mistakes || []).length} 題待複習`;
+        document.getElementById('home-sticker-count').textContent = `已收集 ${(this.state.stickers || []).length} / 24`;
+      }
+
+      // =======================================================================
+      // VIEW 2: 150-STAGE ADVENTURE MAP
+      // =======================================================================
+      setMapSubject(sub) {
+        sfx.pop();
+        this.mapSubject = sub;
+        this.mapUnitFilter = 'ALL';
+        this.renderMap();
+      }
+
+      setMapUnitFilter(u) {
+        sfx.pop();
+        this.mapUnitFilter = u;
+        this.renderMap();
+      }
+
+      renderMap() {
+        ['english', 'social', 'science'].forEach(sub => {
+          const btn = document.getElementById(`map-tab-${sub}`);
+          const active = (sub === this.mapSubject);
+          btn.className = active
+            ? "px-3.5 py-1.5 rounded-xl text-xs sm:text-sm font-black bg-gradient-to-r from-teal-400 to-pink-400 text-white shadow-sm transition-all"
+            : "px-3.5 py-1.5 rounded-xl text-xs sm:text-sm font-bold text-slate-600 hover:bg-white/60 transition-all";
+        });
+
+        const stages = this.mapSubject === 'english'
+          ? CURRICULUM_DATA.englishStages
+          : this.mapSubject === 'social'
+            ? CURRICULUM_DATA.socialStages
+            : CURRICULUM_DATA.scienceStages;
+
+        const units = ['ALL', ...new Set(stages.map(s => s.unit))];
+        document.getElementById('map-unit-filters').innerHTML = units.map(u => {
+          const active = (u === this.mapUnitFilter);
+          return `
+            <button onclick="app.setMapUnitFilter('${u}')" class="px-3 py-1 rounded-full text-xs font-bold border transition-all ${
+              active ? 'bg-slate-800 text-white border-slate-800' : 'bg-white text-slate-600 border-pink-200 hover:bg-pink-50'
+            }">
+              ${u === 'ALL' ? '🌟 全部單元 (50關)' : u}
+            </button>
+          `;
+        }).join('');
+
+        const filtered = this.mapUnitFilter === 'ALL'
+          ? stages
+          : stages.filter(s => s.unit === this.mapUnitFilter);
+
+        const clearedMap = this.state.clearedStages[this.mapSubject] || {};
+        const nextId = this.getNextStageId(this.mapSubject);
+
+        document.getElementById('map-stages-grid').innerHTML = filtered.map(st => {
+          const info = clearedMap[st.id];
+          const isNext = (Number(st.id) === Number(nextId));
+          const buddy = CHARACTER_SVGS[st.buddy] || CHARACTER_SVGS.miku;
+          const starsStr = info ? '⭐'.repeat(info.stars || 3) : '☆☆☆';
+
+          return `
+            <div onclick="app.launchStage('${this.mapSubject}', ${st.id})" class="kawaii-card p-3.5 sm:p-4 cursor-pointer btn-bounce flex items-center justify-between gap-3 ${
+              isNext ? 'ring-2 ring-teal-400 bg-teal-50/40' : info ? 'bg-white/95' : 'bg-white/80'
+            }">
+              <div class="flex items-center gap-3">
+                <div class="w-12 h-12 rounded-2xl bg-gradient-to-br from-teal-50 to-pink-50 p-1 border border-pink-200 shrink-0">
+                  ${buddy.svg}
+                </div>
+                <div>
+                  <div class="flex items-center gap-1.5">
+                    <span class="text-xs font-black px-2 py-0.2 rounded-full bg-pink-100 text-pink-700">
+                      第 ${st.id} 關
+                    </span>
+                    <span class="text-xs font-bold text-slate-400">${st.unit}</span>
+                    ${isNext ? '<span class="text-xs font-black text-teal-600">👈 今日進度</span>' : ''}
+                  </div>
+                  <h4 class="text-sm font-black text-slate-800 mt-0.5">${st.title}</h4>
+                  <p class="text-xs text-slate-500">${st.sub}</p>
+                </div>
+              </div>
+              <div class="text-right shrink-0">
+                <div class="text-xs">${starsStr}</div>
+                <span class="inline-block mt-1 text-xs font-black px-2.5 py-1 rounded-xl ${
+                  info ? 'bg-emerald-50 text-emerald-600 border border-emerald-200' : 'bg-teal-500 text-white'
+                }">
+                  ${info ? '複習' : '挑戰'}
+                </span>
+              </div>
+            </div>
+          `;
+        }).join('');
+      }
+
+      // =======================================================================
+      // VIEW 3: STAGE BUILDER & 3-PHASE GAMEPLAY (10-MINUTE STRUCTURED SESSION)
+      // =======================================================================
+      getUnitNumberFromStageId(stageId) {
+        if (stageId <= 12) return 1;
+        if (stageId <= 23) return 2;
+        if (stageId === 24 || stageId === 25) return (stageId % 2) + 1; // Midterm mixes U1 & U2
+        if (stageId <= 37) return 3;
+        if (stageId <= 46) return 4;
+        return ((stageId - 1) % 4) + 1; // Final review stages cycle across Units 1-4
+      }
+
+      buildStageContent(subject, stageId) {
+        const meta = this.getStageMeta(subject, stageId);
+        const unitNum = this.getUnitNumberFromStageId(stageId);
+
+        // 1. Select Study Cards for Phase 1
+        let studyCards = [];
+        if (subject === 'english') {
+          const c = CURRICULUM_DATA.englishCards;
+          if (unitNum === 1) studyCards = (stageId % 2 === 1) ? c.u1_vocab1.concat(c.u1_grammar1.slice(0,2)) : c.u1_vocab2.concat(c.u1_grammar1.slice(2,4));
+          else if (unitNum === 2) studyCards = (stageId % 2 === 1) ? c.u2_vocab1.concat(c.u2_grammar1.slice(0,2)) : c.u2_vocab2.concat(c.u2_grammar1.slice(2,4));
+          else if (unitNum === 3) studyCards = c.u3_vocab1.slice(0,2).concat(c.u3_grammar1.slice(0,2));
+          else studyCards = c.u4_vocab1.slice(0,2).concat(c.u4_grammar1.slice(0,2));
+        } else if (subject === 'social') {
+          const c = CURRICULUM_DATA.socialCards;
+          if (unitNum === 1) studyCards = (stageId <= 5) ? c.u1_geo : c.u1_law;
+          else if (unitNum === 2) studyCards = (stageId <= 16) ? c.u2_terrain.concat(c.u2_climate.slice(0,1)) : c.u2_climate.concat(c.u2_terrain.slice(0,1));
+          else if (unitNum === 3) studyCards = (stageId <= 31) ? c.u3_prehistory.concat(c.u3_indigenous.slice(0,1)) : c.u3_indigenous.concat(c.u3_prehistory.slice(0,1));
+          else studyCards = c.u4_maritime;
+        } else {
+          const c = CURRICULUM_DATA.scienceCards;
+          if (unitNum === 1) studyCards = c.u1_animals1.concat(c.u1_animals2);
+          else if (unitNum === 2) studyCards = c.u2_sound.concat(c.u2_light);
+          else if (unitNum === 3) studyCards = c.u3_air.concat(c.u1_animals1.slice(0,1)).slice(0,2);
+          else studyCards = c.u4_sky;
+        }
+
+        // 2. Select 8 Curated Assessment Questions for Phase 2
+        const allPool = subject === 'english'
+          ? CURRICULUM_DATA.englishQuestions
+          : subject === 'social'
+            ? CURRICULUM_DATA.socialQuestions
+            : CURRICULUM_DATA.scienceQuestions;
+
+        let unitPool = allPool.filter(q => Number(q.u) === Number(unitNum));
+        if (stageId === 24 || stageId === 25) {
+          unitPool = allPool.filter(q => q.u === 1 || q.u === 2);
+        } else if (stageId >= 47) {
+          unitPool = allPool.slice();
+        }
+
+        // Deterministic offset by stageId so each stage within the unit highlights different questions
+        const startIdx = ((stageId * 3) % Math.max(1, unitPool.length));
+        const ordered = unitPool.slice(startIdx).concat(unitPool.slice(0, startIdx));
+        const selectedQuestions = ordered.slice(0, 8).map((q, idx) => {
+          // Shuffle options deterministically or freshly while preserving correct answer
+          const pairs = q.opts.map((text, i) => ({ text, isAns: i === q.ans }));
+          for (let i = pairs.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [pairs[i], pairs[j]] = [pairs[j], pairs[i]];
+          }
+          return {
+            q: q.q,
+            opts: pairs.map(p => p.text),
+            ans: pairs.findIndex(p => p.isAns),
+            exp: q.exp,
+            tts: q.tts || null
+          };
+        });
+
+        // 3. Select 4 Matching Pairs for Phase 3 Encore
+        const rawPairs = (CURRICULUM_DATA.matchPairs[subject] && CURRICULUM_DATA.matchPairs[subject][unitNum]) || CURRICULUM_DATA.matchPairs[subject][1];
+        const pairOffset = (stageId % 2) * 4;
+        const chosenPairs = rawPairs.slice(pairOffset, pairOffset + 4);
+
+        return {
+          subject,
+          id: stageId,
+          meta,
+          studyCards: studyCards.slice(0, 4),
+          questions: selectedQuestions,
+          matchPairs: chosenPairs
+        };
+      }
+
+      launchStage(subject, stageId) {
+        sfx.pop();
+        this.isMistakePractice = false;
+        this.activeStage = this.buildStageContent(subject, Number(stageId));
+        this.studyChecked = new Set();
+        this.quizIndex = 0;
+        this.quizScore = 0;
+        this.quizCombo = 0;
+        this.stageSeconds = 0;
+
+        this.switchTab('play');
+        this.startStageTimer();
+        this.renderPhase1Study();
+      }
+
+      replayCurrentStage() {
+        if (!this.activeStage) return;
+        this.launchStage(this.activeStage.subject, this.activeStage.id);
+      }
+
+      exitStage() {
+        this.stopStageTimer();
+        this.switchTab('home');
+      }
+
+      startStageTimer() {
+        this.stopStageTimer();
+        const timerEl = document.getElementById('play-timer');
+        timerEl.textContent = "00:00";
+        this.timerInterval = setInterval(() => {
+          this.stageSeconds++;
+          const m = String(Math.floor(this.stageSeconds / 60)).padStart(2, '0');
+          const s = String(this.stageSeconds % 60).padStart(2, '0');
+          timerEl.textContent = `${m}:${s}`;
+        }, 1000);
+      }
+
+      stopStageTimer() {
+        if (this.timerInterval) {
+          clearInterval(this.timerInterval);
+          this.timerInterval = null;
+        }
+      }
+
+      setPhaseIndicators(phaseNum) {
+        [1, 2, 3].forEach(n => {
+          const el = document.getElementById(`step-ind-${n}`);
+          if (n === phaseNum) {
+            el.className = "p-2.5 rounded-2xl border-2 border-teal-400 bg-teal-50 text-teal-800 text-center text-xs font-black shadow-sm";
+          } else if (n < phaseNum) {
+            el.className = "p-2.5 rounded-2xl border-2 border-emerald-200 bg-emerald-50/70 text-emerald-700 text-center text-xs font-bold";
+          } else {
+            el.className = "p-2.5 rounded-2xl border-2 border-slate-200 bg-white/60 text-slate-400 text-center text-xs font-bold";
+          }
+        });
+
+        document.getElementById('phase-study').classList.toggle('hidden', phaseNum !== 1);
+        document.getElementById('phase-quiz').classList.toggle('hidden', phaseNum !== 2);
+        document.getElementById('phase-encore').classList.toggle('hidden', phaseNum !== 3);
+        document.getElementById('phase-complete').classList.toggle('hidden', phaseNum !== 4);
+      }
+
+      renderPhase1Study() {
+        const st = this.activeStage;
+        const subMap = {
+          english: { name: "🎤 英文科", cls: "bg-teal-100 text-teal-800" },
+          social: { name: "☁️ 社會科", cls: "bg-sky-100 text-sky-800" },
+          science: { name: "🌸 自然科", cls: "bg-pink-100 text-pink-800" }
+        };
+        const badge = subMap[st.subject];
+        const bEl = document.getElementById('play-subject-badge');
+        bEl.className = `text-xs font-black px-2.5 py-0.5 rounded-full ${badge.cls}`;
+        bEl.textContent = `${badge.name} ・ 第 ${st.id} 關`;
+        document.getElementById('play-unit-badge').textContent = st.meta.unit;
+        document.getElementById('play-stage-title').textContent = `${st.meta.title}（${st.meta.sub}）`;
+
+        const buddy = CHARACTER_SVGS[st.meta.buddy] || CHARACTER_SVGS.miku;
+        document.getElementById('study-buddy-svg').innerHTML = buddy.svg;
+
+        this.setPhaseIndicators(1);
+        this.renderStudyCards();
+      }
+
+      renderStudyCards() {
+        const cards = this.activeStage.studyCards;
+        document.getElementById('study-read-count').textContent = this.studyChecked.size;
+        document.getElementById('study-total-count').textContent = cards.length;
+
+        document.getElementById('study-cards-grid').innerHTML = cards.map((c, idx) => {
+          const checked = this.studyChecked.has(idx);
+          return `
+            <div onclick="app.toggleStudyCard(${idx}, '${(c.pron || '').replace(/'/g, "\'")}')" class="cursor-pointer p-4 rounded-2xl border-2 transition-all ${
+              checked
+                ? 'bg-gradient-to-br from-teal-50 to-pink-50 border-teal-400 shadow-sm'
+                : 'bg-white border-pink-100 hover:border-pink-300'
+            }">
+              <div class="flex items-center justify-between gap-2 mb-2">
+                <span class="text-sm sm:text-base font-black text-slate-800">${c.front}</span>
+                <div class="flex items-center gap-1.5">
+                  ${c.pron ? `<span class="px-2 py-0.5 rounded-full bg-teal-100 text-teal-700 text-xs font-bold">🔊 發音</span>` : ''}
+                  <span class="text-xs font-black px-2 py-0.5 rounded-full ${checked ? 'bg-emerald-500 text-white' : 'bg-slate-100 text-slate-500'}">
+                    ${checked ? '✓ 已讀懂' : '點我打勾'}
+                  </span>
+                </div>
+              </div>
+              <p class="text-xs sm:text-sm text-slate-600 whitespace-pre-line leading-relaxed">${c.back}</p>
+            </div>
+          `;
+        }).join('');
+      }
+
+      toggleStudyCard(idx, pron) {
+        sfx.pop();
+        this.studyChecked.add(idx);
+        if (pron) {
+          sfx.speakEnglish(pron);
+        }
+        this.renderStudyCards();
+      }
+
+      // =======================================================================
+      // PHASE 2: 8-QUESTION ASSESSMENT QUIZ
+      // =======================================================================
+      startPhase2Quiz() {
+        sfx.pop();
+        this.quizIndex = 0;
+        this.quizScore = 0;
+        this.quizCombo = 0;
+        this.setPhaseIndicators(2);
+        this.renderQuizQuestion();
+      }
+
+      renderQuizQuestion() {
+        const questions = this.activeStage.questions;
+        const qObj = questions[this.quizIndex];
+        this.quizAnswered = false;
+
+        document.getElementById('quiz-q-index').textContent = this.quizIndex + 1;
+        document.getElementById('quiz-q-total').textContent = questions.length;
+        const pct = Math.round(((this.quizIndex + 1) / questions.length) * 100);
+        document.getElementById('quiz-progress-bar').style.width = `${pct}%`;
+
+        document.getElementById('quiz-question-text').textContent = qObj.q;
+        document.getElementById('quiz-hint-box').classList.add('hidden');
+        document.getElementById('quiz-feedback-panel').classList.add('hidden');
+
+        const ttsBtn = document.getElementById('btn-quiz-tts');
+        if (qObj.tts) {
+          ttsBtn.classList.remove('hidden');
+          sfx.speakEnglish(qObj.tts);
+        } else {
+          ttsBtn.classList.add('hidden');
+        }
+
+        const labels = ['A', 'B', 'C', 'D'];
+        document.getElementById('quiz-options-list').innerHTML = qObj.opts.map((opt, idx) => `
+          <button id="quiz-opt-${idx}" onclick="app.selectQuizAnswer(${idx})" class="option-btn w-full p-3.5 sm:p-4 rounded-2xl border-2 border-pink-100 bg-white hover:border-teal-300 text-left flex items-center gap-3 shadow-sm">
+            <span class="w-8 h-8 rounded-xl bg-pink-50 text-pink-600 font-black text-xs sm:text-sm flex items-center justify-center shrink-0 border border-pink-200">
+              ${labels[idx]}
+            </span>
+            <span class="text-sm sm:text-base font-bold text-slate-700">${opt}</span>
+          </button>
+        `).join('');
+      }
+
+      speakCurrentQuestion() {
+        const qObj = this.activeStage.questions[this.quizIndex];
+        if (qObj && qObj.tts) {
+          sfx.speakEnglish(qObj.tts);
+        }
+      }
+
+      showQuizHint() {
+        sfx.pop();
+        const qObj = this.activeStage.questions[this.quizIndex];
+        const hintEl = document.getElementById('quiz-hint-box');
+        hintEl.textContent = `💡 小精靈提示：${qObj.exp.slice(0, Math.min(28, qObj.exp.length))}... 仔細看看哪個選項最符合喔！`;
+        hintEl.classList.remove('hidden');
+      }
+
+      selectQuizAnswer(choiceIdx) {
+        if (this.quizAnswered) return;
+        this.quizAnswered = true;
+
+        const qObj = this.activeStage.questions[this.quizIndex];
+        const isCorrect = (choiceIdx === qObj.ans);
+
+        qObj.opts.forEach((_, idx) => {
+          const btn = document.getElementById(`quiz-opt-${idx}`);
+          btn.disabled = true;
+          if (idx === qObj.ans) {
+            btn.className = "w-full p-3.5 sm:p-4 rounded-2xl border-2 border-emerald-400 bg-emerald-50 text-left flex items-center gap-3 shadow-sm";
+          } else if (idx === choiceIdx && !isCorrect) {
+            btn.className = "w-full p-3.5 sm:p-4 rounded-2xl border-2 border-rose-400 bg-rose-50 text-left flex items-center gap-3 opacity-90";
+          } else {
+            btn.className = "w-full p-3.5 sm:p-4 rounded-2xl border-2 border-slate-100 bg-slate-50/60 text-left flex items-center gap-3 opacity-60";
+          }
+        });
+
+        const fbPanel = document.getElementById('quiz-feedback-panel');
+        const fbIcon = document.getElementById('quiz-feedback-icon');
+        const fbTitle = document.getElementById('quiz-feedback-title');
+        const fbExp = document.getElementById('quiz-feedback-exp');
+
+        fbPanel.classList.remove('hidden');
+        fbExp.textContent = `【康軒評量詳解】${qObj.exp}`;
+
+        if (isCorrect) {
+          sfx.correct();
+          this.quizScore++;
+          this.quizCombo++;
+          fbPanel.className = "p-4 rounded-2xl border-2 border-emerald-300 bg-emerald-50/90 space-y-3 animate-pop";
+          fbIcon.textContent = "🌟";
+          fbTitle.className = "font-black text-sm sm:text-base text-emerald-800";
+          fbTitle.textContent = `答對了！喬喬超棒！(Combo x${this.quizCombo})`;
+
+          // If practicing mistakes, remove solved mistake!
+          if (this.isMistakePractice && qObj.mistakeId) {
+            this.state.mistakes = (this.state.mistakes || []).filter(m => m.id !== qObj.mistakeId);
+            this.saveState();
+          }
+        } else {
+          sfx.wrong();
+          this.quizCombo = 0;
+          fbPanel.className = "p-4 rounded-2xl border-2 border-rose-300 bg-rose-50/90 space-y-3 animate-pop";
+          fbIcon.textContent = "💝";
+          fbTitle.className = "font-black text-sm sm:text-base text-rose-800";
+          fbTitle.textContent = "沒關係！把詳解記起來，已經幫妳收錄到魔法錯題本囉！";
+
+          // Add to mistake notebook if not already there
+          this.recordMistake(this.activeStage.subject, qObj);
+        }
+
+        const comboBadge = document.getElementById('play-combo-badge');
+        if (this.quizCombo >= 2) {
+          comboBadge.classList.remove('hidden');
+          comboBadge.classList.add('flex');
+          document.getElementById('play-combo-num').textContent = this.quizCombo;
+        } else {
+          comboBadge.classList.add('hidden');
+        }
+      }
+
+      recordMistake(subject, qObj) {
+        const exists = (this.state.mistakes || []).some(m => m.q === qObj.q);
+        if (!exists) {
+          this.state.mistakes.push({
+            id: 'm_' + Date.now() + '_' + Math.random().toString(36).slice(2, 6),
+            subject,
+            q: qObj.q,
+            opts: qObj.opts,
+            ans: qObj.ans,
+            exp: qObj.exp,
+            tts: qObj.tts
+          });
+          this.saveState();
+        }
+      }
+
+      nextQuizQuestion() {
+        sfx.pop();
+        if (this.quizIndex + 1 < this.activeStage.questions.length) {
+          this.quizIndex++;
+          this.renderQuizQuestion();
+        } else {
+          if (this.isMistakePractice) {
+            this.finishStageComplete();
+          } else {
+            this.startPhase3Encore();
+          }
+        }
+      }
+
+      // =======================================================================
+      // PHASE 3: ENCORE MATCHING MINI-GAME (閃耀連連看安可賽)
+      // =======================================================================
+      startPhase3Encore() {
+        this.setPhaseIndicators(3);
+        this.encoreSelectedLeft = null;
+        this.encoreMatchedCount = 0;
+
+        const pairs = this.activeStage.matchPairs;
+        document.getElementById('encore-match-progress').textContent = `配對 0 / ${pairs.length}`;
+
+        const leftItems = pairs.map((p, idx) => ({ id: idx, text: p[0] }));
+        const rightItems = pairs.map((p, idx) => ({ id: idx, text: p[1] })).sort(() => Math.random() - 0.5);
+
+        document.getElementById('encore-left-col').innerHTML = leftItems.map(item => `
+          <button id="enc-l-${item.id}" onclick="app.selectEncoreLeft(${item.id})" class="btn-bounce w-full p-3.5 rounded-2xl border-2 border-teal-200 bg-white font-black text-xs sm:text-sm text-slate-800 shadow-sm">
+            ${item.text}
+          </button>
+        `).join('');
+
+        document.getElementById('encore-right-col').innerHTML = rightItems.map(item => `
+          <button id="enc-r-${item.id}" onclick="app.selectEncoreRight(${item.id})" class="btn-bounce w-full p-3.5 rounded-2xl border-2 border-pink-200 bg-white font-bold text-xs sm:text-sm text-slate-700 shadow-sm">
+            ${item.text}
+          </button>
+        `).join('');
+      }
+
+      selectEncoreLeft(id) {
+        sfx.pop();
+        this.encoreSelectedLeft = id;
+        this.activeStage.matchPairs.forEach((_, idx) => {
+          const btn = document.getElementById(`enc-l-${idx}`);
+          if (btn && !btn.disabled) {
+            btn.className = (idx === id)
+              ? "w-full p-3.5 rounded-2xl border-2 border-teal-500 bg-teal-50 font-black text-xs sm:text-sm text-teal-800 shadow-sm scale-[1.02]"
+              : "btn-bounce w-full p-3.5 rounded-2xl border-2 border-teal-200 bg-white font-black text-xs sm:text-sm text-slate-800 shadow-sm";
+          }
+        });
+      }
+
+      selectEncoreRight(id) {
+        if (this.encoreSelectedLeft === null) return;
+        const total = this.activeStage.matchPairs.length;
+
+        if (this.encoreSelectedLeft === id) {
+          sfx.correct();
+          const lBtn = document.getElementById(`enc-l-${id}`);
+          const rBtn = document.getElementById(`enc-r-${id}`);
+          lBtn.disabled = true;
+          rBtn.disabled = true;
+          lBtn.className = "w-full p-3.5 rounded-2xl border-2 border-emerald-300 bg-emerald-50 font-black text-xs sm:text-sm text-emerald-700 opacity-75";
+          rBtn.className = "w-full p-3.5 rounded-2xl border-2 border-emerald-300 bg-emerald-50 font-bold text-xs sm:text-sm text-emerald-700 opacity-75";
+          this.encoreSelectedLeft = null;
+          this.encoreMatchedCount++;
+          document.getElementById('encore-match-progress').textContent = `配對 ${this.encoreMatchedCount} / ${total}`;
+
+          if (this.encoreMatchedCount >= total) {
+            setTimeout(() => this.finishStageComplete(), 450);
+          }
+        } else {
+          sfx.wrong();
+        }
+      }
+
+      finishStageComplete() {
+        this.stopStageTimer();
+        sfx.fanfare();
+        this.setPhaseIndicators(4);
+
+        const st = this.activeStage;
+        const totalQ = st.questions.length;
+        const ratio = this.quizScore / totalQ;
+        const stars = ratio >= 0.85 ? 3 : ratio >= 0.6 ? 2 : 1;
+        const earnedCoins = stars * 10;
+
+        // Update state
+        this.state.coins = (this.state.coins || 0) + earnedCoins;
+
+        if (!this.isMistakePractice) {
+          const prev = (this.state.clearedStages[st.subject] || {})[st.id];
+          this.state.clearedStages[st.subject][st.id] = {
+            stars: Math.max(stars, prev ? prev.stars : 0),
+            bestScore: Math.max(this.quizScore, prev ? prev.bestScore : 0),
+            timeSec: this.stageSeconds
+          };
+
+          const todayKey = this.getTodayKey();
+          if (!this.state.dailyHistory[todayKey]) {
+            this.state.dailyHistory[todayKey] = {};
+          }
+          this.state.dailyHistory[todayKey][st.subject] = st.id;
+
+          if (this.state.lastPlayedDate !== todayKey) {
+            if (this.state.lastPlayedDate) {
+              this.state.streak = (this.state.streak || 1) + 1;
+            }
+            this.state.lastPlayedDate = todayKey;
+          }
+        }
+
+        this.saveState();
+
+        const buddy = CHARACTER_SVGS[st.meta.buddy] || CHARACTER_SVGS.miku;
+        document.getElementById('complete-mascot-svg').innerHTML = buddy.svg;
+        document.getElementById('complete-stars-row').textContent = '⭐'.repeat(stars);
+        document.getElementById('complete-title').textContent = this.isMistakePractice
+          ? '🎉 錯題大掃除挑戰完成！'
+          : `🎉 恭喜喬喬通過【第 ${st.id} 關：${st.meta.title}】！`;
+        document.getElementById('complete-subtitle').textContent = `${buddy.name}：「喬喬太棒了！進度已經自動幫妳記錄好囉！」`;
+        document.getElementById('complete-score').textContent = `${this.quizScore} / ${totalQ}`;
+
+        const m = String(Math.floor(this.stageSeconds / 60)).padStart(2, '0');
+        const s = String(this.stageSeconds % 60).padStart(2, '0');
+        document.getElementById('complete-time').textContent = `${m}:${s}`;
+        document.getElementById('complete-coins').textContent = `+${earnedCoins} 🎵`;
+      }
+
+      // =======================================================================
+      // VIEW 4: MISTAKE NOTEBOOK (魔法錯題本)
+      // =======================================================================
+      renderMistakes() {
+        const list = this.state.mistakes || [];
+        const container = document.getElementById('mistakes-list');
+        const btn = document.getElementById('btn-practice-mistakes');
+        btn.classList.toggle('hidden', list.length === 0);
+
+        if (list.length === 0) {
+          container.innerHTML = `
+            <div class="p-8 text-center space-y-2 bg-emerald-50/50 rounded-2xl border-2 border-emerald-100">
+              <div class="text-4xl">🌟</div>
+              <h3 class="text-base font-black text-emerald-800">太厲害了！目前沒有任何待複習錯題喔！</h3>
+              <p class="text-xs text-emerald-600">喬喬的觀念非常紮實，繼續前往今日三關挑戰吧！</p>
+            </div>
+          `;
+          return;
+        }
+
+        const subBadge = {
+          english: "🎤 英文",
+          social: "☁️ 社會",
+          science: "🌸 自然"
+        };
+
+        container.innerHTML = list.map(m => `
+          <div class="p-4 rounded-2xl bg-white border-2 border-rose-100 space-y-2 shadow-sm">
+            <div class="flex items-center justify-between">
+              <span class="text-xs font-black px-2.5 py-0.5 rounded-full bg-rose-50 text-rose-600 border border-rose-200">
+                ${subBadge[m.subject] || '評量'}
+              </span>
+              <button onclick="app.removeMistake('${m.id}')" class="text-xs font-bold text-slate-400 hover:text-rose-500">
+                ✓ 我已學會，移除此題
+              </button>
+            </div>
+            <p class="text-sm font-black text-slate-800">${m.q}</p>
+            <div class="text-xs font-bold text-emerald-700 bg-emerald-50 px-3 py-1.5 rounded-xl border border-emerald-200">
+              ✅ 正確答案：${m.opts[m.ans]}
+            </div>
+            <p class="text-xs text-slate-600">💡 詳解：${m.exp}</p>
+          </div>
+        `).join('');
+      }
+
+      removeMistake(id) {
+        sfx.pop();
+        this.state.mistakes = (this.state.mistakes || []).filter(m => m.id !== id);
+        this.saveState();
+        this.renderMistakes();
+      }
+
+      startMistakePractice() {
+        const list = this.state.mistakes || [];
+        if (list.length === 0) return;
+        sfx.pop();
+        this.isMistakePractice = true;
+        this.activeStage = {
+          subject: "english",
+          id: 0,
+          meta: { unit: "錯題特訓", title: "魔法錯題大掃除", sub: "答對即可消除錯題並獲得音符幣！", buddy: "miku" },
+          studyCards: [],
+          questions: list.slice(0, 8).map(m => ({
+            mistakeId: m.id,
+            q: m.q,
+            opts: m.opts,
+            ans: m.ans,
+            exp: m.exp,
+            tts: m.tts
+          })),
+          matchPairs: []
+        };
+        this.quizIndex = 0;
+        this.quizScore = 0;
+        this.quizCombo = 0;
+        this.stageSeconds = 0;
+        this.switchTab('play');
+        this.startStageTimer();
+        document.getElementById('play-subject-badge').className = "text-xs font-black px-2.5 py-0.5 rounded-full bg-rose-100 text-rose-700";
+        document.getElementById('play-subject-badge').textContent = "📓 錯題本複習";
+        document.getElementById('play-unit-badge').textContent = `共 ${this.activeStage.questions.length} 題`;
+        document.getElementById('play-stage-title').textContent = "喬喬的魔法錯題大掃除";
+        this.setPhaseIndicators(2);
+        this.renderQuizQuestion();
+      }
+
+      // =======================================================================
+      // VIEW 5: GACHA & STICKER COLLECTION (初音×三麗鷗可愛貼紙扭蛋機)
+      // =======================================================================
+      renderGacha() {
+        document.getElementById('gacha-coin-display').textContent = this.state.coins || 0;
+        const owned = new Set(this.state.stickers || []);
+        document.getElementById('sticker-collected-num').textContent = owned.size;
+
+        document.getElementById('stickers-grid').innerHTML = STICKER_CATALOG.map(st => {
+          const isUnlocked = owned.has(st.id);
+          const charObj = CHARACTER_SVGS[st.buddy] || CHARACTER_SVGS.miku;
+          const rarityColor = st.rarity === 'SSR'
+            ? 'bg-gradient-to-r from-amber-400 to-pink-500 text-white'
+            : st.rarity === 'SR'
+              ? 'bg-teal-500 text-white'
+              : 'bg-sky-100 text-sky-700';
+
+          return `
+            <div onclick="${isUnlocked ? `app.selectStickerPartner('${st.buddy}', '${st.title}')` : ''}" class="p-3 rounded-2xl border-2 text-center space-y-2 transition-all ${
+              isUnlocked
+                ? 'bg-white border-pink-200 shadow-sm cursor-pointer btn-bounce'
+                : 'bg-slate-50/70 border-slate-200 opacity-55'
+            }">
+              <div class="flex items-center justify-between">
+                <span class="text-xs font-black px-2 py-0.2 rounded-full ${rarityColor}">${st.rarity}</span>
+                <span class="text-xs font-bold text-slate-400">${isUnlocked ? '✨ 已擁有' : '🔒 未解鎖'}</span>
+              </div>
+              <div class="w-16 h-16 mx-auto rounded-2xl bg-gradient-to-br from-teal-50 via-white to-pink-50 p-1.5 border border-pink-100 flex items-center justify-center">
+                ${isUnlocked ? charObj.svg : '<span class="text-2xl">❓</span>'}
+              </div>
+              <div class="text-xs font-black text-slate-800">${isUnlocked ? st.title : '神祕貼紙'}</div>
+              <p class="text-xs text-slate-500 leading-snug">${isUnlocked ? st.desc : '用音符幣轉扭蛋解鎖！'}</p>
+            </div>
+          `;
+        }).join('');
+      }
+
+      pullGacha() {
+        if ((this.state.coins || 0) < 30) {
+          sfx.wrong();
+          const box = document.getElementById('gacha-result-box');
+          box.innerHTML = `<div class="text-2xl">🎵</div><div class="text-xs font-black text-rose-600 mt-1">音符幣不夠 30 枚喔！<br>快去闖關賺取音符幣吧！</div>`;
+          return;
+        }
+
+        sfx.fanfare();
+        this.state.coins -= 30;
+        const owned = new Set(this.state.stickers || []);
+        const locked = STICKER_CATALOG.filter(s => !owned.has(s.id));
+        const pool = locked.length > 0 ? locked : STICKER_CATALOG;
+        const prize = pool[Math.floor(Math.random() * pool.length)];
+
+        if (!owned.has(prize.id)) {
+          this.state.stickers.push(prize.id);
+        }
+        this.state.partner = prize.buddy;
+        this.saveState();
+
+        const charObj = CHARACTER_SVGS[prize.buddy];
+        const box = document.getElementById('gacha-result-box');
+        box.innerHTML = `
+          <div class="w-20 h-20 mx-auto animate-pop">${charObj.svg}</div>
+          <div class="text-xs font-black text-pink-600 mt-1">🎉 抽中【${prize.rarity}】${prize.title}！</div>
+        `;
+        this.renderGacha();
+      }
+
+      selectStickerPartner(buddyKey, title) {
+        sfx.pop();
+        this.state.partner = buddyKey;
+        this.saveState();
+        const box = document.getElementById('gacha-result-box');
+        const charObj = CHARACTER_SVGS[buddyKey];
+        box.innerHTML = `
+          <div class="w-20 h-20 mx-auto animate-pop">${charObj.svg}</div>
+          <div class="text-xs font-black text-teal-600 mt-1">✨ 已切換陪伴夥伴：<br>${title}</div>
+        `;
+      }
+
+      // =======================================================================
+      // VIEW 6: 50-DAY STUDY CALENDAR & BACKUP / RESTORE
+      // =======================================================================
+      renderCalendar() {
+        let completedDaysCount = 0;
+        const engMap = this.state.clearedStages.english || {};
+        const socMap = this.state.clearedStages.social || {};
+        const sciMap = this.state.clearedStages.science || {};
+
+        const daysHtml = [];
+        for (let day = 1; day <= 50; day++) {
+          const eDone = Boolean(engMap[day]);
+          const sDone = Boolean(socMap[day]);
+          const nDone = Boolean(sciMap[day]);
+          const allDone = eDone && sDone && nDone;
+          if (allDone) completedDaysCount++;
+
+          daysHtml.push(`
+            <div onclick="app.selectPlanDay(${day})" class="cursor-pointer btn-bounce p-2.5 rounded-2xl border-2 text-center space-y-1 ${
+              allDone
+                ? 'bg-gradient-to-b from-teal-50 to-pink-50 border-teal-400 shadow-sm'
+                : (eDone || sDone || nDone)
+                  ? 'bg-amber-50/60 border-amber-300'
+                  : 'bg-white border-pink-100 hover:border-pink-300'
+            }">
+              <div class="text-xs font-black text-slate-700">Day ${day}</div>
+              <div class="text-base">${allDone ? '💮' : (eDone || sDone || nDone) ? '⏳' : '🌱'}</div>
+              <div class="flex items-center justify-center gap-1 text-xs">
+                <span title="英文第${day}關" class="${eDone ? 'opacity-100' : 'opacity-25'}">🎤</span>
+                <span title="社會第${day}關" class="${sDone ? 'opacity-100' : 'opacity-25'}">☁️</span>
+                <span title="自然第${day}關" class="${nDone ? 'opacity-100' : 'opacity-25'}">🌸</span>
+              </div>
+            </div>
+          `);
+        }
+
+        document.getElementById('calendar-days-done').textContent = completedDaysCount;
+        document.getElementById('calendar-50days-grid').innerHTML = daysHtml.join('');
+      }
+
+      selectPlanDay(day) {
+        sfx.pop();
+        this.state.selectedPlanDay = day;
+        this.saveState();
+        this.switchTab('home');
+      }
+
+      exportBackupCode() {
+        sfx.pop();
+        const raw = JSON.stringify(this.state);
+        const code = btoa(encodeURIComponent(raw));
+        const input = document.getElementById('backup-export-input');
+        input.value = code;
+        input.select();
+        try {
+          navigator.clipboard.writeText(code);
+        } catch (e) {}
+        document.getElementById('backup-status-msg').textContent = "✅ 已產生並複製進度備份碼！可以傳到喬喬的手機或平板貼上還原喔！";
+      }
+
+      importBackupCode() {
+        const input = document.getElementById('backup-import-input');
+        const code = (input.value || '').trim();
+        if (!code) return;
+        try {
+          const decoded = decodeURIComponent(atob(code));
+          const parsed = JSON.parse(decoded);
+          if (parsed && parsed.clearedStages) {
+            this.state = Object.assign(this.getDefaultState(), parsed);
+            this.saveState();
+            sfx.fanfare();
+            document.getElementById('backup-status-msg').textContent = "🎉 進度還原成功！喬喬的闖關紀錄與貼紙都回來囉！";
+            this.renderCalendar();
+          }
+        } catch (e) {
+          sfx.wrong();
+          document.getElementById('backup-status-msg').textContent = "⚠️ 備份碼格式不正確，請確認是否完整複製喔！";
+        }
+      }
+    }
+
+    const app = new QiaoQiaoApp();
+    window.addEventListener('DOMContentLoaded', () => app.init());
+  </script>
+</body>
+</html>
